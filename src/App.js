@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, NavItem} from "react-bootstrap";
+import {Navbar, Nav, NavItem, NavDropdown, DropdownButton} from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
 import {LinkContainer} from "react-router-bootstrap";
@@ -43,6 +43,42 @@ function App(props) {
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
+        <Navbar.Collapse >
+        </Navbar.Collapse >
+        <Nav pullLeft>
+          {isAuthenticated & true ? //jestem rekruterem
+              <>
+                <DropdownButton id="dropdown-basic-button" title="Tests">
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Add test</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Import test</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Test to check</NavItem>
+                  </LinkContainer>
+                </DropdownButton>
+                <DropdownButton id="dropdown-basic-button" title="Candidate">
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Add candidate</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>List candidate</NavItem>
+                  </LinkContainer>
+                </DropdownButton>
+              </>
+              : null
+          }
+          {isAuthenticated & false ? // nie jestem kandydatem
+              <>
+                    <LinkContainer to={"/client"}>
+                      <NavItem>Client</NavItem>
+                    </LinkContainer>
+              </>
+              : null
+          }
+        </Nav>
         <Navbar.Collapse>
           <Nav pullRight>
           {isAuthenticated
