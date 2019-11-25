@@ -8,7 +8,6 @@ import AppliedRoute from "./components/AppliedRoute";
 import Signup from "./containers/Signup";
 import Recruiter from "./containers/Recruiter";
 import CustomerMenager from "./containers/CustomerMenager";
-import Client from "./containers/Client";
 
 export default function Routes({ appProps }) {
     return (

@@ -50,6 +50,9 @@ function App(props) {
               <>
                 <DropdownButton id="dropdown-basic-button" title="Tests">
                   <LinkContainer to={"/customerMenager"}>
+                    <NavItem>List tests</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/recruiter"}>
                     <NavItem>Add test</NavItem>
                   </LinkContainer>
                   <LinkContainer to={"/customerMenager"}>
@@ -63,7 +66,7 @@ function App(props) {
                   <LinkContainer to={"/customerMenager"}>
                     <NavItem>Add candidate</NavItem>
                   </LinkContainer>
-                  <LinkContainer to={"/customerMenager"}>
+                  <LinkContainer to={"/recruiter"}>
                     <NavItem>List candidate</NavItem>
                   </LinkContainer>
                 </DropdownButton>
