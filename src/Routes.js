@@ -18,7 +18,6 @@ export default function Routes({ appProps }) {
         <AppliedRoute path="/signup" exact component={Signup} appProps={appProps} />
         <AppliedRoute path="/recruiter" exact component={Recruiter} appProps={appProps} />
         <AppliedRoute path="/customerMenager" exact component={CustomerMenager} appProps={appProps} />
-          <AppliedRoute path="/client" exact component={Client} appProps={appProps} />
         { /* Finally, catch all unmatched routes */ }
         <Route component={NotFound} />
       </Switch>
