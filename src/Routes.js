@@ -5,7 +5,6 @@ import Home from "./containers/Home";
 import NotFound from "./containers/NotFound";
 import Login from "./containers/Login";
 import AppliedRoute from "./components/AppliedRoute";
-import Signup from "./containers/Signup";
 import Recruiter from "./containers/Recruiter";
 import CustomerMenager from "./containers/CustomerMenager";
 import Candidate from "./containers/Candidate";
@@ -14,12 +13,12 @@ import Results from "./containers/Results";
 import SolveTest from "./containers/SolveTest";
 import AddCandidate from "./containers/AddCandidate";
 import ConfirmationCode from "./containers/ConfirmationCode";
+
 export default function Routes({ appProps }) {
     return (
       <Switch>
         <AppliedRoute path="/" exact component={Home} appProps={appProps} />
         <AppliedRoute path="/login" exact component={Login} appProps={appProps} />
-        <AppliedRoute path="/signup" exact component={Signup} appProps={appProps} />
         <AppliedRoute path="/recruiter" exact component={Recruiter} appProps={appProps} />
         <AppliedRoute path="/candidate" exact component={Candidate} appProps={appProps} />
         <AppliedRoute path="/tests" exact component={TestList} appProps={appProps} />
