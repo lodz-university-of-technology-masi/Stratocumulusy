@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Button, FormGroup, FormControl, ControlLabel } from "react-bootstrap";
+import {  FormGroup, FormControl, ControlLabel } from "react-bootstrap";
 import "./Login.css";
 import {Auth} from "aws-amplify";
-import AppliedRoute from "../components/AppliedRoute";
 import LoaderButton from "../components/LoaderButton";
 import {useFormFields} from "../libs/hooksLib";
 
@@ -25,7 +24,7 @@ export default function Login(props) {
     try {
       await Auth.signIn(fields.email, fields.password);
       props.userHasAuthenticated(true);
-      props.history.push("/");
+      props.history.push("/recruiter");
     } catch (e) {
       alert(e.message);
       setIsLoading(false);

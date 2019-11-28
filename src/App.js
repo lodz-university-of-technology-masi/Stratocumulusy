@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
-import { Navbar, Nav, NavItem} from "react-bootstrap";
+import {Navbar, Nav, NavItem, DropdownButton} from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
 import {LinkContainer} from "react-router-bootstrap";
@@ -35,14 +35,59 @@ function App(props) {
   
   return (
     !isAuthenticating &&
-    <div className="App container">
+    <div className="App container" >
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Stratocumulusy Testing Application</Link>
+            <Link to="/">Start</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
+        <Navbar.Collapse >
+        </Navbar.Collapse >
+        <Nav pullLeft>
+          {isAuthenticated & false ? //jestem rekruterem
+              <>
+                <DropdownButton id="dropdown-basic-button" title="Tests">
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>List tests</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/recruiter"}>
+                    <NavItem>Add test</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Import test</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Test to check</NavItem>
+                  </LinkContainer>
+                </DropdownButton>
+                <DropdownButton id="dropdown-basic-button" title="Candidate">
+                  <LinkContainer to={"/customerMenager"}>
+                    <NavItem>Add candidate</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/recruiter"}>
+                    <NavItem>List candidate</NavItem>
+                  </LinkContainer>
+                </DropdownButton>
+              </>
+              : null
+          }
+          {isAuthenticated & true ? // nie jestem kandydatem
+              <>
+                    <LinkContainer to={"/candidate"}>
+                      <NavItem>Candidate's home screen</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to={"/tests"}>
+                      <NavItem>Available tests</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to={"/results"}>
+                      <NavItem>Check your results</NavItem>
+                    </LinkContainer>
+              </>
+              : null
+          }
+        </Nav>
         <Navbar.Collapse>
           <Nav pullRight>
           {isAuthenticated
