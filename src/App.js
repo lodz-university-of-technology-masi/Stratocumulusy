@@ -35,18 +35,18 @@ function App(props) {
   
   return (
     !isAuthenticating &&
-    <div className="App container">
+    <div className="App container" >
       <Navbar fluid collapseOnSelect>
         <Navbar.Header>
           <Navbar.Brand>
-            <Link to="/">Stratocumulusy Testing Application</Link>
+            <Link to="/">Start</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse >
         </Navbar.Collapse >
         <Nav pullLeft>
-          {isAuthenticated & true ? //jestem rekruterem
+          {isAuthenticated & false ? //jestem rekruterem
               <>
                 <DropdownButton id="dropdown-basic-button" title="Tests">
                   <LinkContainer to={"/customerMenager"}>
@@ -73,10 +73,16 @@ function App(props) {
               </>
               : null
           }
-          {isAuthenticated & false ? // nie jestem kandydatem
+          {isAuthenticated & true ? // nie jestem kandydatem
               <>
-                    <LinkContainer to={"/client"}>
-                      <NavItem>Client</NavItem>
+                    <LinkContainer to={"/candidate"}>
+                      <NavItem>Candidate's home screen</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to={"/tests"}>
+                      <NavItem>Available tests</NavItem>
+                    </LinkContainer>
+                    <LinkContainer to={"/results"}>
+                      <NavItem>Check your results</NavItem>
                     </LinkContainer>
               </>
               : null
