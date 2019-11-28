@@ -2,6 +2,7 @@ import {ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 import React, {useState} from "react";
 import {Auth} from "aws-amplify";
+import "./ConfirmationCode.css";
 import {useFormFields} from "../libs/hooksLib";
 
 export default function ConfirmationCode(props) {
@@ -35,6 +36,7 @@ export default function ConfirmationCode(props) {
     return (
 
       <form onSubmit={handleConfirmationSubmit}>
+           <h1>Potwierdź konto</h1>
           <FormGroup controlId="email" bsSize="large">
               <ControlLabel>Email</ControlLabel>
               <FormControl
@@ -61,7 +63,7 @@ export default function ConfirmationCode(props) {
           isLoading={isLoading}
           disabled={!validateConfirmationForm()}
         >
-          Verify
+          Confirm Account
         </LoaderButton>
       </form>
     );
