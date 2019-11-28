@@ -1,13 +1,16 @@
-.Candidate .lander {
-  padding: 80px 0;
-  text-align: center;
+@media all and (min-width: 480px) {
+  .AddCandidate {
+    padding: 60px 0;
+  }
+
+  .AddCandidate form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
 }
 
-.Candidate .lander h1 {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
-}
-
-.Candidate .lander p {
+.AddCandidate form span.help-block {
+  font-size: 14px;
+  padding-bottom: 10px;
   color: #999;
 }

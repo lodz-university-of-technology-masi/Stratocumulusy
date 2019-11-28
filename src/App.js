@@ -46,7 +46,7 @@ function App(props) {
         <Navbar.Collapse >
         </Navbar.Collapse >
         <Nav pullLeft>
-          {isAuthenticated & false ? //jestem rekruterem
+          {isAuthenticated & true ? //jestem rekruterem
               <>
                 <DropdownButton id="dropdown-basic-button" title="Tests">
                   <LinkContainer to={"/customerMenager"}>
@@ -63,7 +63,7 @@ function App(props) {
                   </LinkContainer>
                 </DropdownButton>
                 <DropdownButton id="dropdown-basic-button" title="Candidate">
-                  <LinkContainer to={"/customerMenager"}>
+                  <LinkContainer to={"/addCandidate"}>
                     <NavItem>Add candidate</NavItem>
                   </LinkContainer>
                   <LinkContainer to={"/recruiter"}>
@@ -73,7 +73,7 @@ function App(props) {
               </>
               : null
           }
-          {isAuthenticated & true ? // nie jestem kandydatem
+          {isAuthenticated & false ? //  jestem kandydatem
               <>
                     <LinkContainer to={"/candidate"}>
                       <NavItem>Candidate's home screen</NavItem>
@@ -93,9 +93,9 @@ function App(props) {
           {isAuthenticated
   ? <NavItem onClick={handleLogout}>Logout</NavItem>
   : <>
-      <LinkContainer to="/signup">
-        <NavItem>Sing up</NavItem>
-      </LinkContainer>
+      {/*<LinkContainer to="/signup">*/}
+      {/*  <NavItem>Sing up</NavItem>*/}
+      {/*</LinkContainer>*/}
       <LinkContainer to="/login">
         <NavItem>Log in</NavItem>
       </LinkContainer>
