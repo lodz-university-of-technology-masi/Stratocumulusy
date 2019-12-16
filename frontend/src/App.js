@@ -73,7 +73,7 @@ function App(props) {
               </>
               : null
           }
-          {isAuthenticated & false ? //  jestem kandydatem
+          {isAuthenticated & true ? //  jestem kandydatem
               <>
                     <LinkContainer to={"/candidate"}>
                       <NavItem>Candidate's home screen</NavItem>
