@@ -59,7 +59,7 @@ class Recruiter extends Component {
         var testTittle = this.state.testTittle; // robie to bo takto jest undefined ....
 
         const test = {
-            "testTitle": testTittle,
+            "testTittle": testTittle,
             "numberOfQuestions": this.state.numberOfQuestions,
             "questions": globalQuestions
         }
