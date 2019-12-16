@@ -64,7 +64,7 @@ class Recruiter extends Component {
             "questions": globalQuestions
         }
 
-        const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
+        const response = fetch('https://k8mmeonpwf.execute-api.us-east-1.amazonaws.com/prod/emptytests', {
             dataType: "json",
             method: 'POST',
             body: JSON.stringify(test),
