@@ -52,19 +52,21 @@ class Recruiter extends Component {
     }
 
     saveTestToDynamoDB (event) {
-        // const questions = globalQuestions.map((val, ind) => {
-        //     return {"id": ind, "questionTitle": val, "questionContent": "----"}
-        // })
+        const questions = globalQuestions.map((val, ind) => {
+            return {"id": ind, "questionTitle": val, "questionContent": "----", "questionType": this.state.questionType}
+        })
 
-        var testTittle = this.state.testTittle; // robie to bo takto jest undefined ....
+       // const testTittle = this.state.testTittle; // robie to bo takto jest undefined ....
+        // alert(this.state.testTittle);
 
         const test = {
-            "testTittle": testTittle,
+            "testTittle": this.state.testTittle,
             "numberOfQuestions": this.state.numberOfQuestions,
-            "questions": globalQuestions
+            "questions": questions
         }
 
-        const response = fetch('https://k8mmeonpwf.execute-api.us-east-1.amazonaws.com/prod/emptytests', {
+
+        const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
             method: 'POST',
             body: JSON.stringify(test),
@@ -98,7 +100,7 @@ class Recruiter extends Component {
               <option value="3">Number</option>
             </select>
             <br />
-              {this.state.questionType === 3 ?
+              {this.state.questionType == 3 ?
                   <>
                       <br />
                       < label > Enter content of the question</label>
@@ -111,7 +113,7 @@ class Recruiter extends Component {
                       <input type="text" name="1answer" />
                   </> : null
               }
-            {this.state.questionType===1 ?
+            {this.state.questionType==1 ?
               <>
                   <br />
                   <label>Enter content of the question</label>
@@ -137,7 +139,7 @@ class Recruiter extends Component {
                   </> : null
                   }
 
-                  {this.state.questionType === 2 ?
+                  {this.state.questionType == 2 ?
                       <>
                           <br />
                       < label > Enter content of the question</label>
