@@ -1,4 +1,4 @@
-package pl.lodz.p.it;
+package pl.lodz.p.it.model;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
