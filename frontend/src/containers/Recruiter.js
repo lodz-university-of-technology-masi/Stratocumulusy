@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import "./Recruiter.css";
 
 
-let globalQuestions = [];
+
 
 class Recruiter extends Component {
     constructor(props) {
         super(props);
         this.state = {
             testTittle: '',
+            numberOfQuestions: 0,
+            currentQuestionNumber: 0,
             questionsTypes: [{
                 questionType: 1,
             }],
@@ -31,8 +33,16 @@ class Recruiter extends Component {
                 goodAnswer: '',
             }],
 
-            numberOfQuestions: 0,
-            currentQuestionNumber: 0,
+
+            currentquestionType: '',
+            currentQuestion: '',
+            currentanswer1: '',
+            currentanswer2: '',
+            currentanswer3: '',
+            currentanswer4: '',
+            currentgoodAnswer: '',
+
+
         };
 
         this.handleQuestionType=this.handleQuestionType.bind(this);
@@ -49,25 +59,27 @@ class Recruiter extends Component {
             testTittle: document.getElementById("testTitle").value
         })
     };
+
     handleQuestionType = (event)=> {
         const questionsTypes = this.state.questionsTypes.slice();
         const currentQuestionNumber = this.state.currentQuestionNumber;
         questionsTypes[currentQuestionNumber] = event.target.value;
         this.setState({
-            questionsTypes: questionsTypes
+            currentquestionType: event.target.value,
+            questionsTypes: questionsTypes,
         })
     };
 
     handleCurrentQuestion = (event) => {
-        const questions = this.state.questions.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        questions[currentQuestionNumber] = event.target.value;
-        console.log("event.target.value : " + event.target.value);
-        console.log("questions : " + questions);
+        // const questions = this.state.questions.slice();
+        // const currentQuestionNumber = this.state.currentQuestionNumber;
+        // questions[currentQuestionNumber] = event.target.value;
         this.setState({
-            questions: questions
+            currentQuestion: event.target.value,
+            // questions: questions,
         })
     };
+
 
 
     handleCurrentGoodAnswer = (event) => {
@@ -75,7 +87,8 @@ class Recruiter extends Component {
         const currentQuestionNumber = this.state.currentQuestionNumber;
         goodAnswers[currentQuestionNumber] = event.target.value;
         this.setState({
-            goodAnswers: goodAnswers
+            goodAnswers: goodAnswers,
+            currentgoodAnswer:  event.target.value,
         })
     };
 
@@ -84,7 +97,8 @@ class Recruiter extends Component {
         const currentQuestionNumber = this.state.currentQuestionNumber;
         answers1[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers1: answers1
+            answers1: answers1,
+            currentanswer1: event.target.value,
         })
     };
     handleCurrentAnswer2 = (event) => {
@@ -92,7 +106,8 @@ class Recruiter extends Component {
         const currentQuestionNumber = this.state.currentQuestionNumber;
         answers2[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers2: answers2
+            answers2: answers2,
+            currentanswer2: event.target.value,
         })
     };
     handleCurrentAnswer3 = (event) => {
@@ -100,7 +115,8 @@ class Recruiter extends Component {
         const currentQuestionNumber = this.state.currentQuestionNumber;
         answers3[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers3: answers3
+            answers3: answers3,
+            currentanswer3: event.target.value,
         })
     };
     handleCurrentAnswer4 = (event) => {
@@ -108,7 +124,8 @@ class Recruiter extends Component {
         const currentQuestionNumber = this.state.currentQuestionNumber;
         answers4[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers4: answers4
+            answers4: answers4,
+            currentanswer4: event.target.value,
         })
     };
 
@@ -119,43 +136,46 @@ class Recruiter extends Component {
 
         const questionsTypes = this.state.questionsTypes.slice();
         const questionType = questionsTypes[questionsTypes.length - 1];
-        console.log("Question Type" + questionType);
+
+
 
         const questions = this.state.questions.slice();
-        const question = questions[questions.length - 1];
-        console.log("Question " + question);
+        console.log("przed questions: " + questions);
+        questions[currentQuestionNumber-1] = this.state.currentQuestion;
+        console.log("po questions: " + questions);
+
 
         const answers1 = this.state.answers1.slice();
         const answer1 = answers1[answers1.length - 1];
-        console.log("answer1 " + answer1);
+
 
         const answers2 = this.state.answers2.slice();
         const answer2 = answers2[answers2.length - 1];
-        console.log("answer2 " + answer2);
+
 
         const answers3 = this.state.answers3.slice();
         const answer3 = answers3[answers3.length - 1];
-        console.log("answer3 " + answer3);
+
 
         const answers4 = this.state.answers4.slice();
         const answer4 = answers4[answers4.length - 1];
-        console.log("answer4 " + answer4);
+
 
         const goodAnswers = this.state.goodAnswers.slice();
         const goodAnswer = goodAnswers[goodAnswers.length - 1];
-        console.log("goodAnswer " + goodAnswer);
 
 
-        globalQuestions.push(this.state.question);
+
+
         this.setState({
             currentQuestionNumber: currentQuestionNumber,
             numberOfQuestions: numberOfQuestions,
             questionsTypes: questionsTypes.concat([{
                 questionType: questionType,
             }]),
-            questions: questions.concat([{
-                question: question,
-            }]),
+
+            questions: questions,
+
             answers1: answers1.concat([{
                 answer1: answer1,
             }]),
@@ -171,24 +191,29 @@ class Recruiter extends Component {
             goodAnswers: goodAnswers.concat([{
                 goodAnswer: goodAnswer,
             }]),
-
+            currentquestionType: '',
+            currentQuestion: '',
+            currentanswer1: '',
+            currentanswer2: '',
+            currentanswer3: '',
+            currentanswer4: '',
+            currentgoodAnswer: '',
         });
-
+        console.log("Questionsss this.state.questions" + this.state.questions);
     }
     previousQuestion (event) {
         if(this.state.currentQuestionNumber>0) {
             const currentQuestionNumber = this.state.currentQuestionNumber - 1;
-            const questionsTypes = this.state.questionsTypes.slice();
-            const questions = this.state.questions.slice();
             this.setState({
                 currentQuestionNumber: currentQuestionNumber,
-                questionsTypes: questionsTypes,
-                questions: questions,
-                answers1: this.state.answers1,
-                answers2: this.state.answers2,
-                answers3:this.state.answers3,
-                answers4:this.state.answers4,
-                goodAnswers:this.state.goodAnswers,
+
+                currentquestionType: this.state.questionsTypes[currentQuestionNumber],
+                currentQuestion: this.state.questions[currentQuestionNumber],
+                currentanswer1: this.state.answers1[currentQuestionNumber],
+                currentanswer2: this.state.answers2[currentQuestionNumber],
+                currentanswer3: this.state.answers3[currentQuestionNumber],
+                currentanswer4: this.state.answers4[currentQuestionNumber],
+                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
             });
         }
     }
@@ -197,20 +222,28 @@ class Recruiter extends Component {
             var currentQuestionNumber = this.state.currentQuestionNumber + 1;
             this.setState({
                 currentQuestionNumber: currentQuestionNumber,
+
+                currentquestionType: this.state.questionsTypes[currentQuestionNumber],
+                currentQuestion: this.state.questions[currentQuestionNumber],
+                currentanswer1: this.state.answers1[currentQuestionNumber],
+                currentanswer2: this.state.answers2[currentQuestionNumber],
+                currentanswer3: this.state.answers3[currentQuestionNumber],
+                currentanswer4: this.state.answers4[currentQuestionNumber],
+                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
             });
         }
     }
 
     saveTestToDynamoDB (event) {
-        const questions = globalQuestions.map((val, ind) => {
-            return {"id": ind, "questionTitle": val, "questionContent": "----", "questionType": this.state.questionType}
-        })
+        // const questions = globalQuestions.map((val, ind) => {
+        //     return {"id": ind, "questionTitle": val, "questionContent": "----", "questionType": this.state.questionType}
+        // })
 
 
         const test = {
             "testTittle": this.state.testTittle,
             "numberOfQuestions": this.state.numberOfQuestions,
-            "questions": questions
+            // "questions": questions
         }
 
 
@@ -230,19 +263,20 @@ class Recruiter extends Component {
     render() {
         const currentQuestionNumber= this.state.currentQuestionNumber;
 
-        const currentquestionType= this.state.questionsTypes[currentQuestionNumber];
-        const currentQuestion= this.state.questions[currentQuestionNumber];
-        console.log("czy typeog this.state.questions[currentQuestionNumber]  " + typeof this.state.questions[currentQuestionNumber]);
-        console.log("czy rendenruje this.state.questions[currentQuestionNumber]  " + this.state.questions[currentQuestionNumber]);
+        const currentquestionType= this.state.currentquestionType;
+        const currentQuestion= this.state.currentQuestion;
+        const currentanswer1= this.state.currentanswer1;
+        const currentanswer2= this.state.currentanswer2;
+        const currentanswer3= this.state.currentanswer3;
+        const currentanswer4= this.state.currentanswer4;
+        const currentgoodAnswer= this.state.currentgoodAnswer;
 
-        console.log("czy typeog currentQuestion  " + typeof currentQuestion);
-        console.log("czy rendenruje currentQuestion  " + currentQuestion);
-        console.log("czy rendenruje currentQuestion.question  " + currentQuestion.question);
-        const currentanswer1= this.state.answers1[currentQuestionNumber];
-        const currentanswer2= this.state.answers2[currentQuestionNumber];
-        const currentanswer3= this.state.answers3[currentQuestionNumber];
-        const currentanswer4= this.state.answers4[currentQuestionNumber];
-        const currentgoodAnswer= this.state.goodAnswers[currentQuestionNumber];
+
+        console.log("czy rendenruje this.state.questions  " + this.state.questions);
+
+        // console.log("czy typeog currentQuestion  " + typeof currentQuestion);
+        // console.log("czy rendenruje currentQuestion  " + currentQuestion);
+        // console.log("czy rendenruje currentQuestion.question  " + currentQuestion);
         return (
             <div className="Recruiter">
                 <div className="lander">
