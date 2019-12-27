@@ -44,12 +44,17 @@ class Recruiter extends Component {
         this.handleTestTittle = this.handleTestTittle.bind(this);
         this.handleQuestionType = this.handleQuestionType.bind(this);
         this.handleCurrentQuestion = this.handleCurrentQuestion.bind(this);
+        this.handleCurrentGoodAnswer = this.handleCurrentGoodAnswer.bind(this);
+        this.handleCurrentAnswer1 = this.handleCurrentAnswer1.bind(this);
+        this.handleCurrentAnswer2 = this.handleCurrentAnswer2.bind(this);
+        this.handleCurrentAnswer3 = this.handleCurrentAnswer3.bind(this);
+        this.handleCurrentAnswer4 = this.handleCurrentAnswer4.bind(this);
 
-        this.saveOpenQuestion = this.saveOpenQuestion.bind(this);
         this.previousQuestion = this.previousQuestion.bind(this);
         this.nextQuestion = this.nextQuestion.bind(this);
-        this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
 
+        this.saveOpenQuestion = this.saveOpenQuestion.bind(this);
+        this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
     }
 
     handleTestTittle = (event) => {
@@ -97,7 +102,6 @@ class Recruiter extends Component {
         })
     };
 
-
     previousQuestion(event) {
         if (this.state.currentQuestionNumber > 0) {
             const currentQuestionNumber = this.state.currentQuestionNumber - 1;
@@ -116,7 +120,7 @@ class Recruiter extends Component {
     }
 
     nextQuestion(event) {
-        if (this.state.currentQuestionNumber < this.state.numberOfQuestions) {
+        if (this.state.currentQuestionNumber < this.state.numberOfQuestions - 1) {
             var currentQuestionNumber = this.state.currentQuestionNumber + 1;
             this.setState({
                 currentQuestionNumber: currentQuestionNumber,
@@ -130,10 +134,25 @@ class Recruiter extends Component {
                 currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
             });
         }
+        // jak przenosimy się z powrotem do nowego pytania
+        if (this.state.currentQuestionNumber == this.state.numberOfQuestions - 1) {
+            var currentQuestionNumber = this.state.currentQuestionNumber + 1;
+            this.setState({
+                currentQuestionNumber: currentQuestionNumber,
+
+                currentQuestionType: '1',
+                currentQuestion: '',
+                currentanswer1: '',
+                currentanswer2: '',
+                currentanswer3: '',
+                currentanswer4: '',
+                currentgoodAnswer: '',
+            });
+        }
     }
 
     saveOpenQuestion = (event) => {
-        var currentQuestionNumber = this.state.currentQuestionNumber +1;
+        var currentQuestionNumber = this.state.currentQuestionNumber + 1;
         var numberOfQuestions = this.state.numberOfQuestions + 1
         console.log("currentQuestionNumber: " + currentQuestionNumber);
 
@@ -163,7 +182,6 @@ class Recruiter extends Component {
         goodAnswers[currentQuestionNumber - 1] = this.state.currentgoodAnswer;
 
 
-
         this.setState({
             currentQuestionNumber: currentQuestionNumber,
             numberOfQuestions: numberOfQuestions,
@@ -175,6 +193,7 @@ class Recruiter extends Component {
             answers4: answers4,
             goodAnswers: goodAnswers,
 
+            // ustawiamy stan na nowe pytanie
             // currentQuestionType: 1,
             currentQuestion: '',
             currentanswer1: '',
@@ -188,16 +207,32 @@ class Recruiter extends Component {
     saveTestToDynamoDB(event) {
         const questions = [];
 
-        for (let i=0; i<this.state.numberOfQuestions; i++){
-            questions.push({
-                questionType:this.state.questionsTypes[i],
-                question:this.state.questions[i],
-                answer1: this.state.answers1[i],
-                answer2: this.state.answers2[i],
-                answer3: this.state.answers3[i],
-                answer4: this.state.answers4[i],
-                goodAnswer: this.state.goodAnswers[i],
-            })
+        for (let i = 0; i < this.state.numberOfQuestions; i++) {
+            if(this.state.questionsTypes[i]==1){ //open
+                questions.push({
+                    questionType: this.state.questionsTypes[i],
+                    question: this.state.questions[i],
+                })
+            }
+            if(this.state.questionsTypes[i]==2){
+                questions.push({ //number
+                    questionType: this.state.questionsTypes[i],
+                    question: this.state.questions[i],
+                    goodAnswer: this.state.goodAnswers[i],
+                })
+            }
+            if(this.state.questionsTypes[i]==3){
+                questions.push({ // multiple
+                    questionType: this.state.questionsTypes[i],
+                    question: this.state.questions[i],
+                    answer1: this.state.answers1[i],
+                    answer2: this.state.answers2[i],
+                    answer3: this.state.answers3[i],
+                    answer4: this.state.answers4[i],
+                    goodAnswer: this.state.goodAnswers[i],
+                })
+            }
+
         }
         console.log(questions);
         const test = {
@@ -316,4 +351,5 @@ class Recruiter extends Component {
         );
     }
 }
+
 export default Recruiter;
