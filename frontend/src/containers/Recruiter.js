@@ -1,7 +1,5 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import "./Recruiter.css";
-
-
 
 
 class Recruiter extends Component {
@@ -12,7 +10,7 @@ class Recruiter extends Component {
             numberOfQuestions: 0,
             currentQuestionNumber: 0,
             questionsTypes: [{
-                questionType: 1,
+                questionType: '',
             }],
             questions: [{
                 question: '',
@@ -33,8 +31,7 @@ class Recruiter extends Component {
                 goodAnswer: '',
             }],
 
-
-            currentquestionType: '',
+            currentQuestionType: '1',
             currentQuestion: '',
             currentanswer1: '',
             currentanswer2: '',
@@ -44,25 +41,26 @@ class Recruiter extends Component {
 
 
         };
+        this.handleTestTittle = this.handleTestTittle.bind(this);
+        this.handleQuestionType = this.handleQuestionType.bind(this);
+        this.handleCurrentQuestion = this.handleCurrentQuestion.bind(this);
 
-        this.handleQuestionType=this.handleQuestionType.bind(this);
-        this.handleCurrentQuestion=this.handleCurrentQuestion.bind(this);
-        this.handleTestTittleChange=this.handleTestTittleChange.bind(this);
-        this.saveOpenQuestion=this.saveOpenQuestion.bind(this);
-        this.previousQuestion=this.previousQuestion.bind(this);
-        this.nextQuestion=this.nextQuestion.bind(this);
-        this.saveTestToDynamoDB=this.saveTestToDynamoDB.bind(this);
+        this.saveOpenQuestion = this.saveOpenQuestion.bind(this);
+        this.previousQuestion = this.previousQuestion.bind(this);
+        this.nextQuestion = this.nextQuestion.bind(this);
+        this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
 
     }
-    handleTestTittleChange = (event) => {
+
+    handleTestTittle = (event) => {
         this.setState({
-            testTittle: document.getElementById("testTitle").value
+            testTittle: event.target.value,
         })
     };
 
-    handleQuestionType = (event)=> {
+    handleQuestionType = (event) => {
         this.setState({
-            currentquestionType: event.target.value,
+            currentQuestionType: event.target.value,
         })
     };
 
@@ -72,11 +70,9 @@ class Recruiter extends Component {
         })
     };
 
-
-
     handleCurrentGoodAnswer = (event) => {
         this.setState({
-            currentgoodAnswer:  event.target.value,
+            currentgoodAnswer: event.target.value,
         })
     };
 
@@ -101,35 +97,72 @@ class Recruiter extends Component {
         })
     };
 
+
+    previousQuestion(event) {
+        if (this.state.currentQuestionNumber > 0) {
+            const currentQuestionNumber = this.state.currentQuestionNumber - 1;
+            this.setState({
+                currentQuestionNumber: currentQuestionNumber,
+
+                currentQuestionType: this.state.questionsTypes[currentQuestionNumber],
+                currentQuestion: this.state.questions[currentQuestionNumber],
+                currentanswer1: this.state.answers1[currentQuestionNumber],
+                currentanswer2: this.state.answers2[currentQuestionNumber],
+                currentanswer3: this.state.answers3[currentQuestionNumber],
+                currentanswer4: this.state.answers4[currentQuestionNumber],
+                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
+            });
+        }
+    }
+
+    nextQuestion(event) {
+        if (this.state.currentQuestionNumber < this.state.numberOfQuestions) {
+            var currentQuestionNumber = this.state.currentQuestionNumber + 1;
+            this.setState({
+                currentQuestionNumber: currentQuestionNumber,
+
+                currentQuestionType: this.state.questionsTypes[currentQuestionNumber],
+                currentQuestion: this.state.questions[currentQuestionNumber],
+                currentanswer1: this.state.answers1[currentQuestionNumber],
+                currentanswer2: this.state.answers2[currentQuestionNumber],
+                currentanswer3: this.state.answers3[currentQuestionNumber],
+                currentanswer4: this.state.answers4[currentQuestionNumber],
+                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
+            });
+        }
+    }
+
     saveOpenQuestion = (event) => {
-        var currentQuestionNumber = this.state.currentQuestionNumber+1;
-        var numberOfQuestions = this.state.numberOfQuestions+1
+        var currentQuestionNumber = this.state.currentQuestionNumber +1;
+        var numberOfQuestions = this.state.numberOfQuestions + 1
         console.log("currentQuestionNumber: " + currentQuestionNumber);
 
         const questionsTypes = this.state.questionsTypes.slice();
-        questionsTypes[currentQuestionNumber-1] = this.state.currentquestionType;
+        questionsTypes[currentQuestionNumber - 1] = this.state.currentQuestionType;
 
 
         const questions = this.state.questions.slice();
         console.log("przed questions: " + questions);
-        questions[currentQuestionNumber-1] = this.state.currentQuestion;
+        questions[currentQuestionNumber - 1] = this.state.currentQuestion;
         console.log("po questions: " + questions);
 
 
         const answers1 = this.state.answers1.slice();
-        answers1[currentQuestionNumber-1] = this.state.currentanswer1;
+        answers1[currentQuestionNumber - 1] = this.state.currentanswer1;
 
         const answers2 = this.state.answers2.slice();
-        answers2[currentQuestionNumber-1] = this.state.currentanswers2;
+        answers2[currentQuestionNumber - 1] = this.state.currentanswer2;
 
         const answers3 = this.state.answers3.slice();
-        answers3[currentQuestionNumber-1] = this.state.currentanswers3;
+        answers3[currentQuestionNumber - 1] = this.state.currentanswer3;
 
         const answers4 = this.state.answers4.slice();
-        answers4[currentQuestionNumber-1] = this.state.currentanswers4;
+        answers4[currentQuestionNumber - 1] = this.state.currentanswer4;
 
         const goodAnswers = this.state.goodAnswers.slice();
-        goodAnswers[currentQuestionNumber-1] = this.state.currentgoodAnswer;
+        goodAnswers[currentQuestionNumber - 1] = this.state.currentgoodAnswer;
+
+
 
         this.setState({
             currentQuestionNumber: currentQuestionNumber,
@@ -142,7 +175,7 @@ class Recruiter extends Component {
             answers4: answers4,
             goodAnswers: goodAnswers,
 
-            currentquestionType: '',
+            // currentQuestionType: 1,
             currentQuestion: '',
             currentanswer1: '',
             currentanswer2: '',
@@ -150,51 +183,28 @@ class Recruiter extends Component {
             currentanswer4: '',
             currentgoodAnswer: '',
         });
-    }
-    previousQuestion (event) {
-        if(this.state.currentQuestionNumber>0) {
-            const currentQuestionNumber = this.state.currentQuestionNumber - 1;
-            this.setState({
-                currentQuestionNumber: currentQuestionNumber,
+    };
 
-                currentquestionType: this.state.questionsTypes[currentQuestionNumber],
-                currentQuestion: this.state.questions[currentQuestionNumber],
-                currentanswer1: this.state.answers1[currentQuestionNumber],
-                currentanswer2: this.state.answers2[currentQuestionNumber],
-                currentanswer3: this.state.answers3[currentQuestionNumber],
-                currentanswer4: this.state.answers4[currentQuestionNumber],
-                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
-            });
+    saveTestToDynamoDB(event) {
+        const questions = [];
+
+        for (let i=0; i<this.state.numberOfQuestions; i++){
+            questions.push({
+                questionType:this.state.questionsTypes[i],
+                question:this.state.questions[i],
+                answer1: this.state.answers1[i],
+                answer2: this.state.answers2[i],
+                answer3: this.state.answers3[i],
+                answer4: this.state.answers4[i],
+                goodAnswer: this.state.goodAnswers[i],
+            })
         }
-    }
-    nextQuestion (event) {
-        if(this.state.currentQuestionNumber<this.state.numberOfQuestions) {
-            var currentQuestionNumber = this.state.currentQuestionNumber + 1;
-            this.setState({
-                currentQuestionNumber: currentQuestionNumber,
-
-                currentquestionType: this.state.questionsTypes[currentQuestionNumber],
-                currentQuestion: this.state.questions[currentQuestionNumber],
-                currentanswer1: this.state.answers1[currentQuestionNumber],
-                currentanswer2: this.state.answers2[currentQuestionNumber],
-                currentanswer3: this.state.answers3[currentQuestionNumber],
-                currentanswer4: this.state.answers4[currentQuestionNumber],
-                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
-            });
-        }
-    }
-
-    saveTestToDynamoDB (event) {
-        // const questions = globalQuestions.map((val, ind) => {
-        //     return {"id": ind, "questionTitle": val, "questionContent": "----", "questionType": this.state.questionType}
-        // })
-
-
+        console.log(questions);
         const test = {
             "testTittle": this.state.testTittle,
             "numberOfQuestions": this.state.numberOfQuestions,
-            // "questions": questions
-        }
+            "questions": questions
+        };
 
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
@@ -209,92 +219,94 @@ class Recruiter extends Component {
     }
 
 
-
     render() {
-        const currentQuestionNumber= this.state.currentQuestionNumber;
-
-        const currentquestionType= this.state.currentquestionType;
-        const currentQuestion= this.state.currentQuestion;
-        const currentanswer1= this.state.currentanswer1;
-        const currentanswer2= this.state.currentanswer2;
-        const currentanswer3= this.state.currentanswer3;
-        const currentanswer4= this.state.currentanswer4;
-        const currentgoodAnswer= this.state.currentgoodAnswer;
-
+        const testTittle = this.state.testTittle;
+        const numberOfQuestions = this.state.numberOfQuestions;
+        const currentQuestionNumber = this.state.currentQuestionNumber;
+        const currentQuestionType = this.state.currentQuestionType;
+        const currentQuestion = this.state.currentQuestion;
+        const currentanswer1 = this.state.currentanswer1;
+        const currentanswer2 = this.state.currentanswer2;
+        const currentanswer3 = this.state.currentanswer3;
+        const currentanswer4 = this.state.currentanswer4;
+        const currentgoodAnswer = this.state.currentgoodAnswer;
 
         console.log("czy rendenruje this.state.questions  " + this.state.questions);
 
-        // console.log("czy typeog currentQuestion  " + typeof currentQuestion);
-        // console.log("czy rendenruje currentQuestion  " + currentQuestion);
-        // console.log("czy rendenruje currentQuestion.question  " + currentQuestion);
         return (
             <div className="Recruiter">
                 <div className="lander">
 
                     <div>
                         <label>Enter the test title</label>
-                        <input id="testTitle" type="text" value={this.state.testTittle} onChange={this.handleTestTittleChange}/>
+                        <input id="testTitle" type="text" value={testTittle} onChange={this.handleTestTittle}/>
                         <button onClick={this.saveTestToDynamoDB}>Save test</button>
-                        <br /><br />
-                        <label>Number of question: {this.state.numberOfQuestions}</label>
-                        <br /><br />
-                        <label>Current question: {this.state.currentQuestionNumber}</label>
+                        <br/><br/>
+                        <label>Number of question: {numberOfQuestions}</label>
+                        <br/><br/>
+                        <label>Current question: {currentQuestionNumber}</label>
                         <button onClick={this.previousQuestion}>Previous question</button>
                         <button onClick={this.nextQuestion}>Next question</button>
-                        <br /><br />
+                        <br/><br/>
                     </div>
                     <div>
                         <label>Choose question type</label>
-                        <select value={currentquestionType} onChange={this.handleQuestionType}>
-                            <option value="1">Open</option>
-                            <option value="2">Number</option>
-                            <option value="3">Multiple choice</option>
+                        <select value={currentQuestionType} onChange={this.handleQuestionType}>
+                            <option value='1'>Open</option>
+                            <option value='2'>Number</option>
+                            <option value='3'>Multiple choice</option>
                         </select>
                         <>
 
-                                <br />
-                                < label > Enter content of the question</label>
-                                <br />
-                                <textarea id="question" rows="5" cols="100" value={ currentQuestion }
-                                     onChange={this.handleCurrentQuestion}/>
-                                <br /><br />
+                            <br/>
+                            < label> Enter content of the question</label>
+                            <br/>
+                            <textarea id="question" rows="5" cols="100" value={currentQuestion}
+                                      onChange={this.handleCurrentQuestion}/>
+                            <br/><br/>
 
-                        <br />
-                        {currentquestionType == 2 ?
-                            <>
-                                <label>Enter number answer</label>
-                                <br/>
-                                <input type="text" name="1answer"  value={currentgoodAnswer} onChange={this.handleCurrentGoodAnswer}/>
-                                <br/><br/>
-                            </> : null
-                        }
-                            {currentquestionType==3 ?
+                            <br/>
+                            {currentQuestionType == 2 ?
+                                <>
+                                    <label>Enter number answer</label>
+                                    <br/>
+                                    <input type="text" name="1answer" value={currentgoodAnswer}
+                                           onChange={this.handleCurrentGoodAnswer}/>
+                                    <br/><br/>
+                                </> : null
+                            }
+                            {currentQuestionType == 3 ?
                                 <>
                                     <label>Enter 1st answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" value={currentanswer1} onChange={this.handleCurrentAnswer1}/>
+                                    <input type="text" name="1answer" value={currentanswer1}
+                                           onChange={this.handleCurrentAnswer1}/>
                                     <br/><br/>
                                     <label>Enter 2nd answer</label>
                                     <br/>
-                                    <input type="text" name="2answer" value={currentanswer2} onChange={this.handleCurrentAnswer2}/>
+                                    <input type="text" name="2answer" value={currentanswer2}
+                                           onChange={this.handleCurrentAnswer2}/>
                                     <br/><br/>
                                     <label>Enter 3rd answer</label>
                                     <br/>
-                                    <input type="text" name="3answer" value={currentanswer3} onChange={this.handleCurrentAnswer3}/>
+                                    <input type="text" name="3answer" value={currentanswer3}
+                                           onChange={this.handleCurrentAnswer3}/>
                                     <br/><br/>
                                     <label>Enter 4th answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" value={currentanswer4} onChange={this.handleCurrentAnswer4}/>
+                                    <input type="text" name="4answer" value={currentanswer4}
+                                           onChange={this.handleCurrentAnswer4}/>
                                     <br/><br/>
                                     <label>Enter good answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" value={currentgoodAnswer} onChange={this.handleCurrentGoodAnswer}/>
+                                    <input type="text" name="4answer" value={currentgoodAnswer}
+                                           onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
 
-                        <br/><br/>
-                        <button onClick={this.saveOpenQuestion}>Save question</button>
-                            </>
+                            <br/><br/>
+                            <button onClick={this.saveOpenQuestion}>Save question</button>
+                        </>
 
                     </div>
                 </div>
@@ -304,7 +316,4 @@ class Recruiter extends Component {
         );
     }
 }
-
-
-
 export default Recruiter;
