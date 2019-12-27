@@ -61,70 +61,42 @@ class Recruiter extends Component {
     };
 
     handleQuestionType = (event)=> {
-        const questionsTypes = this.state.questionsTypes.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        questionsTypes[currentQuestionNumber] = event.target.value;
         this.setState({
             currentquestionType: event.target.value,
-            questionsTypes: questionsTypes,
         })
     };
 
     handleCurrentQuestion = (event) => {
-        // const questions = this.state.questions.slice();
-        // const currentQuestionNumber = this.state.currentQuestionNumber;
-        // questions[currentQuestionNumber] = event.target.value;
         this.setState({
             currentQuestion: event.target.value,
-            // questions: questions,
         })
     };
 
 
 
     handleCurrentGoodAnswer = (event) => {
-        const goodAnswers = this.state.goodAnswers.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        goodAnswers[currentQuestionNumber] = event.target.value;
         this.setState({
-            goodAnswers: goodAnswers,
             currentgoodAnswer:  event.target.value,
         })
     };
 
     handleCurrentAnswer1 = (event) => {
-        const answers1 = this.state.answers1.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        answers1[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers1: answers1,
             currentanswer1: event.target.value,
         })
     };
     handleCurrentAnswer2 = (event) => {
-        const answers2 = this.state.answers2.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        answers2[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers2: answers2,
             currentanswer2: event.target.value,
         })
     };
     handleCurrentAnswer3 = (event) => {
-        const answers3 = this.state.answers3.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        answers3[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers3: answers3,
             currentanswer3: event.target.value,
         })
     };
     handleCurrentAnswer4 = (event) => {
-        const answers4 = this.state.answers4.slice();
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        answers4[currentQuestionNumber] = event.target.value;
         this.setState({
-            answers4: answers4,
             currentanswer4: event.target.value,
         })
     };
@@ -135,8 +107,7 @@ class Recruiter extends Component {
         console.log("currentQuestionNumber: " + currentQuestionNumber);
 
         const questionsTypes = this.state.questionsTypes.slice();
-        const questionType = questionsTypes[questionsTypes.length - 1];
-
+        questionsTypes[currentQuestionNumber-1] = this.state.currentquestionType;
 
 
         const questions = this.state.questions.slice();
@@ -146,51 +117,31 @@ class Recruiter extends Component {
 
 
         const answers1 = this.state.answers1.slice();
-        const answer1 = answers1[answers1.length - 1];
-
+        answers1[currentQuestionNumber-1] = this.state.currentanswer1;
 
         const answers2 = this.state.answers2.slice();
-        const answer2 = answers2[answers2.length - 1];
-
+        answers2[currentQuestionNumber-1] = this.state.currentanswers2;
 
         const answers3 = this.state.answers3.slice();
-        const answer3 = answers3[answers3.length - 1];
-
+        answers3[currentQuestionNumber-1] = this.state.currentanswers3;
 
         const answers4 = this.state.answers4.slice();
-        const answer4 = answers4[answers4.length - 1];
-
+        answers4[currentQuestionNumber-1] = this.state.currentanswers4;
 
         const goodAnswers = this.state.goodAnswers.slice();
-        const goodAnswer = goodAnswers[goodAnswers.length - 1];
-
-
-
+        goodAnswers[currentQuestionNumber-1] = this.state.currentgoodAnswer;
 
         this.setState({
             currentQuestionNumber: currentQuestionNumber,
             numberOfQuestions: numberOfQuestions,
-            questionsTypes: questionsTypes.concat([{
-                questionType: questionType,
-            }]),
-
+            questionsTypes: questionsTypes,
             questions: questions,
+            answers1: answers1,
+            answers2: answers2,
+            answers3: answers3,
+            answers4: answers4,
+            goodAnswers: goodAnswers,
 
-            answers1: answers1.concat([{
-                answer1: answer1,
-            }]),
-            answers2: answers2.concat([{
-                answer2: answer2,
-            }]),
-            answers3: answers3.concat([{
-                answer3: answer3,
-            }]),
-            answers4: answers4.concat([{
-                answer4: answer4,
-            }]),
-            goodAnswers: goodAnswers.concat([{
-                goodAnswer: goodAnswer,
-            }]),
             currentquestionType: '',
             currentQuestion: '',
             currentanswer1: '',
@@ -199,7 +150,6 @@ class Recruiter extends Component {
             currentanswer4: '',
             currentgoodAnswer: '',
         });
-        console.log("Questionsss this.state.questions" + this.state.questions);
     }
     previousQuestion (event) {
         if(this.state.currentQuestionNumber>0) {
