@@ -1,32 +1,52 @@
 import React, { Component } from "react";
+import {Button} from "reactstrap"
+import {Link} from "react-router-dom";
 
 
-class CustomerManager extends Component {
+class TestList extends Component {
   constructor(props) {
     super(props)
-    this.state = {name: 'World'}
-    this.updateName = this.updateName.bind(this)
-
+    this.state = {
+      id: '',
+      testTitleLabel: '',
+      testTitle: '',
+      numberOfQuestionsLabel:'',
+      numberOfQuestions: '',
+        questions : [
+            {
+                id: 0,
+                questionTitle: "",
+                questionContent: ""
+            }
+        ]
+    }
+    
+    this.loadFromDB = this.loadFromDB.bind(this)
   }
 
-  updateName() {
-        fetch('https://hw8oxcfnde.execute-api.us-east-1.amazonaws.com/test/entries')
-        .then((response)=>{return response.json()})
-        .then((data)=>{
-          var res = JSON.parse(data.body);
-          this.setState({name:res['name']})})
-      }
+  loadFromDB() {
+    fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
+            .then((response)=>{return response.json()})
+            .then((data)=>{
+            //var res = JSON.parse(data.body);
+            this.setState({
+                testTitleLabel:'Test title:',
+                testTitle:data.Items[0].testTittle,
+                numberOfQuestionsLabel:'Number of questions: ',
+                numberOfQuestions:data.Items[0].numberOfQuestions
+                })})
+}
 
+    
   render() {
     return (
-            <div className="CustomerMenager">
-              <div className="lander">
-                <h2> Hello {this.state.name}</h2>
-                <button onClick={this.updateName}>Update Name</button>
+            <div>
+              <button onClick={this.loadFromDB}>Load tests from database</button>
+                <h2> {this.state.testTitleLabel} {this.state.testTitle}</h2>
+                <label>{this.state.numberOfQuestionsLabel} {this.state.numberOfQuestions}</label>
               </div>
-            </div>
           );
   }
 }
 
- export default CustomerManager;
+export default TestList;
