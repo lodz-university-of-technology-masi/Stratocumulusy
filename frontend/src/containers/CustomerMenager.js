@@ -2,48 +2,32 @@ import React, { Component } from "react";
 import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
 
-
 class TestList extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      id: '',
-      testTitleLabel: '',
-      testTitle: '',
-      numberOfQuestionsLabel:'',
-      numberOfQuestions: '',
-        questions : [
-            {
-                id: 0,
-                questionTitle: "",
-                questionContent: ""
-            }
-        ]
-    }
-    
-    this.loadFromDB = this.loadFromDB.bind(this)
+    this.loadFromDB();
   }
+
+  liczbaTestow = 0
+  listaTytulow = []
+
 
   loadFromDB() {
     fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
             .then((response)=>{return response.json()})
             .then((data)=>{
-            //var res = JSON.parse(data.body);
-            this.setState({
-                testTitleLabel:'Test title:',
-                testTitle:data.Items[0].testTittle,
-                numberOfQuestionsLabel:'Number of questions: ',
-                numberOfQuestions:data.Items[0].numberOfQuestions
-                })})
+            this.liczbaTestow = data.Count;
+            for(let i=0; i<this.liczbaTestow; i++) {
+              this.listaTytulow.push(data.Items[i].testTittle)
+            }
+            this.setState({})})
 }
 
-    
   render() {
     return (
             <div>
-              <button onClick={this.loadFromDB}>Load tests from database</button>
-                <h2> {this.state.testTitleLabel} {this.state.testTitle}</h2>
-                <label>{this.state.numberOfQuestionsLabel} {this.state.numberOfQuestions}</label>
+                <h2>List of tests: </h2>
+                  {this.listaTytulow.map(s => <div><Link to={{pathname:''}}>{s}</Link></div>)}  
               </div>
           );
   }
