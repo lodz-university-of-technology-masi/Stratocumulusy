@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
+import Test from "./Test";
+
 
 class TestList extends Component {
   constructor(props) {
@@ -10,25 +12,26 @@ class TestList extends Component {
 
   liczbaTestow = 0
   listaTytulow = []
+  testy = [];
+
+  
 
 
   loadFromDB() {
     fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
             .then((response)=>{return response.json()})
             .then((data)=>{
-            this.liczbaTestow = data.Count;
-            for(let i=0; i<this.liczbaTestow; i++) {
-              this.listaTytulow.push(data.Items[i].testTittle)
-            }
-            this.setState({})})
+              console.log(data);
+              this.testy = data["Items"];
+              console.log(data["Items"][0]);
+            });
 }
 
   render() {
     return (
-            <div>
-                <h2>List of tests: </h2>
-                  {this.listaTytulow.map(s => <div><Link to={{pathname:''}}>{s}</Link></div>)}  
-              </div>
+      <div>
+        {this.testy.map((c,index) => <Test id={index} testTitle={c.testTittle} numberOfQuestions={c.numberOfQuestions} dateAdded={c.date} questions={c.questions}/>)}
+  </div> 
           );
   }
 }
