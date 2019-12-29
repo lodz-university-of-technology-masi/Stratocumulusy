@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import "./Recruiter.css";
+import "./AddTest.css";
 
 
-class Recruiter extends Component {
+class AddTest extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -269,7 +269,7 @@ class Recruiter extends Component {
         console.log("czy rendenruje this.state.questions  " + this.state.questions);
 
         return (
-            <div className="Recruiter">
+            <div className="AddTest">
                 <div className="lander">
 
                     <div>
@@ -352,4 +352,4 @@ class Recruiter extends Component {
     }
 }
 
-export default Recruiter;
+export default AddTest;
