@@ -18,17 +18,23 @@ export default function Login(props) {
     return fields.email.length > 0 && fields.password.length > 0;
   }
 
-
-
   async function handleSubmit(event) {
     event.preventDefault();
 
     setIsLoading(true);
-
     try {
-      await Auth.signIn(fields.email, fields.password);
+      let response = await Auth.signIn(fields.email, fields.password);
+      let userType = response["attributes"]["email_verified"];
       props.userHasAuthenticated(true);
-      props.history.push("/recruiter");
+      if(userType){
+        props.history.push("/recruiter");  
+        props.userIsCandidate(false);
+      }
+      else if(!userType){
+        props.history.push("/candidate");
+        props.userIsCandidate(true);
+      }
+      
     } catch (e) { // lapie tu ze nie jest potwierdzony klient
 
       props.history.push("/confirmationCode");

@@ -9,7 +9,8 @@ import {Auth} from 'aws-amplify';
 function App(props) {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-  
+  const [isCandidate, userIsCandidate] = useState(false);
+
   useEffect(() => {
     onLoad();
   }, []);
@@ -46,7 +47,7 @@ function App(props) {
         <Navbar.Collapse >
         </Navbar.Collapse >
         <Nav pullLeft>
-          {isAuthenticated & true ? //jestem rekruterem
+          {((isCandidate == false) && (isAuthenticated == true)) ?//jestem rekruterem
               <>
                 <DropdownButton id="dropdown-basic-button" title="Tests">
                   <LinkContainer to={"/customerMenager"}>
@@ -73,7 +74,7 @@ function App(props) {
               </>
               : null
           }
-          {isAuthenticated & true ? //  jestem kandydatem
+          {((isCandidate == true) && (isAuthenticated == true)) ? //  jestem kandydatem
               <>
                     <LinkContainer to={"/candidate"}>
                       <NavItem>Candidate's home screen</NavItem>
@@ -104,7 +105,7 @@ function App(props) {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
-      <Routes appProps={{isAuthenticated,userHasAuthenticated}}/>
+      <Routes appProps={{isAuthenticated,userHasAuthenticated,isCandidate,userIsCandidate}}/>
     </div>
   );
 }
