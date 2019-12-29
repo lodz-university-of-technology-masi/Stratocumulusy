@@ -53,8 +53,11 @@ function App(props) {
                   <LinkContainer to={"/customerMenager"}>
                     <NavItem>List tests</NavItem>
                   </LinkContainer>
-                  <LinkContainer to={"/recruiter"}>
+                  <LinkContainer to={"/addTest"}>
                     <NavItem>Add test</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to={"/addTestToCandidate"}>
+                    <NavItem>Add test to candidate</NavItem>
                   </LinkContainer>
                   <LinkContainer to={"/customerMenager"}>
                     <NavItem>Import test</NavItem>
@@ -67,14 +70,12 @@ function App(props) {
                   <LinkContainer to={"/addCandidate"}>
                     <NavItem>Add candidate</NavItem>
                   </LinkContainer>
-                  <LinkContainer to={"/recruiter"}>
-                    <NavItem>List candidate</NavItem>
-                  </LinkContainer>
+
                 </DropdownButton>
               </>
               : null
           }
-          {((isCandidate == true) && (isAuthenticated == true)) ? //  jestem kandydatem
+          {((isCandidate == false) && (isAuthenticated == true)) ? //  jestem kandydatem
               <>
                     <LinkContainer to={"/candidate"}>
                       <NavItem>Candidate's home screen</NavItem>

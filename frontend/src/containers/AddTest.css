@@ -1,9 +1,9 @@
 @media all and (min-width: 480px) {
-    .Recruiter {
+    .AddTest {
         padding: 60px 0;
     }
 
-    .Recruiter form {
+    .AddTest form {
         margin: 0 auto;
         max-width: 320px;
     }
