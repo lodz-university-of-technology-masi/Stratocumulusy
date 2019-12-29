@@ -27,7 +27,7 @@ export default function Login(props) {
       let userType = response["attributes"]["email_verified"];
       props.userHasAuthenticated(true);
       if(userType){
-        props.history.push("/recruiter");  
+        props.history.push("/addTest");
         props.userIsCandidate(false);
       }
       else if(!userType){
