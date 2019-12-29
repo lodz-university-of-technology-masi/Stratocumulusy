@@ -23,9 +23,19 @@ class AddTestToCandidate extends Component {
             if (err)
                 console.log(err, err.stack);
             else {
+                // const sprawdzam = data.Users.map(cand => cand.Attributes);
+                // console.log("sprawdzam    : " + sprawdzam.length);
+                 console.log("data    : " + data.toSource());
+                // for (let i = 0; i < sprawdzam.length; i++){
+                //     console.log("mail    : " + data.Users[i].Attributes[0].Value);
+                // }
+
+              //  0 = "email_verified", 1 = "email"
                 this.setState({
-                    candidateList: data.Users.map(cand => cand.Username)
+                    candidateList: data.Users.filter(cand => cand.Attributes[0].Value=='false').map(cand => cand.Attributes[1].Value)
                 });
+                // console.log("data.Users    : " + data.toSource());
+                // console.log("  candidateList  : " + this.state.candidateList.toSource());
 
             }
 

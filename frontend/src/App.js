@@ -75,7 +75,7 @@ function App(props) {
               </>
               : null
           }
-          {((isCandidate == false) && (isAuthenticated == true)) ? //  jestem kandydatem
+          {((isCandidate == true) && (isAuthenticated == true)) ? //  jestem kandydatem
               <>
                     <LinkContainer to={"/candidate"}>
                       <NavItem>Candidate's home screen</NavItem>
