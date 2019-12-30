@@ -5,8 +5,10 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.dynamodbv2.*;
 import com.google.gson.Gson;
 import org.json.JSONObject;
-import pl.lodz.p.it.model.Question;
+import pl.lodz.p.it.model.questions.Question;
 
+
+import java.util.ArrayList;
 import java.util.Map;
 
 public class QuestionAddHandler {

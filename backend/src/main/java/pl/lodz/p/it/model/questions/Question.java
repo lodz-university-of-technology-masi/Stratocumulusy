@@ -1,9 +1,12 @@
-package pl.lodz.p.it.model;
+package pl.lodz.p.it.model.questions;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
-@DynamoDBTable(tableName = "Question")
-public class Question {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+@DynamoDBDocument
+public class Question implements Serializable {
 
     /**
      * Tu mam mindfuck jak mają wyglądac pola tej klasy?
@@ -15,6 +18,15 @@ public class Question {
     private String question;
     private String questionType;
     private String correctAnswer;
+    private ArrayList<String> choices;
+
+    public Question(String questionID, String question, String questionType, String correctAnswer, ArrayList<String> choices) {
+        QuestionID = questionID;
+        this.question = question;
+        this.questionType = questionType;
+        this.correctAnswer = correctAnswer;
+        this.choices = choices;
+    }
 
     public Question(String questionID, String question, String questionType, String correctAnswer) {
         QuestionID = questionID;
@@ -26,7 +38,6 @@ public class Question {
     public Question() {
     }
 
-    @DynamoDBHashKey(attributeName = "QuestionID")
     public String getQuestionID() {
         return QuestionID;
     }
@@ -35,7 +46,6 @@ public class Question {
         QuestionID = questionID;
     }
 
-    @DynamoDBAttribute(attributeName = "Content")
     public String getQuestion() {
         return question;
     }
@@ -44,7 +54,6 @@ public class Question {
         this.question = question;
     }
 
-    @DynamoDBAttribute(attributeName = "Type")
     public String getQuestionType() {
         return questionType;
     }
@@ -53,12 +62,21 @@ public class Question {
         this.questionType = questionType;
     }
 
-    @DynamoDBAttribute(attributeName = "CorrectAnswer")
-    public String getRightAnswer() {
+    public String getCorrectAnswer() {
         return correctAnswer;
     }
 
-    public void setRightAnswer(String rightAnswer) {
-        this.correctAnswer = rightAnswer;
+    public void setCorrectAnswer(String correctAnswer) {
+        this.correctAnswer = correctAnswer;
     }
+
+    public ArrayList<String> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(ArrayList<String> choices) {
+        this.choices = choices;
+    }
+
+
 }

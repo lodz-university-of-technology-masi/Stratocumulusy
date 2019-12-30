@@ -32,35 +32,35 @@ public class CreateTables {
     static String questionTableName = "Question";
     static String answerTableName = "Answer";
 
-    public static void main(String[] args) throws Exception {
-
-        try {
-
-            deleteTable(testTableName);
-            deleteTable(questionTableName);
-            deleteTable(answerTableName);
-
-            // Parameter1: table name
-            // Parameter2: reads per second
-            // Parameter3: writes per second
-            // Parameter4/5: partition key and data type
-            // Parameter6/7: sort key and data type (if applicable)
-
-            createTable(testTableName, 10L, 5L, "TestID", "S");
-            createTable(questionTableName, 10L, 5L, "QuestionID", "S");
-            createTable(answerTableName, 10L, 5L, "AnswerID", "S");
-
-            //createTable(testTableName, 10L, 5L, "Name", "S");
-            //createTable(questionTableName, 10L, 5L, "TestName", "S", "ID", "N");
-            //createTable(answerTableName, 10L, 5L, "TestName", "S", "QuestionID", "N");
-
-        }
-        catch (Exception e) {
-            System.err.println("Program failed:");
-            System.err.println(e.getMessage());
-        }
-        System.out.println("Success.");
-    }
+//    public static void main(String[] args) throws Exception {
+//
+//        try {
+//
+//            deleteTable(testTableName);
+//            deleteTable(questionTableName);
+//            deleteTable(answerTableName);
+//
+//            // Parameter1: table name
+//            // Parameter2: reads per second
+//            // Parameter3: writes per second
+//            // Parameter4/5: partition key and data type
+//            // Parameter6/7: sort key and data type (if applicable)
+//
+//            createTable(testTableName, 10L, 5L, "TestID", "S");
+//            createTable(questionTableName, 10L, 5L, "QuestionID", "S");
+//            createTable(answerTableName, 10L, 5L, "AnswerID", "S");
+//
+//            //createTable(testTableName, 10L, 5L, "Name", "S");
+//            //createTable(questionTableName, 10L, 5L, "TestName", "S", "ID", "N");
+//            //createTable(answerTableName, 10L, 5L, "TestName", "S", "QuestionID", "N");
+//
+//        }
+//        catch (Exception e) {
+//            System.err.println("Program failed:");
+//            System.err.println(e.getMessage());
+//        }
+//        System.out.println("Success.");
+//    }
 
     private static void deleteTable(String tableName) {
         Table table = dynamoDB.getTable(tableName);
