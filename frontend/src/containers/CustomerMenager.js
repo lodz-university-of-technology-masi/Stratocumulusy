@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
 import Test from "./Test";
+import TestRecruiter from "./TestRecruiter";
 
 
 class TestList extends Component {
@@ -13,8 +14,6 @@ class TestList extends Component {
   liczbaTestow = 0
   listaTytulow = []
   testy = [];
-
-  
 
 
   loadFromDB() {
@@ -30,7 +29,7 @@ class TestList extends Component {
   render() {
     return (
       <div>
-        {this.testy.map((c,index) => <Test id={index} testTitle={c.testTittle} numberOfQuestions={c.numberOfQuestions} dateAdded={c.date} questions={c.questions}/>)}
+        {this.testy.map((c,index) => <TestRecruiter id={index} testTitle={c.testTittle} numberOfQuestions={c.numberOfQuestions} dateAdded={c.date} questions={c.questions}/>)}
   </div> 
           );
   }

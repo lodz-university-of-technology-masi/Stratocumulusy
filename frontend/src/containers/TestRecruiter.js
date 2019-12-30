@@ -5,8 +5,18 @@ import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
 
 
+function deleteTest(key) {
+    return (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
+        dataType: "json",
+        method: 'DELETE',
+        body: JSON.stringify({"date": key}),
+        headers: {
+            "Content-type": "application/json; charset=UTF-8"
+    }})
+    )}
 
-function Test(props){
+
+function TestRecruiter(props){
     return (
     <div className="test">
          <div>
@@ -15,19 +25,20 @@ function Test(props){
              <h5>Added: {props.dateAdded}</h5>
 
              <Button color="success"><Link to={{
-                 pathname: '/solvetest',
+                 pathname: '/showtest',
                  SolveTestProps:{
                      testTitle : props.testTitle,
                      numberOfQuestions: props.numberOfQuestions,
                      dateAdded: props.dateAdded,
                      questions: props.questions
                  }
-             }}>Start</Link></Button>{}
+             }}>Show</Link></Button>
+             <Button color="success" onClick={() => deleteTest(props.dateAdded)}>Delete</Button>
         </div>
     </div>
     );
 }
 
-export default Test;
+export default TestRecruiter;
 
 
