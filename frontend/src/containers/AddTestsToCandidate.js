@@ -58,12 +58,27 @@ class AddTestToCandidate extends Component {
         })
     };
     save = (event) => {
-        this.setState({
-            selectedCandidate: '',
-            isCandidateSelected: false,
-            availableTests: [],
-            selectedTests: [],
-        })
+        const assignedTest = [];
+        for (let i = 0; i < this.state.selectedTests.length; i++) {
+            assignedTest.push({
+                testTittle: this.state.selectedTests[i],
+            })
+        }
+        const test = {
+            "email": this.state.selectedCandidate,
+            "assignedTest": assignedTest,
+
+        };
+        console.log("test JSON :" +test.toSource());
+        const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate', {
+            dataType: "json",
+            method: 'POST',
+            body: JSON.stringify(test),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        });
+        return false;
     };
 
     selectCandidate = (event) => {
