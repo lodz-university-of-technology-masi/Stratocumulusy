@@ -7,4 +7,10 @@
         margin: 0 auto;
         max-width: 320px;
     }
+    .AvailableTest{
+        zoom:1; *display: inline; _height: 30px;
+    }
+    .SelectedTest{
+        zoom:1; *display: inline; _height: 30px;
+    }
 }
