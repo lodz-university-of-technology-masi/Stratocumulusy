@@ -11,8 +11,6 @@ class TestList extends Component {
     this.loadFromDB();
   }
 
-  liczbaTestow = 0
-  listaTytulow = []
   testy = [];
 
 
@@ -20,7 +18,8 @@ class TestList extends Component {
     fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
             .then((response)=>{return response.json()})
             .then((data)=>{
-              console.log(data);
+              // console.log(data);
+              // console.log(data[0]);
               this.testy = data;
             });
 }
@@ -28,8 +27,8 @@ class TestList extends Component {
   render() {
     return (
       <div>
-        {this.testy.map(c => <TestRecruiter id={c.testId} questions={c.questions}/>)}
-      </div> 
+        {this.testy.map((c,index) => <TestRecruiter id={index}  testTitle={c.testTitle} numberOfQuestions={c.questions.length} testId={c.testId} questions={c.questions}/>)}
+  </div> 
           );
   }
 }

@@ -5,15 +5,25 @@ import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
 
 
+function onClickFunction(key) {
+    deleteTest(key);
+    reloadPage();
+}
+
 function deleteTest(key) {
     return (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
         dataType: "json",
         method: 'DELETE',
-        body: JSON.stringify({"date": key}),
+        body: JSON.stringify({"testId": key}),
         headers: {
             "Content-type": "application/json; charset=UTF-8"
     }})
-    )}
+    )
+}
+
+function reloadPage() {
+    window.location.reload();
+}
 
 
 function TestRecruiter(props){
@@ -29,7 +39,7 @@ function TestRecruiter(props){
                      questions: props.questions
                  }
              }}>Show</Link></Button>
-             <Button color="success" onClick={() => deleteTest(props.dateAdded)}>Delete</Button>
+             <Button color="success" onClick={() => onClickFunction(props.testId)}>Delete</Button>
         </div>
     </div>
     );

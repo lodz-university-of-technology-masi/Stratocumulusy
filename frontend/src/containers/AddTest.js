@@ -244,7 +244,7 @@ class AddTest extends Component {
         }
 
 
-        console.log("questions "+questions.toSource());
+        //console.log("questions "+questions.toSource());
         function uuidv4() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -258,7 +258,7 @@ class AddTest extends Component {
             "testTitle": this.state.testTittle,
             "questions": questions
         };
-        console.log("test "+test.toSource());
+        //console.log("test "+test.toSource());
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
