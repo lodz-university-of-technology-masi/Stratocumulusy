@@ -204,43 +204,61 @@ class AddTest extends Component {
         });
     };
 
+
+
     saveTestToDynamoDB(event) {
         const questions = [];
 
         for (let i = 0; i < this.state.numberOfQuestions; i++) {
             if(this.state.questionsTypes[i]==1){ //open
                 questions.push({
+                    QuestionID: i,
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
+                    correctAnswer:"|",
                 })
             }
             if(this.state.questionsTypes[i]==2){
                 questions.push({ //number
+                    QuestionID: i,
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
-                    goodAnswer: this.state.goodAnswers[i],
+                    correctAnswer: this.state.goodAnswers[i],
                 })
             }
             if(this.state.questionsTypes[i]==3){
+                const choices = [];
+                choices.push(this.state.answers1[i]);
+                choices.push(this.state.answers2[i]);
+                choices.push(this.state.answers3[i]);
+                choices.push(this.state.answers4[i]);
                 questions.push({ // multiple
+                    QuestionID: i,
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
-                    answer1: this.state.answers1[i],
-                    answer2: this.state.answers2[i],
-                    answer3: this.state.answers3[i],
-                    answer4: this.state.answers4[i],
-                    goodAnswer: this.state.goodAnswers[i],
+                    choices: choices,
+                    correctAnswer: this.state.goodAnswers[i],
                 })
             }
 
         }
-        console.log(questions);
+
+
+        console.log("questions "+questions.toSource());
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+        const testId =  uuidv4();
+
         const test = {
-            "testTittle": this.state.testTittle,
-            "numberOfQuestions": this.state.numberOfQuestions,
+            "testId": testId,
+            "testTitle": this.state.testTittle,
             "questions": questions
         };
-
+        console.log("test "+test.toSource());
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
@@ -255,6 +273,12 @@ class AddTest extends Component {
 
 
     render() {
+        function uuidv4() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
         const testTittle = this.state.testTittle;
         const numberOfQuestions = this.state.numberOfQuestions;
         const currentQuestionNumber = this.state.currentQuestionNumber;
@@ -265,7 +289,7 @@ class AddTest extends Component {
         const currentanswer3 = this.state.currentanswer3;
         const currentanswer4 = this.state.currentanswer4;
         const currentgoodAnswer = this.state.currentgoodAnswer;
-
+        console.log("uuid:  "+uuidv4());
         console.log("czy rendenruje this.state.questions  " + this.state.questions);
 
         return (
