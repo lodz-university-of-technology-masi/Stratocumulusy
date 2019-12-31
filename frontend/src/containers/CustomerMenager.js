@@ -21,16 +21,15 @@ class TestList extends Component {
             .then((response)=>{return response.json()})
             .then((data)=>{
               console.log(data);
-              this.testy = data["Items"];
-              console.log(data["Items"][0]);
+              this.testy = data;
             });
 }
 
   render() {
     return (
       <div>
-        {this.testy.map((c,index) => <TestRecruiter id={index} testTitle={c.testTittle} numberOfQuestions={c.numberOfQuestions} dateAdded={c.date} questions={c.questions}/>)}
-  </div> 
+        {this.testy.map(c => <TestRecruiter id={c.testId} questions={c.questions}/>)}
+      </div> 
           );
   }
 }

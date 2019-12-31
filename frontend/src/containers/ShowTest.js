@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./SolveTest.css";
-import Question from "./Question";
 import TestList from "./TestList"
 import Test from "./Test"
 import { Button } from "react-bootstrap";
 import {Link} from "react-router-dom";
+import Question from "./Question";
 
 
 
@@ -13,9 +13,9 @@ function SolveTest(props){
         <div className="solvetest">
             <div>
                 <Button><Link to={{pathname: '/customerMenager'}}>Back</Link></Button>
-                <h1>Title: {props.location.SolveTestProps.testTitle}</h1>
+                <h1>Title: {props.location.SolveTestProps.testId}</h1>
             </div>
-                {props.location.SolveTestProps.questions.map(c => <Question id={c.id} questionTitle={c.questionTitle} questionContent={c.questionContent}/>)}
+                {props.location.SolveTestProps.questions.map(c => <Question id={c.id} question={c.question} questionType={c.questionType} choices={c.choices} correctAnswer={c.correctAnswer}/>)}
         </div>
     );
 
