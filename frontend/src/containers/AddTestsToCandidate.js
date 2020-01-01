@@ -13,53 +13,142 @@ class AddTestToCandidate extends Component {
             selectedCandidate: '',
             isCandidateSelected: false,
             candidateList: [],
+            availableTests: [],
+            selectedTests: [],
+            allCandidateTests: [],
         };
+
         this.selectCandidate = this.selectCandidate.bind(this);
         this.cancel = this.cancel.bind(this);
+        this.save = this.save.bind(this);
+        this.addTest = this.addTest.bind(this);
+        this.removeTest = this.removeTest.bind(this);
     }
 
     componentDidMount = () => {
+        // pobranie uzytkownikow
         cognitoidentityserviceprovider.listUsers(params, (err, data) => {
             if (err)
                 console.log(err, err.stack);
             else {
-                // const sprawdzam = data.Users.map(cand => cand.Attributes);
-                // console.log("sprawdzam    : " + sprawdzam.length);
-                 console.log("data    : " + data.toSource());
-                // for (let i = 0; i < sprawdzam.length; i++){
-                //     console.log("mail    : " + data.Users[i].Attributes[0].Value);
-                // }
-
-              //  0 = "email_verified", 1 = "email"
+                console.log("data    : " + data.toSource());
                 this.setState({
-                    candidateList: data.Users.filter(cand => cand.Attributes[0].Value=='false').map(cand => cand.Attributes[1].Value)
+                    candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
                 });
-                // console.log("data.Users    : " + data.toSource());
-                // console.log("  candidateList  : " + this.state.candidateList.toSource());
-
             }
-
         });
-
+        // pobieram przypisane testy do kandydatow z tabeli CandidateTests
+        let allCandidateTests =null;
+        fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate')
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                allCandidateTests = data;
+            })
+            .finally(() => {
+                this.setState({
+                    allCandidateTests: allCandidateTests,
+                })
+            });
     };
 
     cancel = (event) => {
         this.setState({
             selectedCandidate: '',
             isCandidateSelected: false,
+            availableTests: [],
+            selectedTests: [],
+            allCandidateTests: [],
         })
+    };
+    save = (event) => {
+        const assignedTest = [];
+        for (let i = 0; i < this.state.selectedTests.length; i++) {
+            assignedTest.push({
+                testTitle: this.state.selectedTests[i].testTitle,
+                testId: this.state.selectedTests[i].testId,
+            })
+        }
+        const test = {
+            "candidateEmail": this.state.selectedCandidate,
+            "tests": assignedTest,
+        };
+        const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate', {
+            dataType: "json",
+            method: 'POST',
+            body: JSON.stringify(test),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        });
+        return false;
     };
 
     selectCandidate = (event) => {
         let nameCandidate = event.target.getAttribute('nameCandidate');
-        console.log("nameCandidate  : " +nameCandidate);
+        const allCandidateTests = this.state.allCandidateTests.slice();
+        let selectedTests = [];
+
+      // ustawiam kandydatowi przydzielone testy z bazy ( CandidateTests )
+        for (var i = 0; i < allCandidateTests.length; i++) {
+            if (allCandidateTests[i].candidateEmail == nameCandidate) {
+                for (var j= 0; j < allCandidateTests[i].tests.length; j++) {
+                    selectedTests.push({
+                        testTitle: allCandidateTests[i].tests[j].testTitle,
+                        testId: allCandidateTests[i].tests[j].testId,
+                    });
+                }
+            }
+        }
+
+
+        // pobranie wszystkich testow z EmptyTests
+        let testy = null;
+        fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                testy = data.map(n => n);
+            })
+            .finally(() => {
+                this.setState({
+                    selectedCandidate: nameCandidate,
+                    isCandidateSelected: true,
+                    availableTests: testy,
+                    selectedTests: selectedTests,
+                })
+            });
+
+    };
+    addTest = (event) => {
+        let testID = event.target.getAttribute('testID');
+        let testTitle = event.target.getAttribute('testTitle');
+        console.log("testID  : " + testID);
+        const selectedTests = this.state.selectedTests.slice();
+        for (var i = 0; i < selectedTests.length; i++) {
+            if (selectedTests[i].testId == testID) {
+                return
+            }
+        }
+        selectedTests.push({
+            testId: testID,
+            testTitle: testTitle,
+        });
         this.setState({
-            selectedCandidate: nameCandidate,
-            isCandidateSelected: true,
+            selectedTests: selectedTests,
         })
     };
-
-
+    removeTest = (event) => {
+        let testIDToRemove = event.target.getAttribute('testID');
+        console.log("testIDToRemove  : " + testIDToRemove);
+        let selectedTests = this.state.selectedTests.slice();
+        selectedTests = selectedTests.filter(test => test.testId != testIDToRemove);
+        this.setState({
+            selectedTests: selectedTests,
+        })
+    };
 
 
     render() {
@@ -68,32 +157,56 @@ class AddTestToCandidate extends Component {
         const selectedCandidate = this.state.selectedCandidate;
         const isCandidateSelected = this.state.isCandidateSelected;
         const candidateList = this.state.candidateList;
-        console.log("candidateList  : " +this.state.candidateList);
+        const availableTests = this.state.availableTests;
+        const selectedTests = this.state.selectedTests;
+
+        console.log("selectedTests: " + selectedTests.toSource());
 
         return (
             <div className="AddTestToCandidate">
                 <div className="lander">
                     <label>Selected candidate: {selectedCandidate} </label>
                     <button onClick={this.cancel}>Cancel</button>
+                    {isCandidateSelected == true ?
+                        <>
+                            <button onClick={this.save}>Save</button>
+                        </> : null}
                     <br/>
 
                     {isCandidateSelected == false ?
-                    <>
-                        {candidateList.map(c =>
-                            ( <div>
-                                <h1>Candidate: {c}</h1>
-                                <button onClick={this.selectCandidate} nameCandidate={c}>Select candidate</button>
+                        <>
+                            {candidateList.map(c =>
+                                (<div>
+                                        <h1>Candidate: {c}</h1>
+                                        <button onClick={this.selectCandidate} nameCandidate={c}>Select candidate
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </>
+                        :
+                        <>
+                            <div className="AvailableTest">
+                                <h1>Available tests:</h1>
+                                {availableTests.map(c =>
+                                    (<div>
+                                            <h>Test title {c.testTitle} </h>
+                                            <button onClick={this.addTest} testID={c.testId} testTitle={c.testTitle}>Add test</button>
+                                        </div>
+                                    )
+                                )}
                             </div>
-                            )
-
-                        )}
-
-
-
-
-
-                    </>
-                    :null
+                            <div className="SelectedTest">
+                                <h1>Selected tests:</h1>
+                                {selectedTests.map(c =>
+                                    (<div>
+                                            <h>Test title {c.testTitle}</h>
+                                            <button onClick={this.removeTest} testID={c.testId} testTitle={c.testTitle}>Remove test</button>
+                                        </div>
+                                    )
+                                )}
+                            </div>
+                        </>
                     }
 
 
