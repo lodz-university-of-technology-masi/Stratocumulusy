@@ -59,7 +59,7 @@ class AddTestToCandidate extends Component {
             isCandidateSelected: false,
             availableTests: [],
             selectedTests: [],
-            allCandidateTests: [],
+
         })
     };
     save = (event) => {
