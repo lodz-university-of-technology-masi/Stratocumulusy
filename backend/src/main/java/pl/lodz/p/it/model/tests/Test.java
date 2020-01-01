@@ -1,21 +1,25 @@
 package pl.lodz.p.it.model.tests;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import pl.lodz.p.it.model.questions.Question;
 
 import java.util.ArrayList;
 
+@DynamoDBDocument
 @DynamoDBTable(tableName = "EmptyTests")
 public class Test {
 
+    private String testTitle;
     private String testId;
     private ArrayList<Question> questions;
 
-    public Test(ArrayList<Question> questions, String testId) {
+    public Test(ArrayList<Question> questions, String testId, String testTitle) {
         this.testId = testId;
         this.questions = questions;
+        this.testTitle = testTitle;
     }
 
     public Test() {
@@ -37,6 +41,15 @@ public class Test {
 
     public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
+    }
+
+    @DynamoDBAttribute(attributeName = "TestTitle")
+    public String getTestTitle() {
+        return testTitle;
+    }
+
+    public void setTestTitle(String testTitle) {
+        this.testTitle = testTitle;
     }
 
     public void addQuestion(Question question) {

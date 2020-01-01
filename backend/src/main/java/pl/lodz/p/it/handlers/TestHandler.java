@@ -15,6 +15,7 @@ import java.util.Map;
 Format json'a - przyklad
 
 {
+    "testTitle":"Tytul testu - halo",
 	"testId":"5",
 	"questions":[
 		{
@@ -46,7 +47,7 @@ Format json'a - przyklad
 
 
 
-public class TestAddHandler {
+public class TestHandler {
 
     private static DynamoDBMapper dynamoDBMapper = new DynamoDBMapper(AmazonDynamoDBClientBuilder.standard().build());
 
