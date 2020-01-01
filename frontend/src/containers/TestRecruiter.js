@@ -30,7 +30,7 @@ function TestRecruiter(props){
     return (
     <div className="test">
          <div>
-             <h1>{props.id}.</h1>
+             <h1>{props.id}. Title: {props.testTitle}</h1>
 
              <Button color="success"><Link to={{
                  pathname: '/showtest',

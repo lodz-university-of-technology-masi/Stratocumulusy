@@ -4,8 +4,8 @@ const  AWS = require('aws-sdk');
 
 export const params = {
     UserPoolId: config.cognito.USER_POOL_ID,
-      AttributesToGet: ["email", "email_verified"], // if null return all
-    //  Filter: 'name ^= \"Candidate\"',
+      AttributesToGet: ["email", "email_verified"], // jesli nie ma tego atrybutu to zwroci wszystko
+
 };
 
 export const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({

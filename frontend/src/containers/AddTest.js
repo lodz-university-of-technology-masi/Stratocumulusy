@@ -215,18 +215,9 @@ class AddTest extends Component {
                     QuestionID: i,
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
-                    correctAnswer:"|",
                 })
             }
             if(this.state.questionsTypes[i]==2){
-                questions.push({ //number
-                    QuestionID: i,
-                    questionType: this.state.questionsTypes[i],
-                    question: this.state.questions[i],
-                    correctAnswer: this.state.goodAnswers[i],
-                })
-            }
-            if(this.state.questionsTypes[i]==3){
                 const choices = [];
                 choices.push(this.state.answers1[i]);
                 choices.push(this.state.answers2[i]);
@@ -237,6 +228,14 @@ class AddTest extends Component {
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
                     choices: choices,
+                    correctAnswer: this.state.goodAnswers[i],
+                })
+            }
+            if(this.state.questionsTypes[i]==3){
+                questions.push({ //number
+                    QuestionID: i,
+                    questionType: this.state.questionsTypes[i],
+                    question: this.state.questions[i],
                     correctAnswer: this.state.goodAnswers[i],
                 })
             }
@@ -258,7 +257,7 @@ class AddTest extends Component {
             "testTitle": this.state.testTittle,
             "questions": questions
         };
-        //console.log("test "+test.toSource());
+        console.log("test "+test.toSource());
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
@@ -289,8 +288,8 @@ class AddTest extends Component {
         const currentanswer3 = this.state.currentanswer3;
         const currentanswer4 = this.state.currentanswer4;
         const currentgoodAnswer = this.state.currentgoodAnswer;
-        console.log("uuid:  "+uuidv4());
-        console.log("czy rendenruje this.state.questions  " + this.state.questions);
+     //   console.log("uuid:  "+uuidv4());
+   //     console.log("czy rendenruje this.state.questions  " + this.state.questions);
 
         return (
             <div className="AddTest">
@@ -312,8 +311,8 @@ class AddTest extends Component {
                         <label>Choose question type</label>
                         <select value={currentQuestionType} onChange={this.handleQuestionType}>
                             <option value='1'>Open</option>
-                            <option value='2'>Number</option>
-                            <option value='3'>Multiple choice</option>
+                            <option value='2'>Multiple choice</option>
+                            <option value='3'>Number</option>
                         </select>
                         <>
 
@@ -326,15 +325,6 @@ class AddTest extends Component {
 
                             <br/>
                             {currentQuestionType == 2 ?
-                                <>
-                                    <label>Enter number answer</label>
-                                    <br/>
-                                    <input type="text" name="1answer" value={currentgoodAnswer}
-                                           onChange={this.handleCurrentGoodAnswer}/>
-                                    <br/><br/>
-                                </> : null
-                            }
-                            {currentQuestionType == 3 ?
                                 <>
                                     <label>Enter 1st answer</label>
                                     <br/>
@@ -360,6 +350,15 @@ class AddTest extends Component {
                                     <br/>
                                     <input type="text" name="4answer" value={currentgoodAnswer}
                                            onChange={this.handleCurrentGoodAnswer}/>
+                                </> : null
+                            }
+                            {currentQuestionType == 3 ?
+                                <>
+                                    <label>Enter number answer</label>
+                                    <br/>
+                                    <input type="text" name="1answer" value={currentgoodAnswer}
+                                           onChange={this.handleCurrentGoodAnswer}/>
+                                    <br/><br/>
                                 </> : null
                             }
 
