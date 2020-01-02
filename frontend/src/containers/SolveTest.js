@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import "./SolveTest.css";
 import TestList from "./TestList"
 import Test from "./Test"

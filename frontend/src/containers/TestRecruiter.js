@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import "./Test.css";
-import PropTypes from "prop-types";
 import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
 
@@ -34,11 +33,11 @@ function TestRecruiter(props){
 
              <Button color="success"><Link to={{
                  pathname: '/showtest',
-                 SolveTestProps:{
+                 ShowTestProps:{
                      testId : props.id,
                      questions: props.questions
                  }
-             }}>Show</Link></Button>
+             }}>Edit</Link></Button>
              <Button color="success" onClick={() => onClickFunction(props.testId)}>Delete</Button>
         </div>
     </div>
