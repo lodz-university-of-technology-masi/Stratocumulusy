@@ -13,9 +13,9 @@ function SolveTest(props){
         <div className="solvetest">
             <div>
                 <Button><Link to={{pathname: '/customerMenager'}}>Back</Link></Button>
-                <h1>Title: {props.location.SolveTestProps.testId}</h1>
+                <h1>Title: {props.location.SolveTestProps.testTitle}</h1>
             </div>
-                {props.location.SolveTestProps.questions.map(c => <Question id={c.id} question={c.question} questionType={c.questionType} choices={c.choices} correctAnswer={c.correctAnswer}/>)}
+                {props.location.SolveTestProps.questions.map(c => <Question id={c.questionID} question={c.question} questionType={c.questionType} choices={c.choices} correctAnswer={c.correctAnswer}/>)}
         </div>
     );
 

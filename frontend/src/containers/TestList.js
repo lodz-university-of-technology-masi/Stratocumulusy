@@ -25,7 +25,7 @@ class TestList extends Component {
   render() {
     return (
       <div>
-        {this.testy.map((c,index) => <Test id={c.testId} questions={c.questions}/>)}
+        {this.testy.map((c,index) => <Test id={index} title={c.testTitle} testId={c.testId} questions={c.questions}/>)}
   </div> 
           );
   }

@@ -54,7 +54,6 @@ public class CandidateTestsHandler {
         }
         return "CandidateTests added";
     }
-
     public CandidateTests getCandidateTestsHandler(Map<String, Object> input, Context context){
         return dynamoDBMapper.load(CandidateTests.class, input.get("candidateEmail").toString());
     }

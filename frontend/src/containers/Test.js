@@ -10,16 +10,13 @@ function Test(props){
     return (
     <div className="test">
          <div>
-             <h1>{props.id}. Title: {props.testTitle}</h1>
-             <h5>No. of questions:{props.numberOfQuestions}</h5>
-             <h5>Added: {props.dateAdded}</h5>
+             <h1>{props.id}. Title: {props.title}</h1>
 
              <Button color="success"><Link to={{
                  pathname: '/solvetest',
                  SolveTestProps:{
-                     testTitle : props.testTitle,
-                     numberOfQuestions: props.numberOfQuestions,
-                     dateAdded: props.dateAdded,
+                     testId : props.testId,
+                     testTitle : props.title,
                      questions: props.questions
                  }
              }}>Start</Link></Button>{}

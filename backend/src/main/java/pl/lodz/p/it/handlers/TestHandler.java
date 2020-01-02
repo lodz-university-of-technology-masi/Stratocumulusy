@@ -22,13 +22,15 @@ Format json'a - przyklad
 		"QuestionID":"1",
 		"question":"Jakie masz hobby?",
 		"questionType":"1",
-		"correctAnswer":""
+		"correctAnswer":"",
+		"candidatesAnwser": "10"
 		},
 		{
 		"QuestionID":"2",
 		"question":"co to jest tuńczyk?",
 		"questionType":"2",
 		"correctAnswer":"ryba",
+		"candidatesAnwser": "10",
 		"choices":[
 			"ryba",
 			"ptak",
@@ -39,7 +41,8 @@ Format json'a - przyklad
 		"QuestionID":"3",
 		"question":"ile to 2+2?",
 		"questionType":"3",
-		"correctAnswer":"4"
+		"correctAnswer":"4",
+		"candidatesAnwser": "10"
 		}
 	]
 }
