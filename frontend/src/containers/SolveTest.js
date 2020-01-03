@@ -11,41 +11,162 @@ class SolveTest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            questions : props.location.SolveTestProps.questions
+            questions : props.location.SolveTestProps.questions,
+            openQuestion: "",
+            multipeQuestion: "",
+            numberQuestion: "",
+            answers : []
         }
+        this.saveOpen = this.saveOpen.bind(this);
+        this.updateAnswer = this.updateAnswer.bind(this);
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
+        this.updateMultiQuestion = this.updateMultiQuestion.bind(this);
+        this.updateNumberQuestion = this.updateNumberQuestion.bind(this);
+        this.saveMulti = this.saveMulti.bind(this);
+        this.saveNumber = this.saveNumber.bind(this);
+    }
+
+    updateAnswer = (event) => {
+        this.setState({
+            openQuestion : event.target.value
+        })
+    }
+
+    updateMultiQuestion = (event) => {
+        this.setState({
+            multipeQuestion : event.target.value
+        })
+    }
+
+    updateNumberQuestion = (event) => {
+        this.setState({
+            numberQuestion : event.target.value
+        })
+    }
+
+    saveOpen = (event) => {
+        const answers = this.state.answers.slice();
+        const open = this.state.openQuestion;
+        let ifExists = false;
+        for(let i = 0; i < answers.length ; i++ ){
+            if(answers[i].questionID == event.target.getAttribute("questionID")){
+                answers[i].candidatesAnwser = open;
+                ifExists = true;
+            }
+        }
+        if(ifExists == false){
+        answers.push({
+            questionID : event.target.getAttribute("questionID"),
+            candidatesAnwser: open
+        });
+        }
+        this.setState({
+            openQuestion : "",
+            answers : answers
+        })
+    
+    }
+
+    
+
+    saveMulti = (event) => {
+        const answers = this.state.answers.slice();
+        const multiple = this.state.multipeQuestion;
+        let ifExists = false;
+        for(let i = 0; i < answers.length ; i++ ){
+            if(answers[i].questionID == event.target.getAttribute("questionID")){
+                answers[i].candidatesAnwser = multiple;
+                ifExists = true;
+            }
+        }
+        if(ifExists == false){
+        answers.push({
+            questionID : event.target.getAttribute("questionID"),
+            candidatesAnwser: multiple
+        });
+        }
+        
+        this.setState({
+            multipeQuestion : "",
+            answers : answers
+        })
+    
+        }
+        saveNumber = (event) => {
+        const answers = this.state.answers.slice();
+        const number = this.state.numberQuestion;
+        let ifExists = false;
+        for(let i = 0; i < answers.length ; i++ ){
+             if(answers[i].questionID == event.target.getAttribute("questionID")){
+                answers[i].candidatesAnwser = number;
+                ifExists = true;
+            }
+        }
+        if(ifExists == false){
+        answers.push({
+            questionID : event.target.getAttribute("questionID"),
+            candidatesAnwser: number
+        });
+        }
+        this.setState({
+            numberQuestion : "",
+            answers : answers
+        })
+    
     }
 
     saveTestToDynamoDB(event) {
-        const questions = [];
-        console.log(this.props.location.SolveTestProps.questions[0].currentCandidatesAnswer);
-        for (let i = 0; i < this.state.questions.length; i++) {
-            if(this.state.questions[i].questionType==1){ //open
-                questions.push({
-                    QuestionID: this.state.questions[i].questionID,
-                    questionType: this.state.questions[i].questionType,
-                    question: this.state.questions[i].question,
-                    currentCandidatesAnswer: this.state.questions[i].currentCandidatesAnswer
+        let questionsToDb = [];
+        let questions = this.state.questions.slice();
+        let answers = this.state.answers.slice();
+        console.log(this.state.currentCandidatesAnswer);
+        console.log(this.state.answers);
+        for (let i = 0; i < questions.length; i++) {
+            if(questions[i].questionType==1){ //open
+                let myAnswer = "";
+                for (let index = 0; index < answers.length; ++index) {
+                    if(answers[index].questionID == questions[i].questionID){
+                        myAnswer = answers[index].candidatesAnwser;
+                    }
+                }
+                questionsToDb.push({
+                    QuestionID: questions[i].questionID,
+                    questionType: questions[i].questionType,
+                    question: questions[i].question,
+                    candidatesAnwser: myAnswer
                 })
             }
-            if(this.state.questions[i].questionID==2){
-                const choices = this.state.questions[i].choices;
-                questions.push({ // multiple
-                    QuestionID: this.state.questions[i].questionID,
-                    questionType: this.state.questions[i].questionType,
-                    question: this.state.questions[i].question,
-                    currentCandidatesAnswer: this.state.questions[i].currentCandidatesAnswer,
+            if(questions[i].questionType==2){
+                const choices = questions[i].choices;
+                let myAnswer = "";
+                for (let index = 0; index < answers.length; ++index) {
+                    if(answers[index].questionID == questions[i].questionID){
+                        myAnswer = answers[index].candidatesAnwser;
+                    }
+                }
+                questionsToDb.push({ // multiple
+                    QuestionID: questions[i].questionID,
+                    questionType: questions[i].questionType,
+                    question: questions[i].question,
+                    candidatesAnwser: myAnswer,
                     choices: choices,
-                    correctAnswer: this.state.questions[i].correctAnswer,
+                    correctAnswer: questions[i].correctAnswer,
                 })
             }
-            if(this.state.questions[i].questionType==3){
-                questions.push({ //number
-                    QuestionID: this.state.questions[i].questionID,
-                    questionType: this.state.questions[i].questionType,
-                    question: this.state.questions[i].question,
-                    currentCandidatesAnswer: this.state.questions[i].currentCandidatesAnswer,
-                    correctAnswer: this.state.questions[i].correctAnswer,
+            if(questions[i].questionType==3){
+                let myAnswer = "";
+                for (let index = 0; index < answers.length; ++index) {
+                    if(answers[index].questionID == questions[i].questionID){
+                        myAnswer = answers[index].candidatesAnwser;
+                    }
+                }
+                
+                questionsToDb.push({ //number
+                    QuestionID: questions[i].questionID,
+                    questionType: questions[i].questionType,
+                    question: questions[i].question,
+                    candidatesAnwser: myAnswer,
+                    correctAnswer: questions[i].correctAnswer,
                 })
             }
 
@@ -64,16 +185,16 @@ class SolveTest extends Component {
         const test = {
             "testTitle": this.props.location.SolveTestProps.testTitle,
             "testId": testId,
-            "questions": questions,
+            "questions": questionsToDb,
         };
         console.log(test);
 
-        const response = fetch(' https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/solvedtest', {
+        const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/solvedtest', {
             dataType: "json",
             method: 'POST',
             body: JSON.stringify(test),
             headers: {
-                "Content-type": "application/json; charset=UTF-8"
+                "Content-type": "application/json;"
             }
         });
         return false;
@@ -81,6 +202,10 @@ class SolveTest extends Component {
 
     
     render() {
+        const openQuestion = this.state.openQuestion;
+        const multipeQuestion = this.state.multipeQuestion;
+        const numberQuestion = this.state.numberQuestion;
+
         let listItems = this.state.questions.map((d,index) => {
             if(d.questionType == '1'){
                 return (
@@ -90,8 +215,9 @@ class SolveTest extends Component {
                     </div>
                     <div>
                         <form>
-                        <textarea id="question" rows="5" cols="100" value={d.currentCandidatesAnswer}
-                                      />
+                        <textarea id="question" rows="5" cols="100" value={openQuestion}
+                                onChange={this.updateAnswer}      />
+                         <Button variant="outline-primary" onClick={this.saveOpen} questionID={d.questionID}>Save your answer</Button>
                         </form>
                     </div>
                 </div>
@@ -105,10 +231,11 @@ class SolveTest extends Component {
                     </div>
                     <div>
                         <form>
-                            <input type="checkbox" value={d.choices[0]} onSelect={this.state.questions[index].currentCandidatesAnswer=d.choices[0]} ></input>{d.choices[0]}<br/>
-                            <input type="checkbox" value={d.choices[1]} onSelect={this.state.questions[index].currentCandidatesAnswer=d.choices[1]}></input>{d.choices[1]}<br/>
-                            <input type="checkbox" value={d.choices[2]} onSelect={this.state.questions[index].currentCandidatesAnswer=d.choices[2]}></input>{d.choices[2]}<br/>
-                            <input type="checkbox" value={d.choices[3]} onSelect={this.state.questions[index].currentCandidatesAnswer=d.choices[3]}></input>{d.choices[3]}<br/>
+                            <input type="checkbox" value={d.choices[0]} checked={this.state.check} onClick={this.updateMultiQuestion}></input>{d.choices[0]}<br/>
+                            <input type="checkbox" value={d.choices[1]} checked={this.state.check} onClick={this.updateMultiQuestion}></input>{d.choices[1]}<br/>
+                            <input type="checkbox" value={d.choices[2]} checked={this.state.check} onClick={this.updateMultiQuestion}></input>{d.choices[2]}<br/>
+                            <input type="checkbox" value={d.choices[3]} checked={this.state.check} onClick={this.updateMultiQuestion}></input>{d.choices[3]}<br/>
+                            <Button variant="outline-primary" onClick={this.saveMulti} questionID={d.questionID}>Save your answer</Button>
                         </form>
                     </div>
                 </div>
@@ -122,7 +249,8 @@ class SolveTest extends Component {
                     </div>
                     <div>
                         <form>
-                            <input type="number" name="Anwser"></input>
+                            <input type="number" value={numberQuestion} onChange={this.updateNumberQuestion}></input>
+                            <Button variant="outline-primary" onClick={this.saveNumber} questionID={d.questionID}>Save your answer</Button>
                         </form>
                     </div>
                 </div>
