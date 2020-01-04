@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import "./AddTest.css";
+import CSVReader from 'react-csv-reader'
 
 
 class AddTest extends Component {
@@ -241,8 +242,6 @@ class AddTest extends Component {
             }
 
         }
-
-
         //console.log("questions "+questions.toSource());
         function uuidv4() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -257,7 +256,7 @@ class AddTest extends Component {
             "testTitle": this.state.testTittle,
             "questions": questions
         };
-        console.log("test "+test.toSource());
+        // console.log("test "+test.toSource());
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
@@ -269,6 +268,35 @@ class AddTest extends Component {
         });
         return false;
     }
+
+    readCSVFile = (csvContent) => {
+        this.setState({});
+        console.log(csvContent);
+
+        for (let i = 0; i < csvContent.length; i++){
+            if (csvContent[i][1] === "O") {
+                this.state.currentQuestionType = "1";
+                this.state.currentQuestion = csvContent[i][3];
+
+            }
+
+            if (csvContent[i][1] === "W") {
+                this.state.currentQuestionType = "2";
+                this.state.currentQuestion = csvContent[i][3];
+                this.state.currentanswer1 = csvContent[i][5];
+                this.state.currentanswer2 = csvContent[i][6];
+                this.state.currentanswer3 = csvContent[i][7];
+                this.state.currentanswer4 = csvContent[i][8];
+            }
+
+            if (csvContent[i][1] === "L") {
+                this.state.currentQuestionType = "3";
+                this.state.currentQuestion = csvContent[i][3];
+            }
+            this.saveOpenQuestion();
+        }
+
+    };
 
 
     render() {
@@ -299,6 +327,12 @@ class AddTest extends Component {
                         <label>Enter the test title</label>
                         <input id="testTitle" type="text" value={testTittle} onChange={this.handleTestTittle}/>
                         <button onClick={this.saveTestToDynamoDB}>Save test</button>
+                        <div>
+                            {/*/!*<input id="myInput" type="file" ref={(ref) => this.upload = ref} style={{ display: 'none' }} />*!/*/}
+                            {/*<input id="myInput" type="file" ref="uploadCSV" onClick={event => event.target.val} />*/}
+                            {/*/!*<button className="csvChoose" onClick={(e) => this.upload.click()}>Import test from CSV</button>*!/*/}
+                            <CSVReader onFileLoaded={csvContent => this.readCSVFile(csvContent)}/>
+                        </div>
                         <br/><br/>
                         <label>Number of question: {numberOfQuestions}</label>
                         <br/><br/>
