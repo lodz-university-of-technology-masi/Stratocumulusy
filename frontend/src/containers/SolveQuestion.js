@@ -4,8 +4,9 @@ import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
 
 
-
 function SolveQuestion(props){
+
+
     if(props.questionType == '1'){
         return (
             <div className="test">
@@ -28,10 +29,10 @@ function SolveQuestion(props){
             </div>
             <div>
                 <form>
-                    <input type="checkbox" value={props.choices[0]}></input>{props.choices[0]}<br/>
-                    <input type="checkbox" value={props.choices[1]}></input>{props.choices[1]}<br/>
-                    <input type="checkbox" value={props.choices[2]}></input>{props.choices[2]}<br/>
-                    <input type="checkbox" value={props.choices[3]}></input>{props.choices[3]}<br/>
+                    <input type="checkbox" value={props.choices[0]} ></input>{props.choices[0]}<br/>
+                    <input type="checkbox" value={props.choices[1]} ></input>{props.choices[1]}<br/>
+                    <input type="checkbox" value={props.choices[2]} ></input>{props.choices[2]}<br/>
+                    <input type="checkbox" value={props.choices[3]} ></input>{props.choices[3]}<br/>
                 </form>
             </div>
         </div>
@@ -43,7 +44,7 @@ function SolveQuestion(props){
             <div>
                 <h1>Id:{props.id}. {props.question}</h1>
             </div>
-            <div>
+            <div>testTitle
                 <form>
                     <input type="number" name="Anwser"></input>
                 </form>
