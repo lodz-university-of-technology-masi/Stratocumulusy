@@ -1,13 +1,12 @@
 import React from "react";
 import "./Question.css";
 
-
 function EditableQuestion(props){
     if(props.questionType == '1'){
         return (
             <div className="test">
             <div>
-                <h1>Id:{props.id}. <input defaultValue={props.question} /></h1>
+                <h1>Id:{props.id}. <input defaultValue={props.question}/></h1>
             </div>
         </div>
         );
@@ -39,7 +38,7 @@ function EditableQuestion(props){
                 <h1>Id:{props.id}. <input defaultValue={props.question} /></h1>
             </div>
             <div>
-                <h5>Anwser: <input defaultValue={props.correctAnswer}  onChange={() => {props.correctAnswer="XD"}, () => {console.log(props.correctAnswer)}}/></h5>
+                <h5>Anwser: <input defaultValue={props.correctAnswer}  onChange={() => {props.correctAnswer="XD"}}/></h5>
             </div>
         </div>
         );

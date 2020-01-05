@@ -35,6 +35,7 @@ function TestRecruiter(props){
                  pathname: '/showtest',
                  ShowTestProps:{
                      testId : props.id,
+                     testTitle: props.testTitle,
                      questions: props.questions
                  }
              }}>Edit</Link></Button>
