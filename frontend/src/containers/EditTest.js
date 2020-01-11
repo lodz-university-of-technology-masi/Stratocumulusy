@@ -94,6 +94,21 @@ class EditTest extends Component {
         })
     }
 
+    handleAddQuestion = (event) => {
+        const newTest = Object.assign({}, this.state.test);
+        newTest.questions.push({
+            question: '',
+            questionType: 1,
+            correctAnswer: '',
+            choices: [],
+        });
+        console.log(newTest);
+        var currentQuestionNumber = this.state.test.questions.length - 1;
+            this.setState({
+                currentQuestionNumber: currentQuestionNumber
+            });
+    }
+
     previousQuestion(event) {
         if (this.state.currentQuestionNumber > 0) {
             var currentQuestionNumber = this.state.currentQuestionNumber - 1;
@@ -204,6 +219,7 @@ class EditTest extends Component {
                             }
                             <br/><br/>
                             <Button onClick={this.handleDeleteQuestion}>Delete this question</Button>
+                            <Button onClick={this.handleAddQuestion}>Add new question</Button>
                             <br/><br/>
                             <Button onClick={this.saveTestToDynamoDB}><Link to={{
                             pathname: '/customerMenager'}}>Save test</Link></Button>
