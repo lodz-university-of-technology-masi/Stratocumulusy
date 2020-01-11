@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import "./SolveTest.css";
-import CSVReader from "react-csv-reader";
+import {Button} from "reactstrap"
+import {Link} from "react-router-dom";
 
-
-class ShowTest extends Component {
+class EditTest extends Component {
     constructor(props) {
         super(props);
         this.state = {
             currentQuestionNumber: 0,
-            test: props.location.ShowTestProps
+            test: props.location.EditTestProps
         };
 
         console.log(this.state);
@@ -37,6 +37,54 @@ class ShowTest extends Component {
         })
     }
 
+    handleQuestionType = (event) => {
+        const newType = Object.assign({}, this.state.test);
+        newType.questions[this.state.currentQuestionNumber].questionType = event.target.value;
+        this.setState({
+            test: newType
+        })
+    }
+
+    handleCurrentAnswer1 = (event)  => {
+        const newAnswer = Object.assign({}, this.state.test);
+        newAnswer.questions[this.state.currentQuestionNumber].choices[0] = event.target.value;
+        this.setState({
+            test: newAnswer
+        })
+    }
+
+    handleCurrentAnswer2 = (event)  => {
+        const newAnswer = Object.assign({}, this.state.test);
+        newAnswer.questions[this.state.currentQuestionNumber].choices[1] = event.target.value;
+        this.setState({
+            test: newAnswer
+        })
+    }
+
+    handleCurrentAnswer3 = (event)  => {
+        const newAnswer = Object.assign({}, this.state.test);
+        newAnswer.questions[this.state.currentQuestionNumber].choices[2] = event.target.value;
+        this.setState({
+            test: newAnswer
+        })
+    }
+
+    handleCurrentAnswer4 = (event)  => {
+        const newAnswer = Object.assign({}, this.state.test);
+        newAnswer.questions[this.state.currentQuestionNumber].choices[3] = event.target.value;
+        this.setState({
+            test: newAnswer
+        })
+    }
+
+    handleCurrentGoodAnswer = (event)  => {
+        const newAnswer = Object.assign({}, this.state.test);
+        newAnswer.questions[this.state.currentQuestionNumber].correctAnswer = event.target.value;
+        this.setState({
+            test: newAnswer
+        })
+    }
+
     previousQuestion(event) {
         if (this.state.currentQuestionNumber > 0) {
             var currentQuestionNumber = this.state.currentQuestionNumber - 1;
@@ -62,7 +110,6 @@ class ShowTest extends Component {
             "testTitle": this.state.test.testTitle,
             "questions": this.state.test.questions
         };
-        // console.log("test "+test.toSource());
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
@@ -77,10 +124,11 @@ class ShowTest extends Component {
 
     render() {
         return (
-            <div className="AddTest">
                 <div className="lander">
-
                     <div>
+                        <Button><Link to={{
+                            pathname: '/customerMenager'}}>Back</Link></Button>
+                            <br/><br/>
                         <label>Test title</label>
                         <input id="testTitle" type="text" defaultValue={this.state.test.testTitle} onChange={this.handleTitleChange}/>
                         <br/><br/>
@@ -112,27 +160,27 @@ class ShowTest extends Component {
                                 <>
                                     <label>1st answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers1}
+                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[0]}
                                            onChange={this.handleCurrentAnswer1}/>
                                     <br/><br/>
                                     <label>2nd answer</label>
                                     <br/>
-                                    <input type="text" name="2answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers2}
+                                    <input type="text" name="2answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[1]}
                                            onChange={this.handleCurrentAnswer2}/>
                                     <br/><br/>
                                     <label>3rd answer</label>
                                     <br/>
-                                    <input type="text" name="3answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers3}
+                                    <input type="text" name="3answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[2]}
                                            onChange={this.handleCurrentAnswer3}/>
                                     <br/><br/>
                                     <label>4th answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers4}
+                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[3]}
                                            onChange={this.handleCurrentAnswer4}/>
                                     <br/><br/>
                                     <label>Good answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].goodAnswers}
+                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].correctAnswer}
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
@@ -140,18 +188,18 @@ class ShowTest extends Component {
                                 <>
                                     <label>Number answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].goodAnswers}
+                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].correctAnswer}
                                            onChange={this.handleCurrentGoodAnswer}/>
                                     <br/><br/>
                                 </> : null
                             }
-                            <br/>
-                            <button onClick={this.saveTestToDynamoDB}>Save test</button>
+                            <br/><br/>
+                            <button onClick={this.saveTestToDynamoDB}><Link to={{
+                            pathname: '/customerMenager'}}>Save test</Link></button>
                         </>
 
                     </div>
                 </div>
-            </div>
 
 
         );
@@ -159,4 +207,4 @@ class ShowTest extends Component {
 }
 
 
-export default ShowTest;
+export default EditTest;

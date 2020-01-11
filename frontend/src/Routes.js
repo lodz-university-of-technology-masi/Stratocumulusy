@@ -11,7 +11,7 @@ import Candidate from "./containers/Candidate";
 import TestList from "./containers/TestList";
 import Results from "./containers/Results";
 import SolveTest from "./containers/SolveTest";
-import ShowTest from "./containers/ShowTest";
+import EditTest from "./containers/EditTest";
 import AddCandidate from "./containers/AddCandidate";
 import ConfirmationCode from "./containers/ConfirmationCode";
 import AddTestToCandidate from "./containers/AddTestsToCandidate";
@@ -25,7 +25,7 @@ export default function Routes({ appProps }) {
         <AppliedRoute path="/candidate" exact component={Candidate} appProps={appProps} />
         <AppliedRoute path="/tests" exact component={TestList} appProps={appProps} />
         <AppliedRoute path="/solvetest" exact component={SolveTest} appProps={appProps} />
-        <AppliedRoute path="/showtest" exact component={ShowTest} appProps={appProps} />
+        <AppliedRoute path="/edittest" exact component={EditTest} appProps={appProps} />
         <AppliedRoute path="/results" exact component={Results} appProps={appProps} />
         <AppliedRoute path="/customerMenager" exact component={CustomerMenager} appProps={appProps} />
         <AppliedRoute path="/addCandidate" exact component={AddCandidate} appProps={appProps} />
