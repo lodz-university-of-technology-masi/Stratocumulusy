@@ -11,15 +11,14 @@ class ShowTest extends Component {
             test: props.location.ShowTestProps
         };
 
-        //console.log(props.location.ShowTestProps);
         console.log(this.state);
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleQuestionContent = this.handleQuestionContent.bind(this);
 
         this.previousQuestion = this.previousQuestion.bind(this);
         this.nextQuestion = this.nextQuestion.bind(this);
 
-        this.saveOpenQuestion = this.saveOpenQuestion.bind(this);
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
     }
 
@@ -27,6 +26,14 @@ class ShowTest extends Component {
         const newTitle = {...this.state.test, testTitle: event.target.value}
         this.setState({
             test: newTitle
+        })
+    }
+
+    handleQuestionContent = (event) => {
+        const newQuestion = Object.assign({}, this.state.test);
+        newQuestion.questions[this.state.currentQuestionNumber].question = event.target.value;
+        this.setState({
+            test: newQuestion
         })
     }
 
@@ -47,38 +54,6 @@ class ShowTest extends Component {
             });
         }
     }
-
-    saveOpenQuestion = (event) => {
-        var currentQuestionNumber = this.state.currentQuestionNumber + 1;
-        var numberOfQuestions = this.state.numberOfQuestions + 1
-        console.log("currentQuestionNumber: " + this.state.currentQuestionNumber);
-
-        const questionsTypes = this.state.questionsTypes.slice();
-        questionsTypes[currentQuestionNumber - 1] = this.state.currentQuestionType;
-
-
-        const questions = this.state.questions.slice();
-        console.log("przed questions: " + questions);
-        questions[this.state.currentQuestionNumber - 1] = this.state.currentQuestion;
-        console.log("po questions: " + questions);
-
-
-        const answers1 = this.state.answers1.slice();
-        answers1[currentQuestionNumber - 1] = this.state.currentanswer1;
-
-        const answers2 = this.state.answers2.slice();
-        answers2[currentQuestionNumber - 1] = this.state.currentanswer2;
-
-        const answers3 = this.state.answers3.slice();
-        answers3[currentQuestionNumber - 1] = this.state.currentanswer3;
-
-        const answers4 = this.state.answers4.slice();
-        answers4[currentQuestionNumber - 1] = this.state.currentanswer4;
-
-        const goodAnswers = this.state.goodAnswers.slice();
-        goodAnswers[currentQuestionNumber - 1] = this.state.currentgoodAnswer;
-    };
-
 
 
     saveTestToDynamoDB(event) {
@@ -108,7 +83,6 @@ class ShowTest extends Component {
                     <div>
                         <label>Test title</label>
                         <input id="testTitle" type="text" defaultValue={this.state.test.testTitle} onChange={this.handleTitleChange}/>
-                        <button onClick={this.saveTestToDynamoDB}>Save test</button>
                         <br/><br/>
                         <label>Number of question: {this.state.test.questions.length}</label>
                         <br/><br/>
@@ -130,7 +104,7 @@ class ShowTest extends Component {
                             < label> Content of the question</label>
                             <br/>
                             <textarea id="question" rows="5" cols="100" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].question}
-                                      onChange={this.handleCurrentQuestion}/>
+                                      onChange={this.handleQuestionContent}/>
                             <br/><br/>
 
                             <br/>
@@ -171,9 +145,8 @@ class ShowTest extends Component {
                                     <br/><br/>
                                 </> : null
                             }
-
-                            <br/><br/>
-                            <button onClick={this.saveOpenQuestion}>Save question</button>
+                            <br/>
+                            <button onClick={this.saveTestToDynamoDB}>Save test</button>
                         </>
 
                     </div>
