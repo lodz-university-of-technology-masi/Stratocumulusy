@@ -34,7 +34,7 @@ function TestRecruiter(props){
              <Button color="success"><Link to={{
                  pathname: '/showtest',
                  ShowTestProps:{
-                     testId : props.id,
+                     testId : props.testId,
                      testTitle: props.testTitle,
                      questions: props.questions
                  }

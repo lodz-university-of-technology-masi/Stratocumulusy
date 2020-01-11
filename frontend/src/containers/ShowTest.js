@@ -1,8 +1,5 @@
 import React, {Component} from "react";
 import "./SolveTest.css";
-import { Button } from "react-bootstrap";
-import {Link} from "react-router-dom";
-import EditableQuestion from "./EditableQuestion";
 import CSVReader from "react-csv-reader";
 
 
@@ -10,86 +7,14 @@ class ShowTest extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            testTittle: props.location.ShowTestProps.testTitle,
-            numberOfQuestions: props.location.ShowTestProps.questions.length,
             currentQuestionNumber: 0,
-            questionsTypes: [{
-                questionType: '',
-            }],
-            questions: [{
-                question: '',
-            }],
-            answers1: [{
-                answer1: '',
-            }],
-            answers2: [{
-                answer2: '',
-            }],
-            answers3: [{
-                answer3: '',
-            }],
-            answers4: [{
-                answer4: '',
-            }],
-            goodAnswers: [{
-                goodAnswer: '',
-            }],
-
-            currentQuestionType: props.location.ShowTestProps.questions[0].questionType,
-            currentQuestion: props.location.ShowTestProps.questions[0].question,
-            currentanswer1: '',
-            currentanswer2: '',
-            currentanswer3: '',
-            currentanswer4: '',
-            currentgoodAnswer: props.location.ShowTestProps.questions[0].correctAnswer,
+            test: props.location.ShowTestProps
         };
-        for (let i = 0; i < this.state.numberOfQuestions; i++){
-            const questionsTypes = this.state.questionsTypes.slice();
-            questionsTypes[i] = props.location.ShowTestProps.questions[i].questionType;
 
-            const questions = this.state.questions.slice();
-            questions[i] = props.location.ShowTestProps.questions[i].question;
+        //console.log(props.location.ShowTestProps);
+        console.log(this.state);
 
-            const goodAnswers = this.state.goodAnswers.slice();
-            goodAnswers[i] = props.location.ShowTestProps.questions[i].correctAnswer;
-
-            const answers1 = this.state.answers1.slice();
-            const answers2 = this.state.answers2.slice();
-            const answers3 = this.state.answers3.slice();
-            const answers4 = this.state.answers4.slice();
-
-            if (questionsTypes[i] == 2){
-                answers1[i] = props.location.ShowTestProps.questions[i].choices[0];
-                answers2[i] = props.location.ShowTestProps.questions[i].choices[1];
-                answers3[i] = props.location.ShowTestProps.questions[i].choices[2];
-                answers4[i] = props.location.ShowTestProps.questions[i].choices[3];
-            } else {
-                answers1[i] = '';
-                answers2[i] = '';
-                answers3[i] = '';
-                answers4[i] = '';
-            }
-
-            this.setState({
-                questionsTypes: questionsTypes,
-                questions: questions,
-                answers1: answers1,
-                answers2: answers2,
-                answers3: answers3,
-                answers4: answers4,
-                goodAnswers: goodAnswers,
-            });
-
-        }
-
-        this.handleTestTittle = this.handleTestTittle.bind(this);
-        this.handleQuestionType = this.handleQuestionType.bind(this);
-        this.handleCurrentQuestion = this.handleCurrentQuestion.bind(this);
-        this.handleCurrentGoodAnswer = this.handleCurrentGoodAnswer.bind(this);
-        this.handleCurrentAnswer1 = this.handleCurrentAnswer1.bind(this);
-        this.handleCurrentAnswer2 = this.handleCurrentAnswer2.bind(this);
-        this.handleCurrentAnswer3 = this.handleCurrentAnswer3.bind(this);
-        this.handleCurrentAnswer4 = this.handleCurrentAnswer4.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
 
         this.previousQuestion = this.previousQuestion.bind(this);
         this.nextQuestion = this.nextQuestion.bind(this);
@@ -98,96 +23,27 @@ class ShowTest extends Component {
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
     }
 
-    handleTestTittle = (event) => {
+    handleTitleChange = (event) => {
+        const newTitle = {...this.state.test, testTitle: event.target.value}
         this.setState({
-            testTittle: event.target.value,
+            test: newTitle
         })
-    };
-
-    handleQuestionType = (event) => {
-        this.setState({
-            currentQuestionType: event.target.value,
-        })
-    };
-
-    handleCurrentQuestion = (event) => {
-        this.setState({
-            currentQuestion: event.target.value,
-        })
-    };
-
-    handleCurrentGoodAnswer = (event) => {
-        this.setState({
-            currentgoodAnswer: event.target.value,
-        })
-    };
-
-    handleCurrentAnswer1 = (event) => {
-        this.setState({
-            currentanswer1: event.target.value,
-        })
-    };
-    handleCurrentAnswer2 = (event) => {
-        this.setState({
-            currentanswer2: event.target.value,
-        })
-    };
-    handleCurrentAnswer3 = (event) => {
-        this.setState({
-            currentanswer3: event.target.value,
-        })
-    };
-    handleCurrentAnswer4 = (event) => {
-        this.setState({
-            currentanswer4: event.target.value,
-        })
-    };
+    }
 
     previousQuestion(event) {
         if (this.state.currentQuestionNumber > 0) {
-            const currentQuestionNumber = this.state.currentQuestionNumber - 1;
+            var currentQuestionNumber = this.state.currentQuestionNumber - 1;
             this.setState({
-                currentQuestionNumber: currentQuestionNumber,
-
-                currentQuestionType: this.state.questionsTypes[currentQuestionNumber],
-                currentQuestion: this.state.questions[currentQuestionNumber],
-                currentanswer1: this.state.answers1[currentQuestionNumber],
-                currentanswer2: this.state.answers2[currentQuestionNumber],
-                currentanswer3: this.state.answers3[currentQuestionNumber],
-                currentanswer4: this.state.answers4[currentQuestionNumber],
-                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
+                currentQuestionNumber: currentQuestionNumber
             });
         }
     }
 
     nextQuestion(event) {
-        if (this.state.currentQuestionNumber < this.state.numberOfQuestions - 1) {
+        if (this.state.currentQuestionNumber < this.state.test.questions.length - 1) {
             var currentQuestionNumber = this.state.currentQuestionNumber + 1;
             this.setState({
-                currentQuestionNumber: currentQuestionNumber,
-
-                currentQuestionType: this.state.questionsTypes[currentQuestionNumber],
-                currentQuestion: this.state.questions[currentQuestionNumber],
-                currentanswer1: this.state.answers1[currentQuestionNumber],
-                currentanswer2: this.state.answers2[currentQuestionNumber],
-                currentanswer3: this.state.answers3[currentQuestionNumber],
-                currentanswer4: this.state.answers4[currentQuestionNumber],
-                currentgoodAnswer: this.state.goodAnswers[currentQuestionNumber],
-            });
-        }
-        // jak przenosimy się z powrotem do nowego pytania
-        if (this.state.currentQuestionNumber == this.state.numberOfQuestions - 1) {
-            var currentQuestionNumber = this.state.currentQuestionNumber + 1;
-            this.setState({
-                currentQuestionNumber: currentQuestionNumber,
-
-                currentQuestionType: '1',
-                currentQuestion: '',
-                currentanswer1: '',
-                currentanswer2: '',
-                currentanswer3: '',
-                currentanswer4: '',
-                currentgoodAnswer: '',
+                currentQuestionNumber: currentQuestionNumber
             });
         }
     }
@@ -195,7 +51,7 @@ class ShowTest extends Component {
     saveOpenQuestion = (event) => {
         var currentQuestionNumber = this.state.currentQuestionNumber + 1;
         var numberOfQuestions = this.state.numberOfQuestions + 1
-        console.log("currentQuestionNumber: " + currentQuestionNumber);
+        console.log("currentQuestionNumber: " + this.state.currentQuestionNumber);
 
         const questionsTypes = this.state.questionsTypes.slice();
         questionsTypes[currentQuestionNumber - 1] = this.state.currentQuestionType;
@@ -203,7 +59,7 @@ class ShowTest extends Component {
 
         const questions = this.state.questions.slice();
         console.log("przed questions: " + questions);
-        questions[currentQuestionNumber - 1] = this.state.currentQuestion;
+        questions[this.state.currentQuestionNumber - 1] = this.state.currentQuestion;
         console.log("po questions: " + questions);
 
 
@@ -221,80 +77,15 @@ class ShowTest extends Component {
 
         const goodAnswers = this.state.goodAnswers.slice();
         goodAnswers[currentQuestionNumber - 1] = this.state.currentgoodAnswer;
-
-
-        this.setState({
-            currentQuestionNumber: currentQuestionNumber,
-            numberOfQuestions: numberOfQuestions,
-            questionsTypes: questionsTypes,
-            questions: questions,
-            answers1: answers1,
-            answers2: answers2,
-            answers3: answers3,
-            answers4: answers4,
-            goodAnswers: goodAnswers,
-
-            // ustawiamy stan na nowe pytanie
-            // currentQuestionType: 1,
-            currentQuestion: '',
-            currentanswer1: '',
-            currentanswer2: '',
-            currentanswer3: '',
-            currentanswer4: '',
-            currentgoodAnswer: '',
-        });
     };
 
 
 
     saveTestToDynamoDB(event) {
-        const questions = [];
-
-        for (let i = 0; i < this.state.numberOfQuestions; i++) {
-            if(this.state.questionsTypes[i]==1){ //open
-                questions.push({
-                    QuestionID: i,
-                    questionType: this.state.questionsTypes[i],
-                    question: this.state.questions[i],
-                })
-            }
-            if(this.state.questionsTypes[i]==2){
-                const choices = [];
-                choices.push(this.state.answers1[i]);
-                choices.push(this.state.answers2[i]);
-                choices.push(this.state.answers3[i]);
-                choices.push(this.state.answers4[i]);
-                questions.push({ // multiple
-                    QuestionID: i,
-                    questionType: this.state.questionsTypes[i],
-                    question: this.state.questions[i],
-                    choices: choices,
-                    correctAnswer: this.state.goodAnswers[i],
-                })
-            }
-            if(this.state.questionsTypes[i]==3){
-                questions.push({ //number
-                    QuestionID: i,
-                    questionType: this.state.questionsTypes[i],
-                    question: this.state.questions[i],
-                    correctAnswer: this.state.goodAnswers[i],
-                })
-            }
-
-        }
-        //console.log("questions "+questions.toSource());
-        function uuidv4() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-        const testId =  uuidv4();
-
         const test = {
-            "testId": testId,
-            "testTitle": this.state.testTittle,
-            "questions": questions
+            "testId": this.state.test.testId,
+            "testTitle": this.state.test.testTitle,
+            "questions": this.state.test.questions
         };
         // console.log("test "+test.toSource());
 
@@ -309,81 +100,26 @@ class ShowTest extends Component {
         return false;
     }
 
-    readCSVFile = (csvContent) => {
-        this.setState({});
-        console.log(csvContent);
-
-        for (let i = 0; i < csvContent.length; i++){
-            if (csvContent[i][1] === "O") {
-                this.state.currentQuestionType = "1";
-                this.state.currentQuestion = csvContent[i][3];
-
-            }
-
-            if (csvContent[i][1] === "W") {
-                this.state.currentQuestionType = "2";
-                this.state.currentQuestion = csvContent[i][3];
-                this.state.currentanswer1 = csvContent[i][5];
-                this.state.currentanswer2 = csvContent[i][6];
-                this.state.currentanswer3 = csvContent[i][7];
-                this.state.currentanswer4 = csvContent[i][8];
-            }
-
-            if (csvContent[i][1] === "L") {
-                this.state.currentQuestionType = "3";
-                this.state.currentQuestion = csvContent[i][3];
-            }
-            this.saveOpenQuestion();
-        }
-
-    };
-
-
     render() {
-        function uuidv4() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-        const testTittle = this.state.testTittle;
-        const numberOfQuestions = this.state.numberOfQuestions;
-        const currentQuestionNumber = this.state.currentQuestionNumber;
-        const currentQuestionType = this.state.currentQuestionType;
-        const currentQuestion = this.state.currentQuestion;
-        const currentanswer1 = this.state.currentanswer1;
-        const currentanswer2 = this.state.currentanswer2;
-        const currentanswer3 = this.state.currentanswer3;
-        const currentanswer4 = this.state.currentanswer4;
-        const currentgoodAnswer = this.state.currentgoodAnswer;
-        //   console.log("uuid:  "+uuidv4());
-        //     console.log("czy rendenruje this.state.questions  " + this.state.questions);
-
         return (
             <div className="AddTest">
                 <div className="lander">
 
                     <div>
-                        <label>Enter the test title</label>
-                        <input id="testTitle" type="text" value={testTittle} onChange={this.handleTestTittle}/>
+                        <label>Test title</label>
+                        <input id="testTitle" type="text" defaultValue={this.state.test.testTitle} onChange={this.handleTitleChange}/>
                         <button onClick={this.saveTestToDynamoDB}>Save test</button>
-                        <div>
-                            {/*/!*<input id="myInput" type="file" ref={(ref) => this.upload = ref} style={{ display: 'none' }} />*!/*/}
-                            {/*<input id="myInput" type="file" ref="uploadCSV" onClick={event => event.target.val} />*/}
-                            {/*/!*<button className="csvChoose" onClick={(e) => this.upload.click()}>Import test from CSV</button>*!/*/}
-                            <CSVReader onFileLoaded={csvContent => this.readCSVFile(csvContent)}/>
-                        </div>
                         <br/><br/>
-                        <label>Number of question: {numberOfQuestions}</label>
+                        <label>Number of question: {this.state.test.questions.length}</label>
                         <br/><br/>
-                        <label>Current question: {currentQuestionNumber}</label>
+                        <label>Current question: {this.state.currentQuestionNumber + 1}</label>
                         <button onClick={this.previousQuestion}>Previous question</button>
                         <button onClick={this.nextQuestion}>Next question</button>
                         <br/><br/>
                     </div>
                     <div>
                         <label>Choose question type</label>
-                        <select value={currentQuestionType} onChange={this.handleQuestionType}>
+                        <select value={this.state.test.questions[this.state.currentQuestionNumber].questionType} onChange={this.handleQuestionType}>
                             <option value='1'>Open</option>
                             <option value='2'>Multiple choice</option>
                             <option value='3'>Number</option>
@@ -391,46 +127,46 @@ class ShowTest extends Component {
                         <>
 
                             <br/>
-                            < label> Enter content of the question</label>
+                            < label> Content of the question</label>
                             <br/>
-                            <textarea id="question" rows="5" cols="100" value={currentQuestion}
+                            <textarea id="question" rows="5" cols="100" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].question}
                                       onChange={this.handleCurrentQuestion}/>
                             <br/><br/>
 
                             <br/>
-                            {currentQuestionType == 2 ?
+                            {this.state.test.questions[this.state.currentQuestionNumber].questionType == 2 ?
                                 <>
-                                    <label>Enter 1st answer</label>
+                                    <label>1st answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" value={currentanswer1}
+                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers1}
                                            onChange={this.handleCurrentAnswer1}/>
                                     <br/><br/>
-                                    <label>Enter 2nd answer</label>
+                                    <label>2nd answer</label>
                                     <br/>
-                                    <input type="text" name="2answer" value={currentanswer2}
+                                    <input type="text" name="2answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers2}
                                            onChange={this.handleCurrentAnswer2}/>
                                     <br/><br/>
-                                    <label>Enter 3rd answer</label>
+                                    <label>3rd answer</label>
                                     <br/>
-                                    <input type="text" name="3answer" value={currentanswer3}
+                                    <input type="text" name="3answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers3}
                                            onChange={this.handleCurrentAnswer3}/>
                                     <br/><br/>
-                                    <label>Enter 4th answer</label>
+                                    <label>4th answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" value={currentanswer4}
+                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].answers4}
                                            onChange={this.handleCurrentAnswer4}/>
                                     <br/><br/>
-                                    <label>Enter good answer</label>
+                                    <label>Good answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" value={currentgoodAnswer}
+                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].goodAnswers}
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
-                            {currentQuestionType == 3 ?
+                            {this.state.test.questions[this.state.currentQuestionNumber].questionType == 3 ?
                                 <>
-                                    <label>Enter number answer</label>
+                                    <label>Number answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" value={currentgoodAnswer}
+                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].goodAnswers}
                                            onChange={this.handleCurrentGoodAnswer}/>
                                     <br/><br/>
                                 </> : null
