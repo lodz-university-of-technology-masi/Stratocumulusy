@@ -209,6 +209,7 @@ class AddTest extends Component {
 
     saveTestToDynamoDB(event) {
         const questions = [];
+        const emptyChoices = []
 
         for (let i = 0; i < this.state.numberOfQuestions; i++) {
             if(this.state.questionsTypes[i]==1){ //open
@@ -216,6 +217,8 @@ class AddTest extends Component {
                     QuestionID: i,
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
+                    choices: emptyChoices,
+                    correctAnswer: ''
                 })
             }
             if(this.state.questionsTypes[i]==2){
@@ -238,6 +241,7 @@ class AddTest extends Component {
                     questionType: this.state.questionsTypes[i],
                     question: this.state.questions[i],
                     correctAnswer: this.state.goodAnswers[i],
+                    choices: emptyChoices
                 })
             }
 
