@@ -151,7 +151,7 @@ class EditTest extends Component {
                             <br/>
                             < label> Content of the question</label>
                             <br/>
-                            <textarea id="question" rows="5" cols="100" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].question}
+                            <textarea id="question" rows="5" cols="100" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].question}
                                       onChange={this.handleQuestionContent}/>
                             <br/><br/>
 
@@ -160,27 +160,27 @@ class EditTest extends Component {
                                 <>
                                     <label>1st answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[0]}
+                                    <input type="text" name="1answer" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].choices[0]}
                                            onChange={this.handleCurrentAnswer1}/>
                                     <br/><br/>
                                     <label>2nd answer</label>
                                     <br/>
-                                    <input type="text" name="2answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[1]}
+                                    <input type="text" name="2answer" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].choices[1]}
                                            onChange={this.handleCurrentAnswer2}/>
                                     <br/><br/>
                                     <label>3rd answer</label>
                                     <br/>
-                                    <input type="text" name="3answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[2]}
+                                    <input type="text" name="3answer" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].choices[2]}
                                            onChange={this.handleCurrentAnswer3}/>
                                     <br/><br/>
                                     <label>4th answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].choices[3]}
+                                    <input type="text" name="4answer" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].choices[3]}
                                            onChange={this.handleCurrentAnswer4}/>
                                     <br/><br/>
                                     <label>Good answer</label>
                                     <br/>
-                                    <input type="text" name="4answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].correctAnswer}
+                                    <input type="text" name="4answer" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].correctAnswer}
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
@@ -188,7 +188,7 @@ class EditTest extends Component {
                                 <>
                                     <label>Number answer</label>
                                     <br/>
-                                    <input type="text" name="1answer" defaultValue={this.state.test.questions[this.state.currentQuestionNumber].correctAnswer}
+                                    <input type="text" name="1answer" defaultValue={""} value={this.state.test.questions[this.state.currentQuestionNumber].correctAnswer}
                                            onChange={this.handleCurrentGoodAnswer}/>
                                     <br/><br/>
                                 </> : null
