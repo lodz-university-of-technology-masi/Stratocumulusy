@@ -84,6 +84,15 @@ class EditTest extends Component {
             test: newAnswer
         })
     }
+    
+    handleDeleteQuestion = (event) => {
+        const newTest = Object.assign({}, this.state.test);
+        newTest.questions.splice(this.state.currentQuestionNumber, 1);
+        this.previousQuestion();
+        this.setState({
+            test: newTest
+        })
+    }
 
     previousQuestion(event) {
         if (this.state.currentQuestionNumber > 0) {
@@ -194,8 +203,10 @@ class EditTest extends Component {
                                 </> : null
                             }
                             <br/><br/>
-                            <button onClick={this.saveTestToDynamoDB}><Link to={{
-                            pathname: '/customerMenager'}}>Save test</Link></button>
+                            <Button onClick={this.handleDeleteQuestion}>Delete this question</Button>
+                            <br/><br/>
+                            <Button onClick={this.saveTestToDynamoDB}><Link to={{
+                            pathname: '/customerMenager'}}>Save test</Link></Button>
                         </>
 
                     </div>
