@@ -27,10 +27,13 @@ function deleteTest(key) {
 
 function saveTestInDifferentLanguage(props) {
     let testInDiffLanguage = JSON.parse(JSON.stringify(props));
-    testInDiffLanguage["fromLang"] = "pl";
-    testInDiffLanguage["toLang"] = "en";
-    console.log(testInDiffLanguage);
-    return (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/translatetest', {
+    testInDiffLanguage["fromLang"] = props.testId.substring(props.testId.length - 2, props.testId.length);
+    if (testInDiffLanguage.fromLang === "pl") {
+        testInDiffLanguage["toLang"] = "en";
+    } else {
+        testInDiffLanguage["toLang"] = "pl";
+    }
+    let res = (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/translatetest', {
             dataType: "json",
             method: 'POST',
             body: JSON.stringify(testInDiffLanguage),
@@ -38,6 +41,7 @@ function saveTestInDifferentLanguage(props) {
                 "Content-type": "application/json; charset=UTF-8"
             }})
     )
+    console.log(res);
 
 }
 
