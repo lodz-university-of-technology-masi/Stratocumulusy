@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 /*
 Supported languages codes:
@@ -29,16 +30,10 @@ public class YandexTranslator {
 
     private YandexTranslator(){}
 
-    public static String translateText(String text, Language fromLang, Language toLang) {
-        String translatedText = "";
-        try {
-            URL url = createURL(text, fromLang.getLanguageCode(), toLang.getLanguageCode());
-            translatedText = getRequestToYandex(url);
-        } catch (IOException | YandexError e) {
-            translatedText = text;
-            e.printStackTrace();
-        }
-        return translatedText;
+    public static String translateText(String text, String fromLang, String toLang) throws IOException, YandexError {
+
+        URL url = createURL(text, fromLang, toLang);
+        return getRequestToYandex(url);
     }
 
     private static String readAllFromStream(InputStream inputStream) throws IOException {
@@ -66,14 +61,13 @@ public class YandexTranslator {
     }
 
     private static URL createURL(String text, String fromLang, String toLang) {
-        String urlTmp = "https://translate.yandex.net/api/v1.5/tr.json/translate";
-        urlTmp += "?key=" + YANDEX_KEY;
-        urlTmp += "&text=" + text;
-        urlTmp += "&lang=" + fromLang + "-" + toLang;
-        urlTmp = urlTmp.replaceAll(" ", "%20");
         try {
+            String urlTmp = "https://translate.yandex.net/api/v1.5/tr.json/translate";
+            urlTmp += "?key=" + YANDEX_KEY;
+            urlTmp += "&text=" + URLEncoder.encode(text, "UTF-8");
+            urlTmp += "&lang=" + fromLang + "-" + toLang;
             return new URL(urlTmp);
-        } catch (MalformedURLException ignore) {
+        } catch (MalformedURLException | UnsupportedEncodingException e) {
             return null;
         }
     }

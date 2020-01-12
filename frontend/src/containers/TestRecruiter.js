@@ -9,6 +9,11 @@ function onClickFunction(key) {
     reloadPage();
 }
 
+function translateOnClick(test) {
+    saveTestInDifferentLanguage(test);
+    reloadPage();
+}
+
 function deleteTest(key) {
     return (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
         dataType: "json",
@@ -20,16 +25,41 @@ function deleteTest(key) {
     )
 }
 
+function saveTestInDifferentLanguage(props) {
+    let testInDiffLanguage = JSON.parse(JSON.stringify(props));
+    testInDiffLanguage["fromLang"] = "pl";
+    testInDiffLanguage["toLang"] = "en";
+    console.log(testInDiffLanguage);
+    return (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/translatetest', {
+            dataType: "json",
+            method: 'POST',
+            body: JSON.stringify(testInDiffLanguage),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }})
+    )
+
+}
+
 function reloadPage() {
     window.location.reload();
 }
 
 
 function TestRecruiter(props){
+    let testVar = JSON.parse(JSON.stringify(props));
+    if (props.testId.length === 38) {
+        if (testVar.testId.substring(testVar.testId.length - 2, testVar.testId.length) === "pl") {
+            testVar.testTitle += "(pl)";
+        }
+        if (testVar.testId.substring(testVar.testId.length - 2, testVar.testId.length) === "en") {
+            testVar.testTitle += "(eng)";
+        }
+    }
     return (
     <div className="test">
          <div>
-             <h1>{props.id}. Title: {props.testTitle}</h1>
+             <h1>{props.id}. Title: {testVar.testTitle}</h1>
 
              <Button color="success"><Link to={{
                  pathname: '/showtest',
@@ -39,6 +69,7 @@ function TestRecruiter(props){
                  }
              }}>Edit</Link></Button>
              <Button color="success" onClick={() => onClickFunction(props.testId)}>Delete</Button>
+             <Button color="success" onClick={() => translateOnClick(props)}>Auto translate</Button>
         </div>
     </div>
     );

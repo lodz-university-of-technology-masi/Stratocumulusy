@@ -1,12 +1,14 @@
 import React, {Component} from "react";
 import "./AddTest.css";
 import CSVReader from 'react-csv-reader'
+import {Dropdown, DropdownButton, DropdownMenu} from "react-bootstrap";
 
 
 class AddTest extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            testLanguage: 'pl',
             testTittle: '',
             numberOfQuestions: 0,
             currentQuestionNumber: 0,
@@ -42,6 +44,7 @@ class AddTest extends Component {
 
 
         };
+        this.handleTestLanguage = this.handleTestLanguage.bind(this)
         this.handleTestTittle = this.handleTestTittle.bind(this);
         this.handleQuestionType = this.handleQuestionType.bind(this);
         this.handleCurrentQuestion = this.handleCurrentQuestion.bind(this);
@@ -57,6 +60,12 @@ class AddTest extends Component {
         this.saveOpenQuestion = this.saveOpenQuestion.bind(this);
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
     }
+
+    handleTestLanguage = (event) => {
+        this.setState( {
+            testLanguage: event.target.value,
+        })
+    };
 
     handleTestTittle = (event) => {
         this.setState({
@@ -249,7 +258,7 @@ class AddTest extends Component {
                 return v.toString(16);
             });
         }
-        const testId =  uuidv4();
+        const testId =  uuidv4() + this.state.testLanguage;
 
         const test = {
             "testId": testId,
@@ -306,6 +315,7 @@ class AddTest extends Component {
                 return v.toString(16);
             });
         }
+        const testLanguage = this.state.testLanguage;
         const testTittle = this.state.testTittle;
         const numberOfQuestions = this.state.numberOfQuestions;
         const currentQuestionNumber = this.state.currentQuestionNumber;
@@ -324,13 +334,16 @@ class AddTest extends Component {
                 <div className="lander">
 
                     <div>
+                        <label>Test language</label>
+                        <select value={testLanguage} onChange={this.handleTestLanguage}>
+                            <option value='pl'>Polish</option>
+                            <option value='en'>English</option>
+                        </select>
+                        <br/><br/>
                         <label>Enter the test title</label>
                         <input id="testTitle" type="text" value={testTittle} onChange={this.handleTestTittle}/>
                         <button onClick={this.saveTestToDynamoDB}>Save test</button>
                         <div>
-                            {/*/!*<input id="myInput" type="file" ref={(ref) => this.upload = ref} style={{ display: 'none' }} />*!/*/}
-                            {/*<input id="myInput" type="file" ref="uploadCSV" onClick={event => event.target.val} />*/}
-                            {/*/!*<button className="csvChoose" onClick={(e) => this.upload.click()}>Import test from CSV</button>*!/*/}
                             <CSVReader onFileLoaded={csvContent => this.readCSVFile(csvContent)}/>
                         </div>
                         <br/><br/>
