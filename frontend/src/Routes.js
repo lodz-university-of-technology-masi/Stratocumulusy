@@ -15,6 +15,7 @@ import ShowTest from "./containers/ShowTest";
 import AddCandidate from "./containers/AddCandidate";
 import ConfirmationCode from "./containers/ConfirmationCode";
 import AddTestToCandidate from "./containers/AddTestsToCandidate";
+import CandidateList from "./containers/CandidatesList";
 
 export default function Routes({ appProps }) {
     return (
@@ -31,6 +32,7 @@ export default function Routes({ appProps }) {
         <AppliedRoute path="/addCandidate" exact component={AddCandidate} appProps={appProps} />
         <AppliedRoute path="/confirmationCode" exact component={ConfirmationCode} appProps={appProps} />
           <AppliedRoute path="/addTestToCandidate" exact component={AddTestToCandidate} appProps={appProps} />
+          <AppliedRoute path="/candidateList" exact component={CandidateList} appProps={appProps} />
         { /* Finally, catch all unmatched routes */ }
         <Route component={NotFound} />
       </Switch>
