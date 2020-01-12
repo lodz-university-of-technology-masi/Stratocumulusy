@@ -70,6 +70,9 @@ function App(props) {
                   <LinkContainer to={"/addCandidate"}>
                     <NavItem>Add candidate</NavItem>
                   </LinkContainer>
+                  <LinkContainer to={"/candidateList"}>
+                    <NavItem>Candidate List</NavItem>
+                  </LinkContainer>
 
                 </DropdownButton>
               </>
