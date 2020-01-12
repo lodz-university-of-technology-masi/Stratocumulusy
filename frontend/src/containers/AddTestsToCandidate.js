@@ -31,11 +31,12 @@ class AddTestToCandidate extends Component {
             if (err)
                 console.log(err, err.stack);
             else {
-                console.log("data    : " + data.toSource());
+               
                 this.setState({
                     candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
                 });
             }
+            
         });
         // pobieram przypisane testy do kandydatow z tabeli CandidateTests
         let allCandidateTests =null;
@@ -160,7 +161,7 @@ class AddTestToCandidate extends Component {
         const availableTests = this.state.availableTests;
         const selectedTests = this.state.selectedTests;
 
-        console.log("selectedTests: " + selectedTests.toSource());
+        //console.log("selectedTests: " + selectedTests.toSource());
 
         return (
             <div className="AddTestToCandidate">
