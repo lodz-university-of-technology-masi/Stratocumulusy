@@ -66,9 +66,10 @@ function TestRecruiter(props){
              <h1>{props.id}. Title: {testVar.testTitle}</h1>
 
              <Button color="success"><Link to={{
-                 pathname: '/showtest',
-                 ShowTestProps:{
-                     testId : props.id,
+                 pathname: '/edittest',
+                 EditTestProps:{
+                     testId : props.testId,
+                     testTitle: props.testTitle,
                      questions: props.questions
                  }
              }}>Edit</Link></Button>
