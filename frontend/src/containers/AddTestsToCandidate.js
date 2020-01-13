@@ -31,15 +31,15 @@ class AddTestToCandidate extends Component {
             if (err)
                 console.log(err, err.stack);
             else {
-               
+
                 this.setState({
                     candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
                 });
             }
-            
+
         });
         // pobieram przypisane testy do kandydatow z tabeli CandidateTests
-        let allCandidateTests =null;
+        let allCandidateTests = null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate')
             .then((response) => {
                 return response.json()
@@ -91,10 +91,10 @@ class AddTestToCandidate extends Component {
         const allCandidateTests = this.state.allCandidateTests.slice();
         let selectedTests = [];
 
-      // ustawiam kandydatowi przydzielone testy z bazy ( CandidateTests )
+        // ustawiam kandydatowi przydzielone testy z bazy ( CandidateTests )
         for (var i = 0; i < allCandidateTests.length; i++) {
             if (allCandidateTests[i].candidateEmail == nameCandidate) {
-                for (var j= 0; j < allCandidateTests[i].tests.length; j++) {
+                for (var j = 0; j < allCandidateTests[i].tests.length; j++) {
                     selectedTests.push({
                         testTitle: allCandidateTests[i].tests[j].testTitle,
                         testId: allCandidateTests[i].tests[j].testId,
@@ -111,8 +111,41 @@ class AddTestToCandidate extends Component {
                 return response.json()
             })
             .then((data) => {
-                testy = data.map(n => n);
-            })
+                testy = data.map(n => (
+                    {
+                        testTitle: n.testTitle,
+                        testId: n.testId.substring(0, n.testId.length - 2)
+                    })
+                );
+            }).then(() => {
+            var pomTesty = testy.slice();
+            let pom = [{
+                testTitle: '',
+                testId: ''
+            }];
+            console.log("pomTesty: " + pomTesty.toSource());
+            console.log("pomTesty.length: " + pomTesty.length);
+            console.log("pom.length: " + pom.length);
+            for (let i = 0; i < pomTesty.length; i++) {
+                let isItAlready = false;
+                for (let j = 0; j < pom.length; j++) {
+                    console.log(i+" : " + j);
+                    console.log(pomTesty[i].testId+" == " + pom[j].testId);
+                    if (pomTesty[i].testId == pom[j].testId) {
+                        isItAlready = true;
+                        break;
+                    }
+                }
+
+                if (isItAlready == false) {
+                    console.log("pushuje pomTesty[i]" + pomTesty[i]);
+                    pom.push(pomTesty[i])
+                }
+            };
+            testy = pom.filter(n => n.testId!='');
+            console.log("testy" + testy);
+
+        })
             .finally(() => {
                 this.setState({
                     selectedCandidate: nameCandidate,
@@ -161,7 +194,7 @@ class AddTestToCandidate extends Component {
         const availableTests = this.state.availableTests;
         const selectedTests = this.state.selectedTests;
 
-        //console.log("selectedTests: " + selectedTests.toSource());
+        console.log("availableTests: " + availableTests.toSource());
 
         return (
             <div className="AddTestToCandidate">
@@ -192,7 +225,9 @@ class AddTestToCandidate extends Component {
                                 {availableTests.map(c =>
                                     (<div>
                                             <h>Test title {c.testTitle} </h>
-                                            <button onClick={this.addTest} testID={c.testId} testTitle={c.testTitle}>Add test</button>
+                                            <button onClick={this.addTest} testID={c.testId} testTitle={c.testTitle}>Add
+                                                test
+                                            </button>
                                         </div>
                                     )
                                 )}
@@ -202,7 +237,9 @@ class AddTestToCandidate extends Component {
                                 {selectedTests.map(c =>
                                     (<div>
                                             <h>Test title {c.testTitle}</h>
-                                            <button onClick={this.removeTest} testID={c.testId} testTitle={c.testTitle}>Remove test</button>
+                                            <button onClick={this.removeTest} testID={c.testId}
+                                                    testTitle={c.testTitle}>Remove test
+                                            </button>
                                         </div>
                                     )
                                 )}
