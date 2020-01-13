@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import "./SolveTest.css";
 import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
+import notifier from "simple-react-notifications";
+import "simple-react-notifications/dist/index.css";
 
 class EditTest extends Component {
     constructor(props) {
@@ -129,6 +131,7 @@ class EditTest extends Component {
 
 
     saveTestToDynamoDB(event) {
+        notifier.success("Test was successfully saved.");
         const test = {
             "testId": this.state.test.testId,
             "testTitle": this.state.test.testTitle,

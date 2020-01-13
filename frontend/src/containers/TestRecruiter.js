@@ -2,16 +2,18 @@ import React from "react";
 import "./Test.css";
 import {Button} from "reactstrap"
 import {Link} from "react-router-dom";
+import notifier from "simple-react-notifications";
+import "simple-react-notifications/dist/index.css";
 
 
 function onClickFunction(key) {
     deleteTest(key);
-    reloadPage();
+    notifier.success("Test was successfully deleted. Reload page to see changes.");
 }
 
 function translateOnClick(test) {
     saveTestInDifferentLanguage(test);
-   // reloadPage();
+    notifier.success("New translated test was successfully generated.");
 }
 
 function deleteTest(key) {
@@ -21,7 +23,7 @@ function deleteTest(key) {
         body: JSON.stringify({"testId": key}),
         headers: {
             "Content-type": "application/json; charset=UTF-8"
-    }})
+    }}).finally(() => reloadPage())
     )
 }
 

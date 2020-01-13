@@ -13,6 +13,7 @@
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.2.0",
     "reactstrap": "^8.1.1",
+    "simple-react-notifications": "^1.2.13",
     "styled-components": "^4.4.1"
   },
   "scripts": {

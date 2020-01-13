@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import "./AddTest.css";
-import CSVReader from 'react-csv-reader'
-import {Dropdown, DropdownButton, DropdownMenu} from "react-bootstrap";
+import CSVReader from 'react-csv-reader';
+import notifier from "simple-react-notifications";
+import "simple-react-notifications/dist/index.css";
 
 
 class AddTest extends Component {
@@ -217,6 +218,7 @@ class AddTest extends Component {
 
 
     saveTestToDynamoDB(event) {
+        notifier.success("Test was successfully added.");
         const questions = [];
         const emptyChoices = []
 
