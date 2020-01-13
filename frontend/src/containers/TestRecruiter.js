@@ -11,7 +11,7 @@ function onClickFunction(key) {
 
 function translateOnClick(test) {
     saveTestInDifferentLanguage(test);
-    reloadPage();
+   // reloadPage();
 }
 
 function deleteTest(key) {
@@ -39,7 +39,7 @@ function saveTestInDifferentLanguage(props) {
             body: JSON.stringify(testInDiffLanguage),
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
-            }})
+            }}).finally(()=> reloadPage())
     )
     console.log(res);
 

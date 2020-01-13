@@ -8,11 +8,9 @@ class TestList extends Component {
     this.state = {
       testy: []
     }
-    this.loadFromDB();
   }
 
-
-  loadFromDB() {
+  componentDidMount = () => {
     let testy = [];
     fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
             .then((response)=>{return response.json()})
@@ -26,9 +24,10 @@ class TestList extends Component {
 }
 
   render() {
+    const testy = this.state.testy;
     return (
       <div>
-        {this.state.testy.map((c,index) => <TestRecruiter id={index}  testTitle={c.testTitle} numberOfQuestions={c.questions.length} testId={c.testId} questions={c.questions}/>)}
+        {testy.map((c,index) => <TestRecruiter id={index}  testTitle={c.testTitle} numberOfQuestions={c.questions.length} testId={c.testId} questions={c.questions}/>)}
   </div> 
           );
   }
