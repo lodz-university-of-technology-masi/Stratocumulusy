@@ -40,7 +40,7 @@ class TestList extends Component {
                 this.setState({
                     allCandidateTests: allCandidateTests,
                 })
-                console.log("allCandidateTests    : " + allCandidateTests.toSource());
+              //  console.log("allCandidateTests    : " + allCandidateTests.toSource());
             });
 
 
@@ -74,9 +74,6 @@ class TestList extends Component {
       const candidateTestsID = [];
       // ten candidateTests ma tylko jeden obiekt i musialem sie dobrac do niego poprzez lambde
       candidateTests.filter(n => {
-          console.log("n.tests: "+n.tests.toSource());
-          console.log("n.tests[0].testId: "+n.tests[0].testId);
-          console.log("n.tests[0].testId: "+n.tests.length);
           for(let i = 0; i < n.tests.length ; i++ ) {
               candidateTestsID.push(n.tests[i].testId)
           }
@@ -86,17 +83,31 @@ class TestList extends Component {
 
       const testy = wszystkietesty.filter( n => {
           for(let i = 0; i < candidateTestsID.length ; i++ ){
-              if(n.testId == candidateTestsID[i] ){
+              let testId =  n.testId.substring(0, n.testId.length - 2)
+              if(testId == candidateTestsID[i] ){
                   return true;
               }
           }
           return false;
-      });
+      }).sort( (a, b) => {
+          return ('' + a.testId).localeCompare(b.testId);});
 
+    const testTittle = testy.map(c => {
+        let testTittle = c.testTitle;
+        if (c.testId.substring(c.testId.length-2,c.testId.length) === "pl") {
+            testTittle += "(pl)";
+        }
+        if (c.testId.substring(c.testId.length-2,c.testId.length) === "en") {
+            testTittle += "(eng)";
+        }
+
+        return testTittle;
+    })
 
     return (
       <div>
-        {testy.map((c,index) => <Test id={index} title={c.testTitle} testId={c.testId} questions={c.questions}/>)}
+        {testy.map((c,index) => <Test id={index} title={testTittle[index]}
+                                      testId={c.testId} questions={c.questions}/>)}
   </div> 
           );
   }
