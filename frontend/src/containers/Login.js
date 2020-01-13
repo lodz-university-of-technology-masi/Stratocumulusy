@@ -24,13 +24,14 @@ export default function Login(props) {
     setIsLoading(true);
     try {
       let response = await Auth.signIn(fields.email, fields.password);
-      let userType = response["attributes"]["email_verified"];
+      console.log(response["signInUserSession"]['accessToken']['payload']['cognito:groups'][0]);
+      let userType = response["signInUserSession"]['accessToken']['payload']['cognito:groups'][0];
       props.userHasAuthenticated(true);
-      if(userType){
+      if(userType == "Recruiter"){
         props.history.push("/addTest");
         props.userIsCandidate(false);
       }
-      else if(!userType){
+      else if(userType == "Candidate"){
         props.history.push("/candidate");
         props.userIsCandidate(true);
       }
