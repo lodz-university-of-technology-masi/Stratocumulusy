@@ -13,7 +13,8 @@ class SolveTest extends Component {
         this.state = {
             questions: props.location.SolveTestProps.questions,
             answersFromView: [],
-            answers: []
+            answers: [],
+            currentUserEmail: props.location.SolveTestProps.currentUserEmail
         }
         console.log("props.location.SolveTestProps.questions.length " + props.location.SolveTestProps.questions.length)
         for (let i = 0; i < props.location.SolveTestProps.questions.length; i++) {
@@ -115,17 +116,13 @@ class SolveTest extends Component {
     saveTestToDynamoDB(event) {
         let questionsToDb = [];
         let questions = this.state.questions.slice();
-        let answers = this.state.answers.slice();
-        console.log(this.state.currentCandidatesAnswer);
-        console.log(this.state.answers);
+        let answersFromView = this.state.answersFromView.slice();
+
+        console.log("this.state.answers"+ answersFromView.toSource());
         for (let i = 0; i < questions.length; i++) {
+            let myAnswer = answersFromView[i];
+            console.log("i= "+i+"   myAnswer "+myAnswer);
             if (questions[i].questionType == 1) { //open
-                let myAnswer = "";
-                for (let index = 0; index < answers.length; ++index) {
-                    if (answers[index].questionID == questions[i].questionID) {
-                        myAnswer = answers[index].candidatesAnwser;
-                    }
-                }
                 questionsToDb.push({
                     QuestionID: questions[i].questionID,
                     questionType: questions[i].questionType,
@@ -135,12 +132,7 @@ class SolveTest extends Component {
             }
             if (questions[i].questionType == 2) {
                 const choices = questions[i].choices;
-                let myAnswer = "";
-                for (let index = 0; index < answers.length; ++index) {
-                    if (answers[index].questionID == questions[i].questionID) {
-                        myAnswer = answers[index].candidatesAnwser;
-                    }
-                }
+
                 questionsToDb.push({ // multiple
                     QuestionID: questions[i].questionID,
                     questionType: questions[i].questionType,
@@ -151,13 +143,6 @@ class SolveTest extends Component {
                 })
             }
             if (questions[i].questionType == 3) {
-                let myAnswer = "";
-                for (let index = 0; index < answers.length; ++index) {
-                    if (answers[index].questionID == questions[i].questionID) {
-                        myAnswer = answers[index].candidatesAnwser;
-                    }
-                }
-
                 questionsToDb.push({ //number
                     QuestionID: questions[i].questionID,
                     questionType: questions[i].questionType,
@@ -179,11 +164,14 @@ class SolveTest extends Component {
         }
 
         const testId = uuidv4();
-
+        const currentUserEmail = this.state.currentUserEmail;
+        console.log("currentUserEmail "+currentUserEmail);
         const test = {
             "testTitle": this.props.location.SolveTestProps.testTitle,
             "testId": testId,
             "questions": questionsToDb,
+            "candidateEmail": currentUserEmail,
+            "points": "-",
         };
         console.log(test);
 
