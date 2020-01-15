@@ -16,7 +16,8 @@ function Test(props){
                  SolveTestProps:{
                      testId : props.testId,
                      testTitle : props.title,
-                     questions: props.questions
+                     questions: props.questions,
+                     currentUserEmail: props.currentUserEmail
                  }
              }}>Start</Link></Button>{}
         </div>

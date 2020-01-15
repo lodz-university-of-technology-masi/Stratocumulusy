@@ -59,10 +59,7 @@ function App(props) {
                   <LinkContainer to={"/addTestToCandidate"}>
                     <NavItem>Add test to candidate</NavItem>
                   </LinkContainer>
-                  <LinkContainer to={"/customerMenager"}>
-                    <NavItem>Import test</NavItem>
-                  </LinkContainer>
-                  <LinkContainer to={"/customerMenager"}>
+                  <LinkContainer to={"/testToCheck"}>
                     <NavItem>Test to check</NavItem>
                   </LinkContainer>
                 </DropdownButton>
