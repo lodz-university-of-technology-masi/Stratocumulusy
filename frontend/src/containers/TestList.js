@@ -107,7 +107,7 @@ class TestList extends Component {
     return (
       <div>
         {testy.map((c,index) => <Test id={index} title={testTittle[index]}
-                                      testId={c.testId} questions={c.questions}/>)}
+                                      testId={c.testId} questions={c.questions} currentUserEmail={currentUserEmail}/>)}
   </div> 
           );
   }
