@@ -16,6 +16,9 @@ public class SolvedTests {
     private String testTitle;
     private String testId;
     private ArrayList<AnwserdQuestions> questions;
+    private String candidateEmail;
+    private String points;
+    private String recruiterEmail;
 
     public SolvedTests(ArrayList<AnwserdQuestions> questions, String testId, String testTitle) {
         this.testId = testId;
@@ -42,6 +45,33 @@ public class SolvedTests {
 
     public void setQuestions(ArrayList<AnwserdQuestions> questions) {
         this.questions = questions;
+    }
+
+    @DynamoDBAttribute(attributeName = "CandidateEmail")
+    public String getCandidateEmail() {
+        return candidateEmail;
+    }
+
+    public void setCandidateEmail(String candidateEmail) {
+        this.candidateEmail = candidateEmail;
+    }
+
+    @DynamoDBAttribute(attributeName = "Points")
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
+
+    @DynamoDBAttribute(attributeName = "RecruterEmail")
+    public String getRecruterEmail() {
+        return recruiterEmail;
+    }
+
+    public void setRecruterEmail(String recruterEmail) {
+        this.recruiterEmail = recruterEmail;
     }
 
     @DynamoDBAttribute(attributeName = "TestTitle")

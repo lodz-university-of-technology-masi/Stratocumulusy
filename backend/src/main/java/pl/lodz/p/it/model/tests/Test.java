@@ -15,6 +15,8 @@ public class Test {
     private String testTitle;
     private String testId;
     private ArrayList<Question> questions;
+    private String recruiterEmail;
+
 
     public Test(ArrayList<Question> questions, String testId, String testTitle) {
         this.testId = testId;
@@ -54,6 +56,15 @@ public class Test {
 
     public void addQuestion(Question question) {
         questions.add(question);
+    }
+
+    @DynamoDBAttribute(attributeName = "RecruiterEmail")
+    public String getRecruiterEmail() {
+        return recruiterEmail;
+    }
+
+    public void setRecruiterEmail(String recruiterEmail) {
+        this.recruiterEmail = recruiterEmail;
     }
 
     @Override
