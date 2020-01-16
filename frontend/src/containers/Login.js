@@ -28,7 +28,7 @@ export default function Login(props) {
       let userType = response["signInUserSession"]['accessToken']['payload']['cognito:groups'][0];
       props.userHasAuthenticated(true);
       if(userType == "Recruiter"){
-        props.history.push("/addTest");
+        props.history.push("/recruiter");
         props.userIsCandidate(false);
       }
       else if(userType == "Candidate"){

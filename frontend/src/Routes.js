@@ -8,6 +8,7 @@ import AppliedRoute from "./components/AppliedRoute";
 import AddTest from "./containers/AddTest";
 import CustomerMenager from "./containers/CustomerMenager";
 import Candidate from "./containers/Candidate";
+import Recruiter from "./containers/Recruiter";
 import TestList from "./containers/TestList";
 import Results from "./containers/Results";
 import SolveTest from "./containers/SolveTest";
@@ -26,6 +27,7 @@ export default function Routes({ appProps }) {
         <AppliedRoute path="/login" exact component={Login} appProps={appProps} />
         <AppliedRoute path="/addTest" exact component={AddTest} appProps={appProps} />
         <AppliedRoute path="/candidate" exact component={Candidate} appProps={appProps} />
+        <AppliedRoute path="/recruiter" exact component={Recruiter} appProps={appProps} />
         <AppliedRoute path="/tests" exact component={TestList} appProps={appProps} />
         <AppliedRoute path="/solvetest" exact component={SolveTest} appProps={appProps} />
         <AppliedRoute path="/edittest" exact component={EditTest} appProps={appProps} />
