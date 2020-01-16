@@ -5,6 +5,7 @@ import {params} from "./CognitoUsers";
 import {Button} from "reactstrap";
 import {Link} from "react-router-dom";
 import Test from "./Test";
+import notifier from "simple-react-notifications";
 
 class AddTestToCandidate extends Component {
     constructor(props) {
@@ -64,6 +65,7 @@ class AddTestToCandidate extends Component {
         })
     };
     save = (event) => {
+        notifier.success("Test was successfully add to candidate");
         const assignedTest = [];
         for (let i = 0; i < this.state.selectedTests.length; i++) {
             assignedTest.push({
@@ -82,6 +84,12 @@ class AddTestToCandidate extends Component {
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
+        }).finally(() => {this.setState({
+            selectedCandidate: '',
+            isCandidateSelected: false,
+            availableTests: [],
+            selectedTests: [],
+        })
         });
         return false;
     };

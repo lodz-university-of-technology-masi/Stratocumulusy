@@ -13,6 +13,7 @@ class SolveTest extends Component {
             testTittle: props.location.SolveTestProps.testTitle,
             candidateEmail: props.location.SolveTestProps.candidateEmail,
             score: '',
+            recruiterEmail: props.location.SolveTestProps.recruiterEmail,
         };
         this.updateScore = this.updateScore.bind(this);
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
@@ -32,6 +33,7 @@ class SolveTest extends Component {
             "questions": this.state.questions,
             "candidateEmail": this.state.candidateEmail,
             "points": this.state.score,
+            "recruiterEmail": this.state.recruiterEmail,
         };
          console.log("test "+test.toSource());
 
@@ -42,7 +44,8 @@ class SolveTest extends Component {
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
-        });
+        }).finally(() =>  window.location.replace("/testToCheck"));
+
         return false;
     }
 

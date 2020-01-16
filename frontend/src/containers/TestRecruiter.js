@@ -29,6 +29,7 @@ function deleteTest(key) {
 
 function saveTestInDifferentLanguage(props) {
     let testInDiffLanguage = JSON.parse(JSON.stringify(props));
+    console.log("props: "+props.toSource());
     testInDiffLanguage["fromLang"] = props.testId.substring(props.testId.length - 2, props.testId.length);
     if (testInDiffLanguage.fromLang === "pl") {
         testInDiffLanguage["toLang"] = "en";
@@ -42,6 +43,7 @@ function saveTestInDifferentLanguage(props) {
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }}).finally(()=> reloadPage())
+
     )
     console.log(res);
 
@@ -72,7 +74,8 @@ function TestRecruiter(props){
                  EditTestProps:{
                      testId : props.testId,
                      testTitle: props.testTitle,
-                     questions: props.questions
+                     questions: props.questions,
+                     recruiterEmail: props.recruiterEmail,
                  }
              }}>Edit</Link></Button>
              <Button color="success" onClick={() => onClickFunction(props.testId)}>Delete</Button>

@@ -15,7 +15,7 @@ class EditTest extends Component {
         super(props);
         this.state = {
             currentQuestionNumber: 0,
-            test: props.location.EditTestProps
+            test: props.location.EditTestProps,
         };
 
         console.log(this.state);
@@ -140,7 +140,8 @@ class EditTest extends Component {
         const test = {
             "testId": this.state.test.testId,
             "testTitle": this.state.test.testTitle,
-            "questions": this.state.test.questions
+            "questions": this.state.test.questions,
+            "recruiterEmail": this.state.test.recruiterEmail,
         };
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
@@ -151,6 +152,7 @@ class EditTest extends Component {
                 "Content-type": "application/json; charset=UTF-8"
             }
         }).finally(() => reloadPage());
+
         return false;
     }
 

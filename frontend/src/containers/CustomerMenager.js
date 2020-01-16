@@ -1,13 +1,26 @@
 import React, { Component } from "react";
 import TestRecruiter from "./TestRecruiter";
+import {Auth} from "aws-amplify";
 
 
 class TestList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      testy: []
+      testy: [],
+      recruiterEmail: ''
     }
+    Auth.currentSession()
+        .then(data => {
+          let idToken = data.getIdToken();
+
+          let email = idToken.payload.email;
+
+          this.setState({
+            recruiterEmail: email,
+          })
+        })
+        .catch(err => console.log(err));
   }
 
   componentDidMount = () => {
@@ -25,9 +38,19 @@ class TestList extends Component {
 
   render() {
     const testy = this.state.testy;
+    const recruiterEmail = this.state.recruiterEmail;
+
     return (
       <div>
-        {testy.map((c,index) => <TestRecruiter id={index}  testTitle={c.testTitle} numberOfQuestions={c.questions.length} testId={c.testId} questions={c.questions}/>)}
+        {testy.map((c,index) => {
+          let testRecruiterEmail = c.recruiterEmail;
+          if (testRecruiterEmail == recruiterEmail) {
+            return <TestRecruiter id={index} testTitle={c.testTitle} numberOfQuestions={c.questions.length}
+                                  testId={c.testId} questions={c.questions} recruiterEmail={recruiterEmail} />
+          } else {
+            return null
+          }
+        })}
   </div> 
           );
   }
