@@ -6,6 +6,7 @@ import SolveQuestion from "./SolveQuestion";
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {ThemeConsumer} from "styled-components";
+import notifier from "simple-react-notifications";
 
 class SolveTest extends Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class SolveTest extends Component {
             questions: props.location.SolveTestProps.questions,
             answersFromView: [],
             answers: [],
-            currentUserEmail: props.location.SolveTestProps.currentUserEmail
+            currentUserEmail: props.location.SolveTestProps.currentUserEmail,
+            recruiterEmail: props.location.SolveTestProps.recruiterEmail
         }
         console.log("props.location.SolveTestProps.questions.length " + props.location.SolveTestProps.questions.length)
         for (let i = 0; i < props.location.SolveTestProps.questions.length; i++) {
@@ -114,6 +116,7 @@ class SolveTest extends Component {
     }
 
     saveTestToDynamoDB(event) {
+        notifier.success("Test was successfully solved.");
         let questionsToDb = [];
         let questions = this.state.questions.slice();
         let answersFromView = this.state.answersFromView.slice();
@@ -172,6 +175,7 @@ class SolveTest extends Component {
             "questions": questionsToDb,
             "candidateEmail": currentUserEmail,
             "points": "-",
+            "recruiterEmail": this.state.recruiterEmail
         };
         console.log(test);
 
@@ -182,7 +186,8 @@ class SolveTest extends Component {
             headers: {
                 "Content-type": "application/json;"
             }
-        });
+        })
+            //.finally(() =>  window.location.replace("/tests"));;
         return false;
     }
 

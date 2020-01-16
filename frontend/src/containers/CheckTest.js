@@ -17,7 +17,8 @@ function CheckTest(props){
                         testId : props.testId,
                         testTitle : props.title,
                         questions: props.questions,
-                        candidateEmail: props.candidateEmail
+                        candidateEmail: props.candidateEmail,
+                        recruiterEmail: props.recruiterEmail
                     }
                 }}>Check test</Link></Button>{}
             </div>

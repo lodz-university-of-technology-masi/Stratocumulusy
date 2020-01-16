@@ -3,6 +3,7 @@ import "./AddTest.css";
 import CSVReader from 'react-csv-reader';
 import notifier from "simple-react-notifications";
 import "simple-react-notifications/dist/index.css";
+import {Auth} from "aws-amplify";
 
 
 class AddTest extends Component {
@@ -42,9 +43,21 @@ class AddTest extends Component {
             currentanswer3: '',
             currentanswer4: '',
             currentgoodAnswer: '',
-
+            recruiterEmail: ''
 
         };
+        Auth.currentSession()
+            .then(data => {
+                let idToken = data.getIdToken();
+
+                let email = idToken.payload.email;
+
+                this.setState({
+                    recruiterEmail: email,
+                })
+            })
+            .catch(err => console.log(err));
+
         this.handleTestLanguage = this.handleTestLanguage.bind(this)
         this.handleTestTittle = this.handleTestTittle.bind(this);
         this.handleQuestionType = this.handleQuestionType.bind(this);
@@ -218,7 +231,7 @@ class AddTest extends Component {
 
 
     saveTestToDynamoDB(event) {
-        notifier.success("Test was successfully added.");
+
         const questions = [];
         const emptyChoices = []
 
@@ -269,7 +282,8 @@ class AddTest extends Component {
         const test = {
             "testId": testId,
             "testTitle": this.state.testTittle,
-            "questions": questions
+            "questions": questions,
+            "recruiterEmail": this.state.recruiterEmail
         };
         // console.log("test "+test.toSource());
 
@@ -280,7 +294,8 @@ class AddTest extends Component {
             headers: {
                 "Content-type": "application/json; charset=UTF-8"
             }
-        });
+        }).finally(() =>  window.location.replace("/customerMenager"));
+        notifier.success("Test was successfully added. ");
         return false;
     }
 

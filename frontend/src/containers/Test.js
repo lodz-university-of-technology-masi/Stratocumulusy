@@ -17,7 +17,8 @@ function Test(props){
                      testId : props.testId,
                      testTitle : props.title,
                      questions: props.questions,
-                     currentUserEmail: props.currentUserEmail
+                     currentUserEmail: props.currentUserEmail,
+                     recruiterEmail: props.recruiterEmail
                  }
              }}>Start</Link></Button>{}
         </div>
