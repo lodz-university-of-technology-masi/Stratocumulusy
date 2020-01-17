@@ -13,9 +13,7 @@ class TestList extends Component {
     Auth.currentSession()
         .then(data => {
           let idToken = data.getIdToken();
-
           let email = idToken.payload.email;
-
           this.setState({
             recruiterEmail: email,
           })

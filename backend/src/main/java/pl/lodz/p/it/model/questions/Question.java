@@ -8,12 +8,6 @@ import java.util.ArrayList;
 @DynamoDBDocument
 public class Question implements Serializable {
 
-    /**
-     * Tu mam mindfuck jak mają wyglądac pola tej klasy?
-     * Dla kazdego typu powinny byc inne
-     * Zrobic 3 klasy dla kazdego typu pytania dziedziczace po question?
-     * Tylko jak to zapisac do bazy???
-     */
     private String QuestionID;
     private String question;
     private String questionType;

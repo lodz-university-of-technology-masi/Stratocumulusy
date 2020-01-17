@@ -18,7 +18,6 @@ class AddTestToCandidate extends Component {
             selectedTests: [],
             allCandidateTests: [],
         };
-
         this.selectCandidate = this.selectCandidate.bind(this);
         this.cancel = this.cancel.bind(this);
         this.save = this.save.bind(this);
@@ -134,8 +133,6 @@ class AddTestToCandidate extends Component {
                 }
             }
         }
-
-
         // pobranie wszystkich testow z EmptyTests
         let testy = null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
@@ -168,7 +165,6 @@ class AddTestToCandidate extends Component {
                         break;
                     }
                 }
-
                 if (isItAlready == false) {
                     console.log("pushuje pomTesty[i]" + pomTesty[i]);
                     pom.push(pomTesty[i])
@@ -226,7 +222,7 @@ class AddTestToCandidate extends Component {
         const availableTests = this.state.availableTests;
         const selectedTests = this.state.selectedTests;
 
-        console.log("availableTests: " + availableTests.toSource());
+        //console.log("availableTests: " + availableTests.toSource());
 
         return (
             <div className="AddTestToCandidate">

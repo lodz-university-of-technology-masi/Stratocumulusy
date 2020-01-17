@@ -6,7 +6,6 @@ import {Link} from "react-router-dom";
 
 function SolveQuestion(props){
 
-
     if(props.questionType == '1'){
         return (
             <div className="test">
@@ -51,8 +50,7 @@ function SolveQuestion(props){
             </div>
         </div>
         );
-    }
-    else{
+    }else{
         return (
             <div className="test">
             <div>
@@ -69,5 +67,3 @@ function SolveQuestion(props){
 }
 
 export default SolveQuestion;
-
-

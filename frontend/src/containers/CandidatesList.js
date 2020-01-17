@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import "./AddTest.css";
-import {cognitoidentityserviceprovider} from "./CognitoUsers";
-import {params} from "./CognitoUsers";
 
 function reloadPage() {
     window.location.reload();
@@ -66,13 +64,11 @@ class CandidateList extends Component {
         const allUsers = this.state.allUsers;
         const candidateList = this.state.candidateList;
 
-
         return (
             <div className="AddTestToCandidate">
                 <div className="lander">
                     <h2>All users list </h2>
                     <br/>
-
                         <>
                             {allUsers.map(c =>
                                 (<div>
@@ -103,8 +99,6 @@ class CandidateList extends Component {
                         <>
             
                         </>
-                    
-
 
                 </div>
                 <div className="candidates">
@@ -133,8 +127,6 @@ class CandidateList extends Component {
             
                         </>
                     
-
-
                 </div>
             </div>
 
