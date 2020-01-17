@@ -63,7 +63,6 @@ class CandidateList extends Component {
     render() {
         const allUsers = this.state.allUsers;
         const candidateList = this.state.candidateList;
-
         return (
             <div className="AddTestToCandidate">
                 <div className="lander">
@@ -92,19 +91,14 @@ class CandidateList extends Component {
                                         } nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
-                                )
-                            )}
+                                ))}
                         </>
-
                         <>
-            
                         </>
-
                 </div>
                 <div className="candidates">
                     <h2>Candidate list </h2>
                     <br/>
-
                         <>
                             {candidateList.map(c =>
                                 (<div>
@@ -119,22 +113,13 @@ class CandidateList extends Component {
                                         } nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
-                                )
-                            )}
+                                ))}
                         </>
-
                         <>
-            
                         </>
-                    
                 </div>
             </div>
-
-
-        );
-    }
-}
-
+        );}}
 
 
 export default CandidateList;

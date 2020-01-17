@@ -16,14 +16,12 @@ class AddTestToCandidate extends Component {
             candidateList: [],
             availableTests: [],
             selectedTests: [],
-            allCandidateTests: [],
-        };
+            allCandidateTests: [],};
         this.selectCandidate = this.selectCandidate.bind(this);
         this.cancel = this.cancel.bind(this);
         this.save = this.save.bind(this);
         this.addTest = this.addTest.bind(this);
-        this.removeTest = this.removeTest.bind(this);
-    }
+        this.removeTest = this.removeTest.bind(this);}
 
     componentDidMount = () => {
         // pobranie uzytkownikow
@@ -121,7 +119,6 @@ class AddTestToCandidate extends Component {
         let nameCandidate = event.target.getAttribute('nameCandidate');
         const allCandidateTests = this.state.allCandidateTests.slice();
         let selectedTests = [];
-
         // ustawiam kandydatowi przydzielone testy z bazy ( CandidateTests )
         for (var i = 0; i < allCandidateTests.length; i++) {
             if (allCandidateTests[i].candidateEmail == nameCandidate) {
@@ -144,8 +141,7 @@ class AddTestToCandidate extends Component {
                     {
                         testTitle: n.testTitle,
                         testId: n.testId.substring(0, n.testId.length - 2)
-                    })
-                );
+                    }));
             }).then(() => {
             var pomTesty = testy.slice();
             let pom = [{
@@ -163,13 +159,11 @@ class AddTestToCandidate extends Component {
                     if (pomTesty[i].testId == pom[j].testId) {
                         isItAlready = true;
                         break;
-                    }
-                }
+                    }}
                 if (isItAlready == false) {
                     console.log("pushuje pomTesty[i]" + pomTesty[i]);
                     pom.push(pomTesty[i])
-                }
-            };
+                }};
             testy = pom.filter(n => n.testId!='');
             console.log("testy" + testy);
 
@@ -180,28 +174,20 @@ class AddTestToCandidate extends Component {
                     isCandidateSelected: true,
                     availableTests: testy,
                     selectedTests: selectedTests,
-                })
-            });
-
-    };
+                })});};
     addTest = (event) => {
         let testID = event.target.getAttribute('testID');
         let testTitle = event.target.getAttribute('testTitle');
         console.log("testID  : " + testID);
         const selectedTests = this.state.selectedTests.slice();
         for (var i = 0; i < selectedTests.length; i++) {
-            if (selectedTests[i].testId == testID) {
-                return
-            }
-        }
+            if (selectedTests[i].testId == testID) {return}}
         selectedTests.push({
             testId: testID,
-            testTitle: testTitle,
-        });
+            testTitle: testTitle,});
         this.setState({
             selectedTests: selectedTests,
-        })
-    };
+        })};
     removeTest = (event) => {
         let testIDToRemove = event.target.getAttribute('testID');
         console.log("testIDToRemove  : " + testIDToRemove);

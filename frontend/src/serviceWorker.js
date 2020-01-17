@@ -71,14 +71,12 @@ function registerValidSW(swUrl, config) {
               // content until all client tabs are closed.
               console.log(
                 'New content is available and will be used when all ' +
-                  'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
-              );
+                  'tabs for this page are closed. See https://bit.ly/CRA-PWA.');
 
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
-              }
-            } else {
+              }} else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
@@ -87,10 +85,7 @@ function registerValidSW(swUrl, config) {
               // Execute callback
               if (config && config.onSuccess) {
                 config.onSuccess(registration);
-              }
-            }
-          }
-        };
+              }}}};
       };
     })
     .catch(error => {
