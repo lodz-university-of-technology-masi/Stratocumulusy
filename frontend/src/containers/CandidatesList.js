@@ -3,6 +3,10 @@ import "./AddTest.css";
 import {cognitoidentityserviceprovider} from "./CognitoUsers";
 import {params} from "./CognitoUsers";
 
+function reloadPage() {
+    window.location.reload();
+}
+
 class CandidateList extends Component {
     constructor(props) {
         super(props);
@@ -55,6 +59,8 @@ class CandidateList extends Component {
             });
     };
 
+    
+
 
     render() {
         const allUsers = this.state.allUsers;
@@ -71,30 +77,23 @@ class CandidateList extends Component {
                             {allUsers.map(c =>
                                 (<div>
                                         <h1>User: {c.email}</h1>
-                                        <button onClick={() => {
-                                            console.log(JSON.stringify(c.username));
-                                             fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
-                                                dataType: "json",
-                                                method: 'POST',
-                                                body: JSON.stringify(c.username),
-                                                headers: {
-                                                    'content-type' : "application/json",
-                                                }
-                                            });
-                                        
-                                        }} nameCandidate={c.username}>Add User to  Candidate User Group
+                                        <button onClick={() => (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
+                                        dataType: "json",
+                                        method: 'POST',
+                                        body: JSON.stringify({"user": c.username}),
+                                        headers: {
+                                            "Content-type": "application/json; charset=UTF-8"
+                                        }}).finally(() => reloadPage()))                                 
+                                        } nameCandidate={c.username}>Add User to  Candidate User Group
                                         </button>
-                                        <button onClick={() => {
-                                             fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
-                                                dataType: "json",
-                                                method: 'DELETE',
-                                                body: JSON.stringify(c.username),
-                                                headers: {
-                                                    "Content-type": "application/json"
-                                                }
-                                            });
-                                            window.location.reload(false);
-                                        }} nameCandidate={c.username}>Remove User
+                                        <button onClick={() => (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
+                                        dataType: "json",
+                                        method: 'DELETE',
+                                        body: JSON.stringify({"user": c.username}),
+                                        headers: {
+                                            "Content-type": "application/json; charset=UTF-8"
+                                        }}).finally(() => reloadPage()))   
+                                        } nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
                                 )
@@ -116,17 +115,14 @@ class CandidateList extends Component {
                             {candidateList.map(c =>
                                 (<div>
                                         <h1>Candidate: {c.email}</h1>
-                                        <button onClick={() => {
-                                             fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
-                                                dataType: "json",
-                                                method: 'DELETE',
-                                                body: JSON.stringify(c.username),
-                                                headers: {
-                                                    "Content-type": "application/json"
-                                                }
-                                            });
-                                            window.location.reload(false);
-                                        }} nameCandidate={c.username}>Remove User
+                                        <button onClick={() => (fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
+                                        dataType: "json",
+                                        method: 'DELETE',
+                                        body: JSON.stringify({"user": c.username}),
+                                        headers: {
+                                            "Content-type": "application/json; charset=UTF-8"
+                                        }}).finally(() => reloadPage()))   
+                                        } nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
                                 )
