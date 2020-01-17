@@ -9,46 +9,124 @@ class CandidateList extends Component {
         this.state = {
             selectedCandidate: '',
             isCandidateSelected: false,
-            candidateList: [],
+            allUsers: [],
+            candidateList: []
         };
     }
 
     componentDidMount = () => {
+
         // pobranie uzytkownikow
-        cognitoidentityserviceprovider.listUsers(params, (err, data) => {
-            if (err)
-                console.log(err, err.stack);
-            else {
-              
+        let allUsers = null;
+        let candidateList = null;
+        fetch("https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/getAllUsers").then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+
+                let temp = data["users"];
+                allUsers = temp.map(cand => (
+                    {
+                        username: cand['username'],
+                        email: cand['attributes'][2].value
+                    })
+                );                
+            }).finally(() => {
                 this.setState({
-                    candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
-                });
-            }
-            
-        });
+                    allUsers: allUsers,
+                })
+            });
+
+            fetch("https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/getlallcandidate").then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                let temp = data["users"];
+                candidateList = temp.map(cand => (
+                    {
+                        username: cand['username'],
+                        email: cand['attributes'][2].value
+                    })
+                );                
+            }).finally(() => {
+                this.setState({
+                    candidateList: candidateList,
+                })
+            });
     };
 
+
     render() {
+        const allUsers = this.state.allUsers;
         const candidateList = this.state.candidateList;
 
 
         return (
             <div className="AddTestToCandidate">
                 <div className="lander">
-                    <label>Candidate's list </label>
+                    <h2>All users list </h2>
+                    <br/>
+
+                        <>
+                            {allUsers.map(c =>
+                                (<div>
+                                        <h1>User: {c.email}</h1>
+                                        <button onClick={() => {
+                                            console.log(JSON.stringify(c.username));
+                                             fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
+                                                dataType: "json",
+                                                method: 'POST',
+                                                body: JSON.stringify(c.username),
+                                                headers: {
+                                                    'content-type' : "application/json",
+                                                }
+                                            });
+                                        
+                                        }} nameCandidate={c.username}>Add User to  Candidate User Group
+                                        </button>
+                                        <button onClick={() => {
+                                             fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
+                                                dataType: "json",
+                                                method: 'DELETE',
+                                                body: JSON.stringify(c.username),
+                                                headers: {
+                                                    "Content-type": "application/json"
+                                                }
+                                            });
+                                            window.location.reload(false);
+                                        }} nameCandidate={c.username}>Remove User
+                                        </button>
+                                    </div>
+                                )
+                            )}
+                        </>
+
+                        <>
+            
+                        </>
+                    
+
+
+                </div>
+                <div className="candidates">
+                    <h2>Candidate list </h2>
                     <br/>
 
                         <>
                             {candidateList.map(c =>
                                 (<div>
-                                        <h1>Candidate: {c}</h1>
+                                        <h1>Candidate: {c.email}</h1>
                                         <button onClick={() => {
-                                            cognitoidentityserviceprovider.adminDeleteUser({
-                                                UserPoolId: "us-east-1_NBg2oASBN",
-                                                Username: c,
-                                              }).promise();
-                                              window.location.reload(false);
-                                        }} nameCandidate={c}>Remove Candidate
+                                             fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/user', {
+                                                dataType: "json",
+                                                method: 'DELETE',
+                                                body: JSON.stringify(c.username),
+                                                headers: {
+                                                    "Content-type": "application/json"
+                                                }
+                                            });
+                                            window.location.reload(false);
+                                        }} nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
                                 )
