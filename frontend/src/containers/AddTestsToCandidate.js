@@ -28,17 +28,41 @@ class AddTestToCandidate extends Component {
 
     componentDidMount = () => {
         // pobranie uzytkownikow
-        cognitoidentityserviceprovider.listUsers(params, (err, data) => {
-            if (err)
-                console.log(err, err.stack);
-            else {
+        // cognitoidentityserviceprovider.listUsers(params, (err, data) => {
+        //     if (err)
+        //         console.log(err, err.stack);
+        //     else {
+        //
+        //         this.setState({
+        //             candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
+        //         });
+        //     }
+        //
+        // });
+        let candidateList = [];
+        fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/getlallcandidate')
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                // console.log("data uzytkownicy: "+data.users.toSource())
+                // console.log("data uzytkownicy: "+data.users[0].toSource())
+                // console.log("data uzytkownicy: "+data.users.length)
 
-                this.setState({
-                    candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
-                });
-            }
-
+                for (let i = 0; i < data.users.length; i++){
+                        // attributes[2] = email
+                    candidateList.push(data.users[i].attributes[2].value);
+                  //  console.log("data.users[i] "+data.users[i].attributes[2].toSource())
+                }
+                // console.log("candidateList "+candidateList)
+                // console.log("candidateList "+candidateList.toSource())
+            }) .finally(() => {
+            this.setState({
+                candidateList: candidateList,
+            })
         });
+
+
         // pobieram przypisane testy do kandydatow z tabeli CandidateTests
         let allCandidateTests = null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate')
