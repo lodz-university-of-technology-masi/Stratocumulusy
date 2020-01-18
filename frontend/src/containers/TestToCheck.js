@@ -8,7 +8,8 @@ class TestToCheck extends Component {
         super(props)
         this.state = {
             testy: [],
-            recruiterEmail: ''
+            recruiterEmail: '',
+            loaded: false
         }
         Auth.currentSession()
             .then(data => {
@@ -33,7 +34,8 @@ class TestToCheck extends Component {
                 this.testy = data;
             }).finally(() => {
             this.setState({
-                testy: this.testy
+                testy: this.testy,
+                loaded: true
             })
         });
     }
@@ -42,7 +44,14 @@ class TestToCheck extends Component {
         const testy = this.state.testy;
         const recruiterEmail = this.state.recruiterEmail;
 
-        return (
+        if(!this.state.loaded) {
+            return (
+              <div>
+                <h1>Loading...</h1>
+              </div>
+            );
+          }
+          else return (
             <div>
                 <h1>Select test to check:</h1>
                 {testy.map((c, index) => {

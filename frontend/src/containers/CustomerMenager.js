@@ -8,20 +8,18 @@ class TestList extends Component {
     super(props)
     this.state = {
       testy: [],
-      recruiterEmail: ''
+      recruiterEmail: '',
+      loaded: false
     }
     Auth.currentSession()
         .then(data => {
           let idToken = data.getIdToken();
-
           let email = idToken.payload.email;
-
           this.setState({
             recruiterEmail: email,
           })
         })
-        .catch(err => console.log(err));
-  }
+        .catch(err => console.log(err));}
 
   componentDidMount = () => {
     let testy = [];
@@ -31,7 +29,8 @@ class TestList extends Component {
               this.testy = data;
             }).finally(() => {
               this.setState({
-                testy: this.testy
+                testy: this.testy,
+                loaded: true
               })
             });
 }
@@ -39,21 +38,23 @@ class TestList extends Component {
   render() {
     const testy = this.state.testy;
     const recruiterEmail = this.state.recruiterEmail;
-
-    return (
+    if(!this.state.loaded) {
+      return (
+        <div>
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
+    else return (
       <div>
         {testy.map((c,index) => {
           let testRecruiterEmail = c.recruiterEmail;
           if (testRecruiterEmail == recruiterEmail) {
             return <TestRecruiter id={index} testTitle={c.testTitle} numberOfQuestions={c.questions.length}
                                   testId={c.testId} questions={c.questions} recruiterEmail={recruiterEmail} />
-          } else {
-            return null
-          }
+          } else { return null }
         })}
   </div> 
-          );
-  }
-}
+          );}}
 
 export default TestList;

@@ -1,9 +1,5 @@
-import {ControlLabel, FormControl, FormGroup, HelpBlock} from "react-bootstrap";
-import LoaderButton from "../components/LoaderButton";
 import React, {useState} from "react";
-import {Auth} from "aws-amplify";
 import "./ConfirmationCode.css";
-import {useFormFields} from "../libs/hooksLib";
 
 export default function ConfirmationCode(props) {
 
@@ -17,7 +13,4 @@ export default function ConfirmationCode(props) {
     </div>
 );
 
-
-
 }
-

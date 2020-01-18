@@ -11,6 +11,7 @@ class TestList extends Component {
           wszystkietesty: [],
           allCandidateTests: [],
           currentUserEmail: '',
+          loaded: false
       }
 
   }
@@ -39,6 +40,7 @@ class TestList extends Component {
             .finally(() => {
                 this.setState({
                     allCandidateTests: allCandidateTests,
+                    loaded: true
                 })
               //  console.log("allCandidateTests    : " + allCandidateTests.toSource());
             });
@@ -104,7 +106,14 @@ class TestList extends Component {
         return testTittle;
     })
 
-    return (
+    if(!this.state.loaded) {
+        return (
+          <div>
+            <h1>Loading...</h1>
+          </div>
+        );
+      }
+      else return (
       <div>
         {testy.map((c,index) => <Test id={index} title={testTittle[index]}
                                       testId={c.testId} questions={c.questions} currentUserEmail={currentUserEmail} recruiterEmail={c.recruiterEmail}/>)}

@@ -1,11 +1,6 @@
 import React, {Component} from "react";
 import "./SolveTest.css";
-import TestList from "./TestList"
-import Test from "./Test"
-import SolveQuestion from "./SolveQuestion";
 import {Button} from "react-bootstrap";
-import {Link} from "react-router-dom";
-import {ThemeConsumer} from "styled-components";
 import notifier from "simple-react-notifications";
 
 class SolveTest extends Component {

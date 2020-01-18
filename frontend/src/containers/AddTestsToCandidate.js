@@ -17,6 +17,7 @@ class AddTestToCandidate extends Component {
             availableTests: [],
             selectedTests: [],
             allCandidateTests: [],
+            loaded: false
         };
 
         this.selectCandidate = this.selectCandidate.bind(this);
@@ -59,6 +60,7 @@ class AddTestToCandidate extends Component {
             }) .finally(() => {
             this.setState({
                 candidateList: candidateList,
+                loaded: true
             })
         });
 
@@ -122,7 +124,6 @@ class AddTestToCandidate extends Component {
         let nameCandidate = event.target.getAttribute('nameCandidate');
         const allCandidateTests = this.state.allCandidateTests.slice();
         let selectedTests = [];
-
         // ustawiam kandydatowi przydzielone testy z bazy ( CandidateTests )
         for (var i = 0; i < allCandidateTests.length; i++) {
             if (allCandidateTests[i].candidateEmail == nameCandidate) {
@@ -134,8 +135,6 @@ class AddTestToCandidate extends Component {
                 }
             }
         }
-
-
         // pobranie wszystkich testow z EmptyTests
         let testy = null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
@@ -147,8 +146,7 @@ class AddTestToCandidate extends Component {
                     {
                         testTitle: n.testTitle,
                         testId: n.testId.substring(0, n.testId.length - 2)
-                    })
-                );
+                    }));
             }).then(() => {
             var pomTesty = testy.slice();
             let pom = [{
@@ -208,7 +206,7 @@ class AddTestToCandidate extends Component {
     };
     removeTest = (event) => {
         let testIDToRemove = event.target.getAttribute('testID');
-        // console.log("testIDToRemove  : " + testIDToRemove);
+        console.log("testIDToRemove  : " + testIDToRemove);
         let selectedTests = this.state.selectedTests.slice();
         selectedTests = selectedTests.filter(test => test.testId != testIDToRemove);
         this.setState({
@@ -228,7 +226,14 @@ class AddTestToCandidate extends Component {
 
         // console.log("availableTests: " + availableTests.toSource());
 
-        return (
+        if(!this.state.loaded) {
+            return (
+              <div>
+                <h1>Loading...</h1>
+              </div>
+            );
+          }
+          else return (
             <div className="AddTestToCandidate">
                 <div className="lander">
                     <label>Selected candidate: {selectedCandidate} </label>

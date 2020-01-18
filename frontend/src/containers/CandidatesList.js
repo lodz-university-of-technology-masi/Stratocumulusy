@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import "./AddTest.css";
-import {cognitoidentityserviceprovider} from "./CognitoUsers";
-import {params} from "./CognitoUsers";
 
 function reloadPage() {
     window.location.reload();
@@ -14,7 +12,8 @@ class CandidateList extends Component {
             selectedCandidate: '',
             isCandidateSelected: false,
             allUsers: [],
-            candidateList: []
+            candidateList: [],
+            loaded: false
         };
     }
 
@@ -38,6 +37,7 @@ class CandidateList extends Component {
             }).finally(() => {
                 this.setState({
                     allUsers: allUsers,
+                    loaded: true
                 })
             });
 
@@ -65,14 +65,18 @@ class CandidateList extends Component {
     render() {
         const allUsers = this.state.allUsers;
         const candidateList = this.state.candidateList;
-
-
-        return (
+        if(!this.state.loaded) {
+            return (
+              <div>
+                <h1>Loading...</h1>
+              </div>
+            );
+          }
+          else return (
             <div className="AddTestToCandidate">
                 <div className="lander">
                     <h2>All users list </h2>
                     <br/>
-
                         <>
                             {allUsers.map(c =>
                                 (<div>
@@ -96,21 +100,14 @@ class CandidateList extends Component {
                                         } nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
-                                )
-                            )}
+                                ))}
                         </>
-
                         <>
-            
                         </>
-                    
-
-
                 </div>
                 <div className="candidates">
                     <h2>Candidate list </h2>
                     <br/>
-
                         <>
                             {candidateList.map(c =>
                                 (<div>
@@ -125,24 +122,13 @@ class CandidateList extends Component {
                                         } nameCandidate={c.username}>Remove User
                                         </button>
                                     </div>
-                                )
-                            )}
+                                ))}
                         </>
-
                         <>
-            
                         </>
-                    
-
-
                 </div>
             </div>
-
-
-        );
-    }
-}
-
+        );}}
 
 
 export default CandidateList;
