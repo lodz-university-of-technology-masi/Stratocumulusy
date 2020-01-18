@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 function SolveQuestion(props){
 
 
-    if(props.questionType === '1'){
+    if(props.questionType == '1'){
         return (
             <div className="test">
             <div>
@@ -15,13 +15,13 @@ function SolveQuestion(props){
             </div>
             <div>
                 <form>
-                    <input type="text" name="Anwser"/>
+                    <input type="text" name="Anwser"></input>
                 </form>
             </div>
         </div>
         );
     }
-    if(props.questionType === '2'){
+    if(props.questionType == '2'){
         return (
             <div className="test">
             <div>
@@ -38,7 +38,7 @@ function SolveQuestion(props){
         </div>
         );
     }
-    if(props.questionType === '3'){
+    if(props.questionType == '3'){
         return (
             <div className="test">
             <div>
@@ -46,7 +46,7 @@ function SolveQuestion(props){
             </div>
             <div>testTitle
                 <form>
-                    <input type="number" name="Anwser"/>
+                    <input type="number" name="Anwser"></input>
                 </form>
             </div>
         </div>
@@ -60,7 +60,7 @@ function SolveQuestion(props){
             </div>
             <div>
                 <form>
-                    <input type="number" name="Anwser"/>
+                    <input type="number" name="Anwser"></input>
                 </form>
             </div>
         </div>

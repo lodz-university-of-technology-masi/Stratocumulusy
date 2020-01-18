@@ -160,7 +160,7 @@ class AddTest extends Component {
             });
         }
         // jak przenosimy się z powrotem do nowego pytania
-        if (this.state.currentQuestionNumber === this.state.numberOfQuestions - 1) {
+        if (this.state.currentQuestionNumber == this.state.numberOfQuestions - 1) {
             var currentQuestionNumber = this.state.currentQuestionNumber + 1;
             this.setState({
                 currentQuestionNumber: currentQuestionNumber,
@@ -236,7 +236,7 @@ class AddTest extends Component {
         const emptyChoices = []
 
         for (let i = 0; i < this.state.numberOfQuestions; i++) {
-            if(this.state.questionsTypes[i] === 1){ //open
+            if(this.state.questionsTypes[i] == 1){ //open
                 questions.push({
                     QuestionID: i,
                     questionType: this.state.questionsTypes[i],
@@ -245,7 +245,7 @@ class AddTest extends Component {
                     correctAnswer: ''
                 })
             }
-            if(this.state.questionsTypes[i] === 2){
+            if(this.state.questionsTypes[i] == 2){
                 const choices = [];
                 choices.push(this.state.answers1[i]);
                 choices.push(this.state.answers2[i]);
@@ -259,7 +259,7 @@ class AddTest extends Component {
                     correctAnswer: this.state.goodAnswers[i],
                 })
             }
-            if(this.state.questionsTypes[i] === 3){
+            if(this.state.questionsTypes[i] == 3){
                 questions.push({ //number
                     QuestionID: i,
                     questionType: this.state.questionsTypes[i],
@@ -412,7 +412,7 @@ class AddTest extends Component {
                             <br/><br/>
 
                             <br/>
-                            {currentQuestionType === 2 ?
+                            {currentQuestionType == 2 ?
                                 <>
                                     <label>Enter 1st answer</label>
                                     <br/>
@@ -440,7 +440,7 @@ class AddTest extends Component {
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
-                            {currentQuestionType === 3 ?
+                            {currentQuestionType == 3 ?
                                 <>
                                     <label>Enter number answer</label>
                                     <br/>

@@ -189,7 +189,7 @@ class EditTest extends Component {
                             <br/><br/>
 
                             <br/>
-                            {this.state.test.questions[this.state.currentQuestionNumber].questionType === 2 ?
+                            {this.state.test.questions[this.state.currentQuestionNumber].questionType == 2 ?
                                 <>
                                     <label>1st answer</label>
                                     <br/>
@@ -217,7 +217,7 @@ class EditTest extends Component {
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
-                            {this.state.test.questions[this.state.currentQuestionNumber].questionType === 3 ?
+                            {this.state.test.questions[this.state.currentQuestionNumber].questionType == 3 ?
                                 <>
                                     <label>Number answer</label>
                                     <br/>
