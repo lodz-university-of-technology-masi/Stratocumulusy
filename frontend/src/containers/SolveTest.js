@@ -18,11 +18,11 @@ class SolveTest extends Component {
             currentUserEmail: props.location.SolveTestProps.currentUserEmail,
             recruiterEmail: props.location.SolveTestProps.recruiterEmail
         }
-        console.log("props.location.SolveTestProps.questions.length " + props.location.SolveTestProps.questions.length)
+        // console.log("props.location.SolveTestProps.questions.length " + props.location.SolveTestProps.questions.length)
         for (let i = 0; i < props.location.SolveTestProps.questions.length; i++) {
             this.state.answersFromView.push('');
         }
-        console.log("this.state.answersFromView in constructoe " + this.state.answersFromView)
+        // console.log("this.state.answersFromView in constructoe " + this.state.answersFromView)
         this.saveOpen = this.saveOpen.bind(this);
         this.updateAnswer = this.updateAnswer.bind(this);
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
@@ -34,7 +34,7 @@ class SolveTest extends Component {
         let numberOfQuestion = event.target.getAttribute('numberOfQuestion');
         const answersFromView = this.state.answersFromView.slice();
         answersFromView[numberOfQuestion] = event.target.value;
-        console.log("answersFromView " + answersFromView)
+        // console.log("answersFromView " + answersFromView)
         this.setState({
             answersFromView: answersFromView
         })
@@ -70,7 +70,7 @@ class SolveTest extends Component {
         const answers = this.state.answers.slice();
         const questionID = event.target.getAttribute("questionID");
         const multiple = this.state.answersFromView[questionID];
-        console.log(" multi " + multiple);
+        // console.log(" multi " + multiple);
         let ifExists = false;
         for (let i = 0; i < answers.length; i++) {
             if (answers[i].questionID == event.target.getAttribute("questionID")) {
@@ -121,10 +121,10 @@ class SolveTest extends Component {
         let questions = this.state.questions.slice();
         let answersFromView = this.state.answersFromView.slice();
 
-        console.log("this.state.answers"+ answersFromView.toSource());
+        // console.log("this.state.answers"+ answersFromView.toSource());
         for (let i = 0; i < questions.length; i++) {
             let myAnswer = answersFromView[i];
-            console.log("i= "+i+"   myAnswer "+myAnswer);
+            // console.log("i= "+i+"   myAnswer "+myAnswer);
             if (questions[i].questionType == 1) { //open
                 questionsToDb.push({
                     QuestionID: questions[i].questionID,
@@ -168,7 +168,7 @@ class SolveTest extends Component {
 
         const testId = uuidv4();
         const currentUserEmail = this.state.currentUserEmail;
-        console.log("currentUserEmail "+currentUserEmail);
+        // console.log("currentUserEmail "+currentUserEmail);
         const test = {
             "testTitle": this.props.location.SolveTestProps.testTitle,
             "testId": testId,
@@ -177,7 +177,7 @@ class SolveTest extends Component {
             "points": "-",
             "recruiterEmail": this.state.recruiterEmail
         };
-        console.log(test);
+        // console.log(test);
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/solvedtest', {
             dataType: "json",
@@ -198,7 +198,7 @@ class SolveTest extends Component {
         const numberQuestion = this.state.numberQuestion;
 
         const answersFromView = this.state.answersFromView;
-        console.log("answersFromView " + answersFromView);
+        // console.log("answersFromView " + answersFromView);
         let listItems = this.state.questions.map((d, index) => {
             if (d.questionType == '1') {
                 return (

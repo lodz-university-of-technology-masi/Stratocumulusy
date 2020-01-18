@@ -35,7 +35,7 @@ class SolveTest extends Component {
             "points": this.state.score,
             "recruiterEmail": this.state.recruiterEmail,
         };
-         console.log("test "+test.toSource());
+
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/solvedtest', {
             dataType: "json",

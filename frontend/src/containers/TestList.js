@@ -53,7 +53,7 @@ class TestList extends Component {
                 this.setState({
                     currentUserEmail: email,
                 })
-                console.log("currentUserEmail: "+this.state.currentUserEmail);
+                // console.log("currentUserEmail: "+this.state.currentUserEmail);
             })
             .catch(err => console.log(err));
     };
@@ -79,7 +79,7 @@ class TestList extends Component {
           }
           return false;
       });
-      console.log("candidateTestsID : "+candidateTestsID);
+      // console.log("candidateTestsID : "+candidateTestsID);
 
       const testy = wszystkietesty.filter( n => {
           for(let i = 0; i < candidateTestsID.length ; i++ ){

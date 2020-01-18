@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "./AddTest.css";
 import CSVReader from 'react-csv-reader';
+import * as Papa from 'papaparse';
 import notifier from "simple-react-notifications";
 import "simple-react-notifications/dist/index.css";
 import {Auth} from "aws-amplify";
@@ -159,7 +160,7 @@ class AddTest extends Component {
             });
         }
         // jak przenosimy się z powrotem do nowego pytania
-        if (this.state.currentQuestionNumber == this.state.numberOfQuestions - 1) {
+        if (this.state.currentQuestionNumber === this.state.numberOfQuestions - 1) {
             var currentQuestionNumber = this.state.currentQuestionNumber + 1;
             this.setState({
                 currentQuestionNumber: currentQuestionNumber,
@@ -178,16 +179,15 @@ class AddTest extends Component {
     saveOpenQuestion = (event) => {
         var currentQuestionNumber = this.state.currentQuestionNumber + 1;
         var numberOfQuestions = this.state.numberOfQuestions + 1
-        console.log("currentQuestionNumber: " + currentQuestionNumber);
 
         const questionsTypes = this.state.questionsTypes.slice();
         questionsTypes[currentQuestionNumber - 1] = this.state.currentQuestionType;
 
 
         const questions = this.state.questions.slice();
-        console.log("przed questions: " + questions);
+
         questions[currentQuestionNumber - 1] = this.state.currentQuestion;
-        console.log("po questions: " + questions);
+
 
 
         const answers1 = this.state.answers1.slice();
@@ -236,7 +236,7 @@ class AddTest extends Component {
         const emptyChoices = []
 
         for (let i = 0; i < this.state.numberOfQuestions; i++) {
-            if(this.state.questionsTypes[i]==1){ //open
+            if(this.state.questionsTypes[i] === 1){ //open
                 questions.push({
                     QuestionID: i,
                     questionType: this.state.questionsTypes[i],
@@ -245,7 +245,7 @@ class AddTest extends Component {
                     correctAnswer: ''
                 })
             }
-            if(this.state.questionsTypes[i]==2){
+            if(this.state.questionsTypes[i] === 2){
                 const choices = [];
                 choices.push(this.state.answers1[i]);
                 choices.push(this.state.answers2[i]);
@@ -259,7 +259,7 @@ class AddTest extends Component {
                     correctAnswer: this.state.goodAnswers[i],
                 })
             }
-            if(this.state.questionsTypes[i]==3){
+            if(this.state.questionsTypes[i] === 3){
                 questions.push({ //number
                     QuestionID: i,
                     questionType: this.state.questionsTypes[i],
@@ -270,7 +270,7 @@ class AddTest extends Component {
             }
 
         }
-        //console.log("questions "+questions.toSource());
+
         function uuidv4() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -285,7 +285,7 @@ class AddTest extends Component {
             "questions": questions,
             "recruiterEmail": this.state.recruiterEmail
         };
-        // console.log("test "+test.toSource());
+
 
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest', {
             dataType: "json",
@@ -299,31 +299,52 @@ class AddTest extends Component {
         return false;
     }
 
-    readCSVFile = (csvContent) => {
+    readCSVFile = (csv) => {
         this.setState({});
-        console.log(csvContent);
+        let csvContent = "";
+        for (let row = 0; row < csv.length; row++) {
+            for (let column = 0; column < csv[row].length; column++) {
+                if (csv[row][column] !== "") {
+                    csvContent += csv[row][column] + "\n";
+                }
+            }
+        }
 
-        for (let i = 0; i < csvContent.length; i++){
-            if (csvContent[i][1] === "O") {
-                this.state.currentQuestionType = "1";
-                this.state.currentQuestion = csvContent[i][3];
+        let csvContentMatrix = Papa.parse(csvContent).data;
+        for (let i = 0; i < csvContentMatrix.length; i++){
+            if (csvContentMatrix[i][1] === "O") {
+                this.setState({
+                    currentQuestionType: "1",
+                    currentQuestion: csvContentMatrix[i][3]
+
+                });
+                this.saveOpenQuestion();
 
             }
 
-            if (csvContent[i][1] === "W") {
-                this.state.currentQuestionType = "2";
-                this.state.currentQuestion = csvContent[i][3];
-                this.state.currentanswer1 = csvContent[i][5];
-                this.state.currentanswer2 = csvContent[i][6];
-                this.state.currentanswer3 = csvContent[i][7];
-                this.state.currentanswer4 = csvContent[i][8];
+            if (csvContentMatrix[i][1] === "W") {
+                this.setState({
+                    currentQuestionType: "2",
+                    currentQuestion: csvContentMatrix[i][3],
+                    currentanswer1: csvContentMatrix[i][5],
+                    currentanswer2: csvContentMatrix[i][6],
+                    currentanswer3: csvContentMatrix[i][7],
+                    currentanswer4: csvContentMatrix[i][8],
+
+                });
+                this.saveOpenQuestion();
             }
 
-            if (csvContent[i][1] === "L") {
-                this.state.currentQuestionType = "3";
-                this.state.currentQuestion = csvContent[i][3];
+            if (csvContentMatrix[i][1] === "L") {
+                this.setState({
+                    currentQuestionType: "3",
+                    currentQuestion: csvContentMatrix[i][3]
+
+                });
+
+                this.saveOpenQuestion();
             }
-            this.saveOpenQuestion();
+
         }
 
     };
@@ -347,8 +368,7 @@ class AddTest extends Component {
         const currentanswer3 = this.state.currentanswer3;
         const currentanswer4 = this.state.currentanswer4;
         const currentgoodAnswer = this.state.currentgoodAnswer;
-     //   console.log("uuid:  "+uuidv4());
-   //     console.log("czy rendenruje this.state.questions  " + this.state.questions);
+
 
         return (
             <div className="AddTest">
@@ -392,7 +412,7 @@ class AddTest extends Component {
                             <br/><br/>
 
                             <br/>
-                            {currentQuestionType == 2 ?
+                            {currentQuestionType === 2 ?
                                 <>
                                     <label>Enter 1st answer</label>
                                     <br/>
@@ -420,7 +440,7 @@ class AddTest extends Component {
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
-                            {currentQuestionType == 3 ?
+                            {currentQuestionType === 3 ?
                                 <>
                                     <label>Enter number answer</label>
                                     <br/>

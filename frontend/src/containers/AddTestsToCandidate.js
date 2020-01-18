@@ -155,14 +155,14 @@ class AddTestToCandidate extends Component {
                 testTitle: '',
                 testId: ''
             }];
-            console.log("pomTesty: " + pomTesty.toSource());
-            console.log("pomTesty.length: " + pomTesty.length);
-            console.log("pom.length: " + pom.length);
+            // console.log("pomTesty: " + pomTesty.toSource());
+            // console.log("pomTesty.length: " + pomTesty.length);
+            // console.log("pom.length: " + pom.length);
             for (let i = 0; i < pomTesty.length; i++) {
                 let isItAlready = false;
                 for (let j = 0; j < pom.length; j++) {
-                    console.log(i+" : " + j);
-                    console.log(pomTesty[i].testId+" == " + pom[j].testId);
+                    // console.log(i+" : " + j);
+                    // console.log(pomTesty[i].testId+" == " + pom[j].testId);
                     if (pomTesty[i].testId == pom[j].testId) {
                         isItAlready = true;
                         break;
@@ -170,12 +170,12 @@ class AddTestToCandidate extends Component {
                 }
 
                 if (isItAlready == false) {
-                    console.log("pushuje pomTesty[i]" + pomTesty[i]);
+                    // console.log("pushuje pomTesty[i]" + pomTesty[i]);
                     pom.push(pomTesty[i])
                 }
             };
             testy = pom.filter(n => n.testId!='');
-            console.log("testy" + testy);
+            // console.log("testy" + testy);
 
         })
             .finally(() => {
@@ -191,7 +191,7 @@ class AddTestToCandidate extends Component {
     addTest = (event) => {
         let testID = event.target.getAttribute('testID');
         let testTitle = event.target.getAttribute('testTitle');
-        console.log("testID  : " + testID);
+        // console.log("testID  : " + testID);
         const selectedTests = this.state.selectedTests.slice();
         for (var i = 0; i < selectedTests.length; i++) {
             if (selectedTests[i].testId == testID) {
@@ -208,7 +208,7 @@ class AddTestToCandidate extends Component {
     };
     removeTest = (event) => {
         let testIDToRemove = event.target.getAttribute('testID');
-        console.log("testIDToRemove  : " + testIDToRemove);
+        // console.log("testIDToRemove  : " + testIDToRemove);
         let selectedTests = this.state.selectedTests.slice();
         selectedTests = selectedTests.filter(test => test.testId != testIDToRemove);
         this.setState({
@@ -226,7 +226,7 @@ class AddTestToCandidate extends Component {
         const availableTests = this.state.availableTests;
         const selectedTests = this.state.selectedTests;
 
-        console.log("availableTests: " + availableTests.toSource());
+        // console.log("availableTests: " + availableTests.toSource());
 
         return (
             <div className="AddTestToCandidate">

@@ -18,7 +18,6 @@ class EditTest extends Component {
             test: props.location.EditTestProps,
         };
 
-        console.log(this.state);
 
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleQuestionContent = this.handleQuestionContent.bind(this);
@@ -91,7 +90,7 @@ class EditTest extends Component {
             test: newAnswer
         })
     }
-    
+
     handleDeleteQuestion = (event) => {
         const newTest = Object.assign({}, this.state.test);
         newTest.questions.splice(this.state.currentQuestionNumber, 1);
@@ -109,7 +108,7 @@ class EditTest extends Component {
             correctAnswer: '',
             choices: [],
         });
-        console.log(newTest);
+
         var currentQuestionNumber = this.state.test.questions.length - 1;
             this.setState({
                 currentQuestionNumber: currentQuestionNumber
@@ -133,7 +132,7 @@ class EditTest extends Component {
             });
         }
     }
-    
+
 
     saveTestToDynamoDB(event) {
         notifier.success("Test was successfully saved.");
@@ -190,7 +189,7 @@ class EditTest extends Component {
                             <br/><br/>
 
                             <br/>
-                            {this.state.test.questions[this.state.currentQuestionNumber].questionType == 2 ?
+                            {this.state.test.questions[this.state.currentQuestionNumber].questionType === 2 ?
                                 <>
                                     <label>1st answer</label>
                                     <br/>
@@ -218,7 +217,7 @@ class EditTest extends Component {
                                            onChange={this.handleCurrentGoodAnswer}/>
                                 </> : null
                             }
-                            {this.state.test.questions[this.state.currentQuestionNumber].questionType == 3 ?
+                            {this.state.test.questions[this.state.currentQuestionNumber].questionType === 3 ?
                                 <>
                                     <label>Number answer</label>
                                     <br/>

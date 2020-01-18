@@ -29,7 +29,6 @@ function deleteTest(key) {
 
 function saveTestInDifferentLanguage(props) {
     let testInDiffLanguage = JSON.parse(JSON.stringify(props));
-    console.log("props: "+props.toSource());
     testInDiffLanguage["fromLang"] = props.testId.substring(props.testId.length - 2, props.testId.length);
     if (testInDiffLanguage.fromLang === "pl") {
         testInDiffLanguage["toLang"] = "en";
@@ -45,7 +44,6 @@ function saveTestInDifferentLanguage(props) {
             }}).finally(()=> reloadPage())
 
     )
-    console.log(res);
 
 }
 

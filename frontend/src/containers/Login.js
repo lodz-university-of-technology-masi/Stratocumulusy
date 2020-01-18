@@ -24,7 +24,7 @@ export default function Login(props) {
     setIsLoading(true);
     try {
       let response = await Auth.signIn(fields.email, fields.password);
-      console.log(response["signInUserSession"]['accessToken']['payload']['cognito:groups'][0]);
+
       let userType = response["signInUserSession"]['accessToken']['payload']['cognito:groups'][0];
       props.userHasAuthenticated(true);
       if(userType == "Recruiter"){

@@ -34,7 +34,7 @@ class Results extends Component {
                     this.setState({
                         currentUserEmail: email,
                     })
-                    console.log("currentUserEmail: "+this.state.currentUserEmail);
+
                 })
                 .catch(err => console.log(err));
         }
@@ -47,9 +47,9 @@ class Results extends Component {
                     <div>
                         <h1>Results:</h1>
                         {testy.map((c,index) =>{
-                            if(currentUserEmail!=c.candidateEmail)
+                            if(currentUserEmail !== c.candidateEmail)
                                 return null;
-                            if(c.points=='-'){
+                            if(c.points === '-'){
                                return <h1>Test {c.testTitle}: no check yet</h1>
                             }else{
                                 return <h1>Test {c.testTitle}:  {c.points}/{c.questions.length}</h1>
