@@ -9,7 +9,8 @@ class Results extends Component {
             super(props)
             this.state = {
                 testy: [],
-                currentUserEmail: ''
+                currentUserEmail: '',
+                loaded: false
             }
         }
         componentDidMount = () => {
@@ -21,7 +22,8 @@ class Results extends Component {
 
                 }).finally(() => {
                 this.setState({
-                    testy: this.testy
+                    testy: this.testy,
+                    loaded: true
                 })
 
             });
@@ -42,7 +44,14 @@ class Results extends Component {
             const testy = this.state.testy;
             const currentUserEmail = this.state.currentUserEmail;
 
-            return (
+            if(!this.state.loaded) {
+                return (
+                  <div>
+                    <h1>Loading...</h1>
+                  </div>
+                );
+              }
+              else return (
                 <div>
                     <div>
                         <h1>Results:</h1>

@@ -16,7 +16,9 @@ class AddTestToCandidate extends Component {
             candidateList: [],
             availableTests: [],
             selectedTests: [],
-            allCandidateTests: [],};
+            allCandidateTests: [],
+            loaded: false
+        };
         this.selectCandidate = this.selectCandidate.bind(this);
         this.cancel = this.cancel.bind(this);
         this.save = this.save.bind(this);
@@ -56,6 +58,7 @@ class AddTestToCandidate extends Component {
             }) .finally(() => {
             this.setState({
                 candidateList: candidateList,
+                loaded: true
             })
         });
 
@@ -148,7 +151,7 @@ class AddTestToCandidate extends Component {
                 testTitle: '',
                 testId: ''
             }];
-            console.log("pomTesty: " + pomTesty.toSource());
+            // console.log("pomTesty: " + pomTesty.toSource());
             console.log("pomTesty.length: " + pomTesty.length);
             console.log("pom.length: " + pom.length);
             for (let i = 0; i < pomTesty.length; i++) {
@@ -210,7 +213,14 @@ class AddTestToCandidate extends Component {
 
         //console.log("availableTests: " + availableTests.toSource());
 
-        return (
+        if(!this.state.loaded) {
+            return (
+              <div>
+                <h1>Loading...</h1>
+              </div>
+            );
+          }
+          else return (
             <div className="AddTestToCandidate">
                 <div className="lander">
                     <label>Selected candidate: {selectedCandidate} </label>

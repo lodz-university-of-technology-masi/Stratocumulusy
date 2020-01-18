@@ -12,7 +12,8 @@ class CandidateList extends Component {
             selectedCandidate: '',
             isCandidateSelected: false,
             allUsers: [],
-            candidateList: []
+            candidateList: [],
+            loaded: false
         };
     }
 
@@ -36,6 +37,7 @@ class CandidateList extends Component {
             }).finally(() => {
                 this.setState({
                     allUsers: allUsers,
+                    loaded: true
                 })
             });
 
@@ -63,7 +65,14 @@ class CandidateList extends Component {
     render() {
         const allUsers = this.state.allUsers;
         const candidateList = this.state.candidateList;
-        return (
+        if(!this.state.loaded) {
+            return (
+              <div>
+                <h1>Loading...</h1>
+              </div>
+            );
+          }
+          else return (
             <div className="AddTestToCandidate">
                 <div className="lander">
                     <h2>All users list </h2>

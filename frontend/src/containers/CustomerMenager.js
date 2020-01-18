@@ -8,7 +8,9 @@ class TestList extends Component {
     super(props)
     this.state = {
       testy: [],
-      recruiterEmail: ''}
+      recruiterEmail: '',
+      loaded: false
+    }
     Auth.currentSession()
         .then(data => {
           let idToken = data.getIdToken();
@@ -27,7 +29,8 @@ class TestList extends Component {
               this.testy = data;
             }).finally(() => {
               this.setState({
-                testy: this.testy
+                testy: this.testy,
+                loaded: true
               })
             });
 }
@@ -35,7 +38,14 @@ class TestList extends Component {
   render() {
     const testy = this.state.testy;
     const recruiterEmail = this.state.recruiterEmail;
-    return (
+    if(!this.state.loaded) {
+      return (
+        <div>
+          <h1>Loading...</h1>
+        </div>
+      );
+    }
+    else return (
       <div>
         {testy.map((c,index) => {
           let testRecruiterEmail = c.recruiterEmail;
