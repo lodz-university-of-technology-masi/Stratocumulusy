@@ -50,4 +50,24 @@ public class CognitoHandler {
         return new Response(json.toString(), headers, 200);*/
     }
 
+    public String addCandidate(Map<String, Object> input, Context context) {
+
+        AdminCreateUserRequest createUserRequest = new AdminCreateUserRequest()
+                .withUserPoolId("us-east-1_NBg2oASBN")
+                .withUsername(input.get("user").toString());
+        cognito.adminCreateUser(createUserRequest);
+        AdminSetUserPasswordRequest passwordRequest = new AdminSetUserPasswordRequest()
+                .withUserPoolId("us-east-1_NBg2oASBN")
+                .withUsername(input.get("user").toString())
+                .withPassword(input.get("password").toString())
+                .withPermanent(true);
+        cognito.adminSetUserPassword(passwordRequest);
+        AdminAddUserToGroupRequest addUserToGroupRequest = new AdminAddUserToGroupRequest()
+                .withGroupName("Candidate")
+                .withUserPoolId("us-east-1_NBg2oASBN")
+                .withUsername(input.get("user").toString());
+        cognito.adminAddUserToGroup(addUserToGroupRequest);
+        return "Dodano kandydata!";
+    }
+
 }
