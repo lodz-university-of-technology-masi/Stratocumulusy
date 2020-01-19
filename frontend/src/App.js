@@ -98,7 +98,7 @@ function App(props) {
       {/*<LinkContainer to="/signup">*/}
       {/*  <NavItem>Sing up</NavItem>*/}
       {/*</LinkContainer>*/}
-      <LinkContainer to="/">
+      <LinkContainer to="/login">
         <NavItem>Log in</NavItem>
       </LinkContainer>
     </>
