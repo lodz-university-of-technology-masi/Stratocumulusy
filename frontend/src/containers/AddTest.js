@@ -311,7 +311,19 @@ class AddTest extends Component {
         }
 
         let csvContentMatrix = Papa.parse(csvContent).data;
+        if (csvContentMatrix.length !== 0) {
+            if (csvContentMatrix[0][2] === "EN") {
+                this.setState({
+                    testLanguage: "en"
+                })
+            } else if (csvContentMatrix[0][2] === "PL") {
+                this.setState({
+                    testLanguage: "pl"
+                })
+            }
+        }
         for (let i = 0; i < csvContentMatrix.length; i++){
+
             if (csvContentMatrix[i][1] === "O") {
                 this.setState({
                     currentQuestionType: "1",
