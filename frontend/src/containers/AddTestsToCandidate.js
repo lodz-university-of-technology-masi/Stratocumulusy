@@ -52,7 +52,7 @@ class AddTestToCandidate extends Component {
 
                 for (let i = 0; i < data.users.length; i++){
                         // attributes[2] = email
-                    candidateList.push(data.users[i].attributes[2].value);
+                    candidateList.push(data.users[i].attributes[1].value);
                   //  console.log("data.users[i] "+data.users[i].attributes[2].toSource())
                 }
                 // console.log("candidateList "+candidateList)
