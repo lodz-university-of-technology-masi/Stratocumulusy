@@ -31,12 +31,20 @@ export default function AddCandidate() {
         event.preventDefault();
 
         setIsLoading(true);
+        
 
         try {
-            const newUser = await Auth.signUp({
-                username: fields.email,
-                password: fields.password
-            });
+            const newUser = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/candidate', {
+                dataType: "json",
+                method: 'POST',
+                body: JSON.stringify(
+                    {
+                    "user": fields.email,
+                    "password":  fields.password
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }});
             setIsLoading(false);
             alert("Konto zostało dodane ᕙ(⇀‸↼‶)ᕗ")
         } catch (e) {
