@@ -17,18 +17,14 @@ class TestList extends Component {
   }
 
     componentDidMount = () => {
-
-        // pobranie wszystkich testow
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
             .then((response)=>{return response.json()})
             .then((data)=>{
-                console.log(data);
                 this.setState({
                     wszystkietesty: data,
                 })
 
             });
-        // pobieram przypisane testy do kandydatow z tabeli CandidateTests
         let allCandidateTests =null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate')
             .then((response) => {
@@ -42,7 +38,6 @@ class TestList extends Component {
                     allCandidateTests: allCandidateTests,
                     loaded: true
                 })
-              //  console.log("allCandidateTests    : " + allCandidateTests.toSource());
             });
 
 
@@ -55,7 +50,6 @@ class TestList extends Component {
                 this.setState({
                     currentUserEmail: email,
                 })
-                // console.log("currentUserEmail: "+this.state.currentUserEmail);
             })
             .catch(err => console.log(err));
     };

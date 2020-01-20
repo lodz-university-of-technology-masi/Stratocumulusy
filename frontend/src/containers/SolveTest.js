@@ -13,11 +13,9 @@ class SolveTest extends Component {
             currentUserEmail: props.location.SolveTestProps.currentUserEmail,
             recruiterEmail: props.location.SolveTestProps.recruiterEmail
         }
-        // console.log("props.location.SolveTestProps.questions.length " + props.location.SolveTestProps.questions.length)
         for (let i = 0; i < props.location.SolveTestProps.questions.length; i++) {
             this.state.answersFromView.push('');
         }
-        // console.log("this.state.answersFromView in constructoe " + this.state.answersFromView)
         this.saveOpen = this.saveOpen.bind(this);
         this.updateAnswer = this.updateAnswer.bind(this);
         this.saveTestToDynamoDB = this.saveTestToDynamoDB.bind(this);
@@ -29,7 +27,6 @@ class SolveTest extends Component {
         let numberOfQuestion = event.target.getAttribute('numberOfQuestion');
         const answersFromView = this.state.answersFromView.slice();
         answersFromView[numberOfQuestion] = event.target.value;
-        // console.log("answersFromView " + answersFromView)
         this.setState({
             answersFromView: answersFromView
         })
@@ -115,11 +112,8 @@ class SolveTest extends Component {
         let questionsToDb = [];
         let questions = this.state.questions.slice();
         let answersFromView = this.state.answersFromView.slice();
-
-        // console.log("this.state.answers"+ answersFromView.toSource());
         for (let i = 0; i < questions.length; i++) {
             let myAnswer = answersFromView[i];
-            // console.log("i= "+i+"   myAnswer "+myAnswer);
             if (questions[i].questionType == 1) { //open
                 questionsToDb.push({
                     QuestionID: questions[i].questionID,
@@ -151,9 +145,6 @@ class SolveTest extends Component {
             }
 
         }
-
-
-        //console.log("questions "+questions.toSource());
         function uuidv4() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -163,7 +154,6 @@ class SolveTest extends Component {
 
         const testId = uuidv4();
         const currentUserEmail = this.state.currentUserEmail;
-        // console.log("currentUserEmail "+currentUserEmail);
         const test = {
             "testTitle": this.props.location.SolveTestProps.testTitle,
             "testId": testId,
@@ -172,8 +162,6 @@ class SolveTest extends Component {
             "points": "-",
             "recruiterEmail": this.state.recruiterEmail
         };
-        // console.log(test);
-
         const response = fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/solvedtest', {
             dataType: "json",
             method: 'POST',
@@ -182,7 +170,6 @@ class SolveTest extends Component {
                 "Content-type": "application/json;"
             }
         })
-            //.finally(() =>  window.location.replace("/tests"));;
         return false;
     }
 
@@ -193,7 +180,6 @@ class SolveTest extends Component {
         const numberQuestion = this.state.numberQuestion;
 
         const answersFromView = this.state.answersFromView;
-        // console.log("answersFromView " + answersFromView);
         let listItems = this.state.questions.map((d, index) => {
             if (d.questionType == '1') {
                 return (

@@ -28,44 +28,21 @@ class AddTestToCandidate extends Component {
     }
 
     componentDidMount = () => {
-        // pobranie uzytkownikow
-        // cognitoidentityserviceprovider.listUsers(params, (err, data) => {
-        //     if (err)
-        //         console.log(err, err.stack);
-        //     else {
-        //
-        //         this.setState({
-        //             candidateList: data.Users.filter(cand => cand.Attributes[0].Value == 'false').map(cand => cand.Attributes[1].Value)
-        //         });
-        //     }
-        //
-        // });
         let candidateList = [];
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/getlallcandidate')
             .then((response) => {
                 return response.json()
             })
             .then((data) => {
-                // console.log("data uzytkownicy: "+data.users.toSource())
-                // console.log("data uzytkownicy: "+data.users[0].toSource())
-                // console.log("data uzytkownicy: "+data.users.length)
-
                 for (let i = 0; i < data.users.length; i++){
-                        // attributes[2] = email
                     candidateList.push(data.users[i].attributes[1].value);
-                  //  console.log("data.users[i] "+data.users[i].attributes[2].toSource())
                 }
-                // console.log("candidateList "+candidateList)
-                // console.log("candidateList "+candidateList.toSource())
             }) .finally(() => {
             this.setState({
                 candidateList: candidateList,
                 loaded: true
             })
         });
-
-
-        // pobieram przypisane testy do kandydatow z tabeli CandidateTests
         let allCandidateTests = null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/testassignedtocandidate')
             .then((response) => {
@@ -124,7 +101,6 @@ class AddTestToCandidate extends Component {
         let nameCandidate = event.target.getAttribute('nameCandidate');
         const allCandidateTests = this.state.allCandidateTests.slice();
         let selectedTests = [];
-        // ustawiam kandydatowi przydzielone testy z bazy ( CandidateTests )
         for (var i = 0; i < allCandidateTests.length; i++) {
             if (allCandidateTests[i].candidateEmail == nameCandidate) {
                 for (var j = 0; j < allCandidateTests[i].tests.length; j++) {
@@ -135,7 +111,6 @@ class AddTestToCandidate extends Component {
                 }
             }
         }
-        // pobranie wszystkich testow z EmptyTests
         let testy = null;
         fetch('https://nbbmfshcof.execute-api.us-east-1.amazonaws.com/test/emptytest')
             .then((response) => {
@@ -153,14 +128,9 @@ class AddTestToCandidate extends Component {
                 testTitle: '',
                 testId: ''
             }];
-            // console.log("pomTesty: " + pomTesty.toSource());
-            // console.log("pomTesty.length: " + pomTesty.length);
-            // console.log("pom.length: " + pom.length);
             for (let i = 0; i < pomTesty.length; i++) {
                 let isItAlready = false;
                 for (let j = 0; j < pom.length; j++) {
-                    // console.log(i+" : " + j);
-                    // console.log(pomTesty[i].testId+" == " + pom[j].testId);
                     if (pomTesty[i].testId == pom[j].testId) {
                         isItAlready = true;
                         break;
@@ -168,13 +138,10 @@ class AddTestToCandidate extends Component {
                 }
 
                 if (isItAlready == false) {
-                    // console.log("pushuje pomTesty[i]" + pomTesty[i]);
                     pom.push(pomTesty[i])
                 }
             };
             testy = pom.filter(n => n.testId!='');
-            // console.log("testy" + testy);
-
         })
             .finally(() => {
                 this.setState({
@@ -189,7 +156,6 @@ class AddTestToCandidate extends Component {
     addTest = (event) => {
         let testID = event.target.getAttribute('testID');
         let testTitle = event.target.getAttribute('testTitle');
-        // console.log("testID  : " + testID);
         const selectedTests = this.state.selectedTests.slice();
         for (var i = 0; i < selectedTests.length; i++) {
             if (selectedTests[i].testId == testID) {
@@ -223,9 +189,6 @@ class AddTestToCandidate extends Component {
         const candidateList = this.state.candidateList;
         const availableTests = this.state.availableTests;
         const selectedTests = this.state.selectedTests;
-
-        // console.log("availableTests: " + availableTests.toSource());
-
         if(!this.state.loaded) {
             return (
               <div>
